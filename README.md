@@ -9,30 +9,18 @@ App template featuring a RadSideDrawer component for navigation. The RadSideDraw
 ## Key Features
 
 - Side drawer navigation
-- Five blank pages hooked to the drawer navigation
 - Customizable theme
 - UX and development best practices
 - Easy to understand code
 
 ## Quick Start
 
-Execute the following command to create an app from this template:
+- https://docs.nativescript.org/angular/start/quick-setup
 
-``` shell
-tns create my-drawer-ng --template tns-template-drawer-navigation-ng
-```
+- https://docs.nativescript.org/angular/start/cli-basics
 
-> Note: This command will create a new NativeScript app that uses the latest version of this template published to [npm](https://www.npmjs.com/package/tns-template-drawer-navigation-ng).
+- https://nativescripting.com/course/nativescript-with-angular-getting-started-guide/  (Watch the section "Choosing an Editor")
 
-If you want to create a new app that uses the source of the template from the `master` branch, you can execute the following:
-
-``` shell
-tns create my-drawer-ng --template https://github.com/NativeScript/template-drawer-navigation-ng
-```
-
-**NB:** Please, have in mind that the master branch may refer to dependencies that are not on NPM yet!
-
-## Walkthrough
 
 ### Architecture
 
@@ -46,14 +34,6 @@ RadSideDrawer has the following component structure:
 - `tkDrawerContent` directive - Marks the component that will hold the drawer content.
 - `tkMainContent` directive - Marks the component that will hold the app main content.
 
-There are five blank components located in these folders:
-
-- `/browse`
-- `/featured`
-- `/home`
-- `/search`
-- `/settings`
-
 ### Styling
 
 This template is set up to use SASS for styling. All classes used are based on the {N} core theme – consult the [documentation](https://docs.nativescript.org/angular/ui/theme.html#theme) to understand how to customize it. Check it out to see what classes you can use on which component.
@@ -64,15 +44,3 @@ It has 4 global style files that are located at the root of the app folder:
 - `_app-common.scss` - the global common style sheet. These style rules are applied to both Android and iOS.
 - `app.android.scss` - the global Android style sheet. These style rules are applied to Android only.
 - `app.ios.scss` - the global iOS style sheet. These style rules are applied to iOS only.
-
-## Get Help
-
-The NativeScript framework has a vibrant community that can help when you run into problems.
-
-Try [joining the NativeScript community Slack](http://developer.telerik.com/wp-login.php?action=slack-invitation). The Slack channel is a great place to get help troubleshooting problems, as well as connect with other NativeScript developers.
-
-If you have found an issue with this template, please report the problem in the [NativeScript repository](https://github.com/NativeScript/NativeScript/issues).
-
-## Contributing
-
-We love PRs, and accept them gladly. Feel free to propose changes and new ideas. We will review and discuss, so that they can be accepted and better integrated.
