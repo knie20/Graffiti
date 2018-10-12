@@ -4,7 +4,7 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 
 const routes: Routes = [
     { path: "", redirectTo: "/map", pathMatch: "full" },
-    { path: "map", loadChildren: "~/app/pages/map/map.module#MapModule" },
+    { path: "map", loadChildren: "~/app/map/map.module#MapModule" },
     { path: "profile", loadChildren: "~/app/pages/profile/profile.module#ProfileModule" },
     { path: "groups", loadChildren: "~/app/pages/groups/groups.module#GroupsModule" },
     { path: "settings", loadChildren: "~/app/pages/settings/settings.module#SettingsModule" }
