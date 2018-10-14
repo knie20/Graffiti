@@ -7,7 +7,7 @@ import { Component, OnInit } from "@angular/core";
     templateUrl: "./map-tag.component.html",
     styleUrls: ["./map-tag.component.css"]
 })
-export class ProfileComponent implements OnInit {
+export class MapTagComponent implements OnInit {
 
     constructor() {
         // Use the component constructor to inject providers.
