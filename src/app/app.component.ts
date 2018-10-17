@@ -8,8 +8,7 @@ import * as app from "tns-core-modules/application";
 @Component({
     moduleId: module.id,
     selector: "ns-app",
-    templateUrl: "app.component.html",
-    // styleUrls: ['./app.component.css']
+    templateUrl: "app.component.html"
 })
 export class AppComponent implements OnInit {
     private _activatedUrl: string;

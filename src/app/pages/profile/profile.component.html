@@ -9,13 +9,40 @@
     NavigationButton as a side-drawer button in iOS is not possible,
     because its function is to always navigate back in the application.
     -->
-    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
-        ios.position="left">
+    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
     </ActionItem>
     <Label class="action-bar-title" text="Profile"></Label>
 </ActionBar>
 
+<!-- 
 <GridLayout class="page page-content">
     <Label class="page-icon fa" text="&#xf1ea;"></Label>
-    <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
+    <Label class="page-placeholder" text="Page content goes here"></Label>
+</GridLayout> 
+-->
+
+<GridLayout>
+    <ScrollView class="page">
+        <StackLayout>
+            <GridLayout rows="200" columns="*,2*,*" backgroundColor="darkblue">
+                <StackLayout row="0" col="1" verticalAlignment="center">
+                    <Image src="https://image.flaticon.com/icons/png/128/135/135609.png" stretch="none"
+                        horizontalAlignment="center"></Image>
+                    <Label class="h2" [text]="fullName" textWrap="true" horizontalAlignment="center" color="white"></Label>
+                    <Label class="h4" [text]="username" textWrap="true" horizontalAlignment="center" color="white"></Label>
+                </StackLayout>
+            </GridLayout>
+            <StackLayout verticalAlignment="center">
+                <Label class="h3 p-20" [text]="signature" textWrap="true" horizontalAlignment="center"></Label>
+            </StackLayout>
+            <TabView row="1" #tabView class="tab-view">
+                <GridLayout *tabItem="{title: 'Activity'}">
+                </GridLayout>
+                <GridLayout *tabItem="{title: 'Achievements'}">
+                </GridLayout>
+                <GridLayout *tabItem="{title: 'Friends'}">
+                </GridLayout>
+            </TabView>
+        </StackLayout>
+    </ScrollView>
 </GridLayout>
