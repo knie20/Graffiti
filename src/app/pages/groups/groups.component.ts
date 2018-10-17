@@ -10,8 +10,7 @@ registerElement('CardView', () => CardView);
 @Component({
     selector: "Groups",
     moduleId: module.id,
-    templateUrl: "./groups.component.html",
-    styleUrls: ['./groups.component.css']
+    templateUrl: "./groups.component.html"
 })
 export class GroupsComponent implements OnInit {
 
