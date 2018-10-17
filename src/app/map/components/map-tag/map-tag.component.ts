@@ -4,8 +4,7 @@ import { Component, OnInit } from "@angular/core";
 @Component({
     selector: "app-map-tag",
     moduleId: module.id,
-    templateUrl: "./map-tag.component.html",
-    styleUrls: ["./map-tag.component.css"]
+    templateUrl: "./map-tag.component.html"
 })
 export class MapTagComponent implements OnInit {
 

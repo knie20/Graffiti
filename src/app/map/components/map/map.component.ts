@@ -9,8 +9,7 @@ registerElement("MapView", () => MapView);
 @Component({
   selector: 'app-map',
   moduleId: module.id,
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.css']
+  templateUrl: './map.component.html'
 })
 export class MapComponent implements OnInit {
   mapView: MapView;
