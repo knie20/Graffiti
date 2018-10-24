@@ -1,8 +1,8 @@
+import { GoogleMapsComponent } from './../../map/components/google-maps/google-maps.component';
+import { MapComponent } from './map.component';
+import { MapRoutingModule } from './map-routing.module';
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
-
-import { MapRoutingModule } from "~/app/pages/map/map-routing.module";
-import { MapComponent } from "~/app/pages/map/map.component";
 
 @NgModule({
     imports: [
@@ -10,6 +10,7 @@ import { MapComponent } from "~/app/pages/map/map.component";
         MapRoutingModule
     ],
     declarations: [
+        GoogleMapsComponent,
         MapComponent
     ],
     schemas: [
