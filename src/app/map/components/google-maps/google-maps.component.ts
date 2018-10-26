@@ -9,8 +9,7 @@ registerElement("MapView", () => MapView);
 @Component({
   selector: 'app-google-maps',
   moduleId: module.id,
-  templateUrl: './google-maps.component.html',
-  styleUrls: ['./google-maps.component.css']
+  templateUrl: './google-maps.component.html'
 })
 export class GoogleMapsComponent implements OnInit {
   mapView: MapView;
