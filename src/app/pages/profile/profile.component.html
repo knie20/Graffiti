@@ -24,19 +24,24 @@
 <GridLayout>
     <ScrollView class="page">
         <StackLayout>
-            <GridLayout rows="200" columns="*,2*,*" backgroundColor="darkblue">
+            <GridLayout rows="175" columns="*,2*,*" class="avatar-background">
                 <StackLayout row="0" col="1" verticalAlignment="center">
-                    <Image src="https://image.flaticon.com/icons/png/128/135/135609.png" stretch="none"
-                        horizontalAlignment="center"></Image>
+                    <Image src="https://media.licdn.com/dms/image/C4E03AQHwKvz-H5w3Kg/profile-displayphoto-shrink_200_200/0?e=1545868800&v=beta&t=W9DhNRUfM9KnimnzFx7yOiv95-ZaZBjmuPXk6zwgnsI"
+                        horizontalAlignment="center" width="100" borderRadius="50"></Image>
                     <Label class="h2" [text]="fullName" textWrap="true" horizontalAlignment="center" color="white"></Label>
                     <Label class="h4" [text]="username" textWrap="true" horizontalAlignment="center" color="white"></Label>
                 </StackLayout>
             </GridLayout>
             <StackLayout verticalAlignment="center">
-                <Label class="h3 p-20" [text]="signature" textWrap="true" horizontalAlignment="center"></Label>
+                <Label class="h3 p-l-20 p-r-20 p-t-15 p-b-15" [text]="signature" textWrap="true" horizontalAlignment="center"></Label>
             </StackLayout>
+            <GridLayout columns="*,*,*" [tags]="numTags" class="p-l-20 p-r-20 p-b-15">
+                <Label row="0" col="0" text="&#xf5bd; tags {{numTags}}" class="fas"></Label>
+                <Label row="0" col="2" text="&#xf06e; following {{numFollowing}}" class="fas"></Label>
+                <Label row="0" col="1" text="&#xf0c0; followers {{numFollowers}}" class="fas"></Label>
+            </GridLayout>
             <TabView row="1" #tabView class="tab-view">
-                <GridLayout *tabItem="{title: 'Activity'}">
+                <GridLayout *tabItem="{title: 'Activities'}">
                 </GridLayout>
                 <GridLayout *tabItem="{title: 'Achievements'}">
                 </GridLayout>

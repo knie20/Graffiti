@@ -1,0 +1,32 @@
+@import '../../../_app-variables.scss';
+
+.card {
+    background-color: #fff;
+    color: #4d4d4d;
+    margin: 15 15 0;
+}
+.card-layout {
+    padding: 20;
+}
+.card-layout .h1 {
+    margin-bottom: 15;
+}
+
+.avatar-background {
+    background-color: $midnight-light;
+}
+
+.far {
+    font-family: Font Awesome 5 Free, fa-regular-400;
+    font-weight: 400; 
+}
+
+.fab {
+    font-family: Font Awesome 5 Brands, fa-brands-400;
+    font-weight: 400; 
+}
+
+.fas {
+    font-family: Font Awesome 5 Free, fa-solid-900;
+    font-weight: 900; 
+}

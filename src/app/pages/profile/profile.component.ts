@@ -14,6 +14,20 @@ export class ProfileComponent implements OnInit {
     username = "@mcewenal";
     signature = "Software developer, musician, vegetarian, husband, cat lover, purveyor of dad humor."
     accountAge: number;
+    numTags = 289;
+    numFollowing = 55;
+    numFollowers = 15;
+    activities = [
+        {
+            message: "You posted a tag."
+        },
+        {
+            message: "You started following Kaidong Nie"
+        },
+        {
+            message: "You friended Aaron Zorzi"
+        }
+    ];
 
     constructor() {
         this.accountAge = 128;
