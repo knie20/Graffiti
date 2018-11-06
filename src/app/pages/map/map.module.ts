@@ -4,6 +4,9 @@ import { MapRoutingModule } from './map-routing.module';
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 
+import { TagFabComponent } from './components/tag-fab/tag-fab.component';
+
+
 @NgModule({
     imports: [
         NativeScriptCommonModule,
@@ -11,7 +14,8 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
     ],
     declarations: [
         GoogleMapsComponent,
-        MapComponent
+        MapComponent,
+        TagFabComponent,
     ],
     schemas: [
         NO_ERRORS_SCHEMA

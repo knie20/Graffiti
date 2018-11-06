@@ -43,5 +43,8 @@
 			</intent-filter>
 		</activity>
 		<activity android:name="com.tns.ErrorReportActivity"/>
+
+   		<uses-library android:name="org.apache.http.legacy" android:required="false" />
+
 	</application>
 </manifest>
