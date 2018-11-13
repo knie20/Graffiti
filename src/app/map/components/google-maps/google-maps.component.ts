@@ -1,4 +1,4 @@
-import { ITag } from './../../../interfaces/tag.interfaces';
+ import { ITag } from './../../../interfaces/tag.interfaces';
 import {Component, ElementRef, ViewChild, OnInit} from '@angular/core';
 import {registerElement} from "nativescript-angular/element-registry";
 import { MapView, Marker, Position } from 'nativescript-google-maps-sdk';

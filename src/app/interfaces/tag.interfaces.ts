@@ -11,6 +11,7 @@ export interface IPost {
 }
 
 export interface ITag extends IPost {
+    title: string;
     type: string;
     position: Position;
     upvotes: number;
