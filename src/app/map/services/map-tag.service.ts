@@ -7,10 +7,13 @@ import { ITag } from '~/app/interfaces/tag.interfaces';
 @Injectable()
 export class MapTagService {
 
-    public generateMapTag = (mapView: MapView, tags: ITag[]) => {
+    generateMapTag = (tags: any[]): Marker[] => {
+        const markers: Marker[];
+        const imageSource: ImageSource = new ImageSource;
+
+        console.log(tags);
         tags.forEach(tag => {
-            let imageSource: ImageSource = new ImageSource;
-            imageSource.fromResource('map+marker' + tag.type);
+            imageSource.fromResource('map_marker' + tag.type);
             let image = new Image();
             image.imageSource = imageSource;
 
@@ -18,8 +21,10 @@ export class MapTagService {
             marker.position = tag.position;
             marker.title = tag.title;
             marker.icon = image;
-            mapView.addMarker(marker);
 
-        })
+            markers.push(marker);
+        });
+
+        return markers;
     }
 }
