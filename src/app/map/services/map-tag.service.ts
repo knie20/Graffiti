@@ -8,12 +8,11 @@ import { ITag } from '~/app/interfaces/tag.interfaces';
 export class MapTagService {
 
     generateMapTag = (tags: any[]): Marker[] => {
-        const markers: Marker[];
+        const markers: Marker[] = [];
         const imageSource: ImageSource = new ImageSource;
 
-        console.log(tags);
         tags.forEach(tag => {
-            imageSource.fromResource('map_marker' + tag.type);
+            imageSource.fromResource('map_marker_photo');
             let image = new Image();
             image.imageSource = imageSource;
 

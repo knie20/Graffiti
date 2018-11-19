@@ -10,7 +10,6 @@ registerElement("MapView", () => MapView);
 
 @Component({
   selector: 'app-google-maps',
-  moduleId: module.id,
   templateUrl: './google-maps.component.html'
 })
 export class GoogleMapsComponent implements OnInit {
@@ -29,12 +28,12 @@ export class GoogleMapsComponent implements OnInit {
       upvotes: 4,
       downvotes: 2
     }, {
-      type: 'image',
+      type: 'photo',
       position: Position.positionFromLatLng(39.128450, -84.523169),
       upvotes: 7,
       downvotes: 1
     }, {
-      type: 'audio',
+      type: 'sound',
       position: Position.positionFromLatLng(39.128350, -84.523069),
       upvotes: 102,
       downvotes: 24
@@ -51,8 +50,8 @@ export class GoogleMapsComponent implements OnInit {
     }, 
   ];
 
-  constructor(mapTagService: MapTagService) {
-    this.markers = mapTagService.generateMapTag(this.tags);
+  constructor(private mapTagService: MapTagService) {
+    
   }
 
   ngOnInit() {
@@ -62,6 +61,8 @@ export class GoogleMapsComponent implements OnInit {
   onMapReady = (event) => {
 
     this.mapView = event.object;
+
+    this.markers = this.mapTagService.generateMapTag(this.tags);
 
     this.markers.forEach(m => {
       this.mapView.addMarker(m);
