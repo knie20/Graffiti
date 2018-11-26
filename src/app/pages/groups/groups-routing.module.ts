@@ -5,7 +5,7 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { GroupsComponent } from "~/app/pages/groups/groups.component";
 
 const routes: Routes = [
-    { path: "", component: GroupsComponent }
+    { path: "", component: GroupsComponent },
 ];
 
 @NgModule({

@@ -5,6 +5,9 @@ import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { MapTagService } from '~/app/map/services/map-tag.service';
 
+import { TagFabComponent } from './components/tag-fab/tag-fab.component';
+
+
 @NgModule({
     imports: [
         NativeScriptCommonModule,
@@ -12,7 +15,8 @@ import { MapTagService } from '~/app/map/services/map-tag.service';
     ],
     declarations: [
         GoogleMapsComponent,
-        MapComponent
+        MapComponent,
+        TagFabComponent,
     ],
     providers: [
         MapTagService

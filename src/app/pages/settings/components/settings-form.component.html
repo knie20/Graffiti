@@ -1,0 +1,8 @@
+<GridLayout rows="auto auto auto" columns="* *" class="m-5">
+    <Label class="h3 m-15" text="Enable Notifications" textWrap="true" row="0" col="0"></Label>
+    <Switch class="m-15" checked="false" (checkedChange)="doSomething($event)" row="0" col="1"></Switch>
+    <Label class="h3 m-15" text="Enable Geolocation" textWrap="true" row="1" col="0"></Label>
+    <Switch class="m-15" checked="true" (checkedChange)="doSomething($event)" row="1" col="1"></Switch>
+    <Label class="h3 m-15" text="Agree to Terms" textWrap="true" row="2" col="0"></Label>
+    <Switch class="m-15" checked="true" (checkedChange)="doSomething($event)" row="2" col="1"></Switch>
+</GridLayout>
