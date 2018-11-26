@@ -9,8 +9,7 @@ import { ITag } from "~/app/interfaces/tag.interfaces";
 @Injectable()
 export class MapTagService {
 
-    getCurrentLocation = (): geolocation.Location => {
-        let location: geolocation.Location;
+    getCurrentLocation = (): Promise<geolocation.Location> => {
 
         geolocation.isEnabled().then(isEnabled => {
             if (!isEnabled) {
@@ -23,16 +22,12 @@ export class MapTagService {
             console.log("Error: " + (e.message || e));
         });
 
-        geolocation.getCurrentLocation({
+        return geolocation.getCurrentLocation({
             desiredAccuracy: Accuracy.high,
             updateTime: 1000,
             maximumAge: 5000,
             timeout: 20000
-        }).then((data) => {
-            location = data;
         });
-
-        return location;
     }
 
     generateMapTag = (tags: Array<any>): Array<Marker> => {
@@ -55,7 +50,7 @@ export class MapTagService {
         return markers;
     }
 
-    generateMarker = (location: geolocation.Location, imagePath: string): Marker => {
+    generateMarker = (location: any, imagePath: string): Marker => {
         const markers: Array<Marker> = [];
         const imageSource: ImageSource = new ImageSource();
         imageSource.fromResource(imagePath);
@@ -63,8 +58,7 @@ export class MapTagService {
         image.imageSource = imageSource;
 
         const marker = new Marker();
-        marker.position.latitude = location.latitude;
-        marker.position.longitude = location.longitude;
+        marker.position = Position.positionFromLatLng(location.latitude, location.longitude);
         marker.icon = image;
 
         return marker;
