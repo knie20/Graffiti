@@ -1,43 +1,82 @@
-import {Component, ElementRef, ViewChild, OnInit} from '@angular/core';
-import {registerElement} from "nativescript-angular/element-registry";
-import { MapView, Marker, Position } from 'nativescript-google-maps-sdk';
+  import { Component, ElementRef, OnInit, ViewChild, NO_ERRORS_SCHEMA } from "@angular/core";
+  import {registerElement } from "nativescript-angular/element-registry";
+  import * as geolocation from "nativescript-geolocation";
+  import { MapView, Marker, Position } from "nativescript-google-maps-sdk";
+  import { MapTagService } from "../../services/map-tag.service";
+  import { ITag } from "./../../../interfaces/tag.interfaces";
 
 // Important - must register MapView plugin in order to use in Angular templates
-registerElement("MapView", () => MapView);
+  registerElement("MapView", () => MapView);
 
-
-@Component({
-  selector: 'app-google-maps',
-  moduleId: module.id,
-  templateUrl: './google-maps.component.html'
+  @Component({
+  selector: "app-google-maps",
+  templateUrl: "./google-maps.component.html"
 })
 export class GoogleMapsComponent implements OnInit {
   mapView: MapView;
+  markers: Array<Marker>;
+  currentLocation: Position;
+  currentLocationMarker: Marker;
 
-  constructor() { }
+  tags = [
+    {
+      type: "text",
+      position: Position.positionFromLatLng(39.130054, -84.516755),
+      upvotes: 12,
+      downvotes: 2
+    }, {
+      type: "video",
+      position: Position.positionFromLatLng(39.130434, -84.516255),
+      upvotes: 4,
+      downvotes: 2
+    }, {
+      type: "photo",
+      position: Position.positionFromLatLng(39.130194, -84.516005),
+      upvotes: 7,
+      downvotes: 1
+    }, {
+      type: "sound",
+      position: Position.positionFromLatLng(39.130890, -84.516295),
+      upvotes: 102,
+      downvotes: 24
+    }, {
+      type: "video",
+      position: Position.positionFromLatLng(39.129954, -84.515855),
+      upvotes: 12,
+      downvotes: 2
+    }, {
+      type: "text",
+      position: Position.positionFromLatLng(39.130514, -84.516355),
+      upvotes: 11,
+      downvotes: 0
+    }
+  ];
 
-  ngOnInit() {
+  constructor(private mapTagService: MapTagService) {
+
   }
 
-    //Map events
-    onMapReady = (event) => {
+  ngOnInit() {
+    this.currentLocation = Position.positionFromLatLng(39.130554, -84.516155)
+   }
 
-      this.mapView = event.object;
+  // Map events
+  onMapReady = (event) => {
 
-      var markers:any[] = [
-        {
-          "lat": 39.124173,
-          "long": -84.516864,
-          "title": "Here"
-        }
-      ];
+    this.mapView = event.object;
+    this.mapView.latitude = this.currentLocation.latitude;
+    this.mapView.longitude = this.currentLocation.longitude;
+    this.mapView.zoom = 17;
 
-      markers.forEach(m => {
-        var marker = new Marker();
-        marker.position = Position.positionFromLatLng(m.lat, m.long);
-        marker.title = m.title;
-        this.mapView.addMarker(marker);
-      });
-    };
+    this.markers = this.mapTagService.generateMapTag(this.tags);
+
+    this.markers.forEach((m) => {
+      this.mapView.addMarker(m);
+    });
+
+    this.currentLocationMarker = this.mapTagService.generateMarker(this.currentLocation, "bluedot_small");
+    this.mapView.addMarker(this.currentLocationMarker);
+    let x;
+  }
 
 }

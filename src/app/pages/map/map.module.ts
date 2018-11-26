@@ -3,6 +3,7 @@ import { MapComponent } from './map.component';
 import { MapRoutingModule } from './map-routing.module';
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
+import { MapTagService } from '~/app/map/services/map-tag.service';
 
 import { TagFabComponent } from './components/tag-fab/tag-fab.component';
 
@@ -16,6 +17,9 @@ import { TagFabComponent } from './components/tag-fab/tag-fab.component';
         GoogleMapsComponent,
         MapComponent,
         TagFabComponent,
+    ],
+    providers: [
+        MapTagService
     ],
     schemas: [
         NO_ERRORS_SCHEMA
