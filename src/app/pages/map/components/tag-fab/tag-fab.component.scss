@@ -4,33 +4,41 @@
   font-family: FontAwesome, fontawesome-webfont;
   font-size:20;
 }
+
+.fab-button {
+  height: 70;
+  width: 70; /// this is required on iOS - Android does not require width so you might need to adjust styles 
+  margin: 15;
+  color: white;
+  background-color: #f16552;
+  text-align: center; 
+  horizontal-align: right; 
+  vertical-align: bottom; 
+}
+
 .speed-button {
-    height: 50;
-    width: 50;
-    font-size: 20;
-    text-align: center;
-    color: #fff;
-    border-radius: 25;
-    horizontal-align: center;
+    height: 70;
+    width: 70;
+    margin: 15;
+    font-size: 10px;
+    background-color: #f16552;
+    border-radius: 35;
+    horizontal-align: right;
     vertical-align: bottom;
 }
+
 .btnb {
   background-color: #6DE9C0; 
 }
+
 .btna {
   background-color: #F2B208; 
 }
+
 .btne {
   background-color: #F13030; 
 }
-.fab-button {
-    height: 70;
-    width: 70; /// this is required on iOS - Android does not require width so you might need to adjust styles 
-    margin: 15;
-    background-color: #ff4081; 
-    horizontal-align: right; 
-    vertical-align: bottom; 
-}
+
 .action-btn{
   background-color: #1598F6;    
   margin-top: 5;

@@ -32,27 +32,27 @@
                     <Label class="h4" [text]="username" textWrap="true" horizontalAlignment="center" color="white"></Label>
                 </StackLayout>
             </GridLayout>
-            
-            <GridLayout columns="*,*,*" [tags]="numTags" class="p-l-20 p-r-20 p-t-15 p-b-15" backgroundColor="PowderBlue">
-                    <Label row="0" col="0" text="&#xf5bd; tags {{numTags}}" class="fas"></Label>
-                    <Label row="0" col="1" text="&#xf06e; following {{numFollowing}}" class="fas"></Label>
-                    <Label row="0" col="2" text="&#xf0c0; followers {{numFollowers}}" class="fas"></Label>
+
+            <GridLayout columns="*,*,*" [tags]="numTags" class="p-l-20 p-r-20 p-t-15 p-b-15" backgroundColor="#a9c6b7">
+                <Label row="0" col="0" text="&#xf5bd; tags {{numTags}}" class="fas" horizontalAlignment="left"></Label>
+                <Label row="0" col="1" text="&#xf06e; following {{numFollowing}}" class="fas" horizontalAlignment="left"></Label>
+                <Label row="0" col="2" text="&#xf0c0; followers {{numFollowers}}" class="fas" horizontalAlignment="left"></Label>
             </GridLayout>
-            
+
             <StackLayout verticalAlignment="center">
                 <Label class="h3 p-l-20 p-r-20 p-t-15 p-b-15" [text]="signature" textWrap="true" horizontalAlignment="center"></Label>
             </StackLayout>
 
             <TabView height="800px">
-                    <StackLayout *tabItem="{title: 'Activities'}" >
-                        <Activities></Activities>
-                    </StackLayout>
-                    <StackLayout *tabItem="{title: 'Tags'}">
-                        <Tags></Tags>
-                    </StackLayout>
-                    <StackLayout *tabItem="{title: 'Friends'}">
-                        <Friends></Friends>
-                    </StackLayout>
+                <StackLayout *tabItem="{title: 'Activities'}">
+                    <Activities></Activities>
+                </StackLayout>
+                <StackLayout *tabItem="{title: 'Tags'}">
+                    <Tags></Tags>
+                </StackLayout>
+                <StackLayout *tabItem="{title: 'Friends'}">
+                    <Friends></Friends>
+                </StackLayout>
             </TabView>
 
         </StackLayout>

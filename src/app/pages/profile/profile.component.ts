@@ -19,11 +19,11 @@ export class ProfileComponent implements OnInit {
 
     fullName = "Andrew McEwen";
     username = "@mcewenal";
-    signature = "Software developer, musician, vegetarian, husband, cat lover, purveyor of dad humor."
+    signature = "Software developer, musician, vegetarian, husband, cat daddy, lifelong noob."
     accountAge: number;
     numTags = 289;
-    numFollowing = 55;
-    numFollowers = 15;
+    numFollowing = 158;
+    numFollowers = 47;
     activities = [
         {
             message: "You posted a tag."
@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
             message: "You started following Kaidong Nie"
         },
         {
-            message: "You friended Aaron Zorzi"
+            message: "You are now friends with Kaidong Nie"
         }
     ];
 

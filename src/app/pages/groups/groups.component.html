@@ -18,12 +18,23 @@
 
     <ListView [items]="groups" class="list-group">
         <ng-template let-group="item">
-            <StackLayout class="list-group-item"  (tap)="onNavItemTap('/map')">
-                <Label [text]="group.groupName" color="blue"></Label>
-                <Label [text]="group.members"></Label>
-            </StackLayout>
+            <GridLayout columns="*,*,*" rows="*,*" class="list-group-item" (tap)="onNavItemTap('/map')">
+                <Image
+                  row="0"
+                  rowSpan="2"
+                  col="0" 
+                  src="{{group.icon}}"
+                  horizontalAlignment="center" 
+                  width="50" 
+                  borderRadius="25"
+                  class="groupAvatar">
+                </Image>
+                <Label row="0" col="1" [text]="group.groupName" color="blue"></Label>
+                <Label row="1" col="1" text="&#xf0c0; {{group.members}}" class="fas"></Label>
+            </GridLayout>
         </ng-template>
     </ListView>
+    <AddGroupFab></AddGroupFab>
 
 
 </GridLayout>

@@ -14,24 +14,24 @@ export class FriendsComponent implements OnInit {
             username: "niekg",
         },
         {
-            name: "Elon Musk",
-            username: "muskel",
+            name: "Dustin Smith",
+            username: "smithda",
         },
         {
-            name: "Fluffy Kins",
-            username: "fluffykins",
+            name: "Kenny Carpenter",
+            username: "carpenterke",
         },
         {
-            name: "Jim Scott",
-            username: "scottji",
+            name: "Rachel McEwen",
+            username: "mcewenra",
         },
         {
-            name: "Abdou Fall",
-            username: "fallab",
+            name: "Meagin Vizecky",
+            username: "vizeckyme",
         },
         {
-            name: "Bearcat McBearcatterson",
-            username: "bearcatmcgee",
+            name: "Edin Brown",
+            username: "browned",
         }
     ];
 
