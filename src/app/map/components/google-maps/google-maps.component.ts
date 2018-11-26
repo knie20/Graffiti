@@ -56,12 +56,12 @@ export class GoogleMapsComponent implements OnInit {
 
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.currentLocation = this.mapTagService.getCurrentLocation();
+   }
 
   // Map events
   onMapReady = (event) => {
-
-    this.currentLocation = this.mapTagService.getCurrentLocation();
 
     this.mapView = event.object;
 

@@ -12,9 +12,22 @@ export class MapTagService {
     getCurrentLocation = (): geolocation.Location => {
         let location: geolocation.Location;
 
+        geolocation.isEnabled().then(isEnabled => {
+            if (!isEnabled) {
+                geolocation.enableLocationRequest().then(() => {
+                }, e => {
+                    console.log("Error: " + (e.message || e));
+                });
+            }
+        }, e => {
+            console.log("Error: " + (e.message || e));
+        });
+
         geolocation.getCurrentLocation({
             desiredAccuracy: Accuracy.high,
-            updateTime: 1000
+            updateTime: 1000,
+            maximumAge: 5000,
+            timeout: 20000
         }).then((data) => {
             location = data;
         });
