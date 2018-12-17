@@ -1,12 +1,11 @@
-import { GoogleMapsComponent } from './../../map/components/google-maps/google-maps.component';
-import { MapComponent } from './map.component';
-import { MapRoutingModule } from './map-routing.module';
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
-import { MapTagService } from '~/app/map/services/map-tag.service';
 
-import { TagFabComponent } from './components/tag-fab/tag-fab.component';
-
+import { GoogleMapsComponent } from "./components/google-maps/google-maps.component";
+import { TagFabComponent } from "./components/tag-fab/tag-fab.component";
+import { MapRoutingModule } from "./map-routing.module";
+import { MapComponent } from "./map.component";
+import { MapTagService } from "./services/map-tag.service";
 
 @NgModule({
     imports: [
@@ -16,7 +15,7 @@ import { TagFabComponent } from './components/tag-fab/tag-fab.component';
     declarations: [
         GoogleMapsComponent,
         MapComponent,
-        TagFabComponent,
+        TagFabComponent
     ],
     providers: [
         MapTagService

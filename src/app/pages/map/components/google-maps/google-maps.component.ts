@@ -1,9 +1,9 @@
-  import { Component, ElementRef, OnInit, ViewChild, NO_ERRORS_SCHEMA } from "@angular/core";
-  import {registerElement } from "nativescript-angular/element-registry";
+  import { Component, ElementRef, OnInit } from "@angular/core";
+  import { registerElement } from "nativescript-angular/element-registry";
   import * as geolocation from "nativescript-geolocation";
   import { MapView, Marker, Position } from "nativescript-google-maps-sdk";
   import { MapTagService } from "../../services/map-tag.service";
-  import { ITag } from "./../../../interfaces/tag.interfaces";
+  import { ITag } from "./../../../../interfaces/tag.interfaces";
 
 // Important - must register MapView plugin in order to use in Angular templates
   registerElement("MapView", () => MapView);
@@ -57,7 +57,7 @@ export class GoogleMapsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentLocation = Position.positionFromLatLng(39.130554, -84.516155)
+    this.currentLocation = Position.positionFromLatLng(39.130554, -84.516155);
    }
 
   // Map events
@@ -76,7 +76,6 @@ export class GoogleMapsComponent implements OnInit {
 
     this.currentLocationMarker = this.mapTagService.generateMarker(this.currentLocation, "bluedot_small");
     this.mapView.addMarker(this.currentLocationMarker);
-    let x;
   }
 
 }

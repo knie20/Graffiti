@@ -13,8 +13,7 @@ export class MapTagService {
 
         geolocation.isEnabled().then(isEnabled => {
             if (!isEnabled) {
-                geolocation.enableLocationRequest().then(() => {
-                }, e => {
+                geolocation.enableLocationRequest().then(() => { }, (e) => {
                     console.log("Error: " + (e.message || e));
                 });
             }
