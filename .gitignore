@@ -34,4 +34,4 @@ typings/
 !.vscode/extensions.json
 
 # yarn lock file
-yarn
+yarn.lock
