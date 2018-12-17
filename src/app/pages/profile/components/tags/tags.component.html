@@ -1,0 +1,8 @@
+<ListView [items]="tags" class="list-group">
+    <ng-template let-tag="item">
+        <StackLayout class="list-group-item">
+                <Label [text]="tag.username" color="blue"></Label>
+                <Label [text]="tag.description"></Label>
+        </StackLayout>
+    </ng-template>
+</ListView>
