@@ -50,15 +50,4 @@ export class GroupsComponent implements OnInit {
         const sideDrawer = <RadSideDrawer>app.getRootView();
         sideDrawer.showDrawer();
     }
-
-    onNavItemTap(navItemRoute: string): void {
-        this.routerExtensions.navigate([navItemRoute], {
-            transition: {
-                name: "fade"
-            }
-        });
-
-        const sideDrawer = <RadSideDrawer>app.getRootView();
-        sideDrawer.closeDrawer();
-    }
 }
