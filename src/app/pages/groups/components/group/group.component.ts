@@ -3,7 +3,7 @@ import { Component, OnInit } from "@angular/core";
 @Component({
     selector: "Group",
     moduleId: module.id,
-    templateUrl: "./gorup.component.html",
+    templateUrl: "./group.component.html",
     styleUrls: ["./group.component.css"]
 })
 export class GroupComponent implements OnInit {

@@ -1,8 +1,11 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";
 import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nativescript-ui-sidedrawer";
 import { filter } from "rxjs/operators";
+
+const firebase = require("nativescript-plugin-firebase");
+
 import * as app from "tns-core-modules/application";
 
 @Component({
@@ -11,20 +14,35 @@ import * as app from "tns-core-modules/application";
     styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit {
+
     private _activatedUrl: string;
     private _sideDrawerTransition: DrawerTransitionBase;
 
-    constructor(private router: Router, private routerExtensions: RouterExtensions) {
-        // Use the component constructor to inject services.
-    }
+    constructor(private router: Router, private routerExtensions: RouterExtensions) { }
 
     ngOnInit(): void {
+
+        //This setTimeout fixes the 'JS: Error: Uncaught (in promise): Run init() first!' error.
+        setTimeout(() => {
+            firebase.init({
+                // Optionally pass in properties for database, authentication and cloud messaging,
+                // see their respective docs.
+            }).then(
+                () => {
+                    console.log("firebase.init done");
+                },
+                error => {
+                    console.log(`firebase.init error: ${error}`);
+                }
+            );
+        }, 1000);
+
         this._activatedUrl = "/map";
         this._sideDrawerTransition = new SlideInOnTopTransition();
 
         this.router.events
-        .pipe(filter((event: any) => event instanceof NavigationEnd))
-        .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
+            .pipe(filter((event: any) => event instanceof NavigationEnd))
+            .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {

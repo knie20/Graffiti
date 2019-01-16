@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "584115022489",
+    "firebase_url": "https://ucitsd-graffiti-1.firebaseio.com",
+    "project_id": "ucitsd-graffiti-1",
+    "storage_bucket": "ucitsd-graffiti-1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584115022489:android:34aa9288aab66d3a",
+        "android_client_info": {
+          "package_name": "org.nativescript.Graffiti"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "584115022489-rrqn626t88kua66u1smeuhvq9kvuak5d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4KIBdTh6C-l0cUsyjiiJV-zWN3JAPPMU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

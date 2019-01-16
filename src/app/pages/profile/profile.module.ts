@@ -8,7 +8,6 @@ import { TagsComponent } from '~/app/pages/profile/components/tags/tags.componen
 import { FriendsComponent } from '~/app/pages/profile/components/friends/friends.component';
 
 
-
 @NgModule({
     imports: [
         NativeScriptCommonModule,

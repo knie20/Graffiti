@@ -1,18 +1,21 @@
 import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
+const Firebase = require('nativescript-plugin-firebase');
 
 @Component({
-    selector: "Settings",
+    selector: "CreateTag",
     moduleId: module.id,
-    templateUrl: "./settings.component.html"
+    templateUrl: "./create-tag.component.html"
 })
-export class SettingsComponent implements OnInit {
+export class CreateTagComponent implements OnInit {
 
-    constructor(){
+    constructor() {
+        // Use the component constructor to inject providers.
     }
 
     ngOnInit(): void {
+
     }
 
     onDrawerButtonTap(): void {
