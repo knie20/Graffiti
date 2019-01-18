@@ -1,8 +1,11 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 
-import { MapRoutingModule } from "~/app/pages/map/map-routing.module";
-import { MapComponent } from "~/app/pages/map/map.component";
+import { GoogleMapsComponent } from "./components/google-maps/google-maps.component";
+import { TagFabComponent } from "./components/tag-fab/tag-fab.component";
+import { MapRoutingModule } from "./map-routing.module";
+import { MapComponent } from "./map.component";
+import { MapTagService } from "./services/map-tag.service";
 
 @NgModule({
     imports: [
@@ -10,7 +13,12 @@ import { MapComponent } from "~/app/pages/map/map.component";
         MapRoutingModule
     ],
     declarations: [
-        MapComponent
+        GoogleMapsComponent,
+        MapComponent,
+        TagFabComponent
+    ],
+    providers: [
+        MapTagService
     ],
     schemas: [
         NO_ERRORS_SCHEMA
