@@ -4,20 +4,17 @@ const Firebase = require('nativescript-plugin-firebase/app');
 
 @Injectable()
 export class CreateTagService {
-    
+
     tagsCollection = Firebase.firestore().collection("tags");
 
     createTextTag(tag: ITag) {
-        console.log(`Posting text tag...`);
 
         this.tagsCollection.add({
-            id: 2,
-            text: `Hello world!`
-          }).then(documentRef => {
+            id: 4,
+            text: `Hello world once again!`
+        }).then(documentRef => {
             console.log(`Tag added with auto-generated ID: ${documentRef.id}`);
-          });
-
-        console.log(`Posted text tag!`);
+        });
     }
 
 }
