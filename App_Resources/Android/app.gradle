@@ -6,14 +6,15 @@
 //}
 
 android {  
-  defaultConfig {  
+  defaultConfig {
+    multiDexEnabled true
     generatedDensities = []
   }  
   aaptOptions {  
     additionalParameters "--no-version-vectors"  
   }
   project.ext {
-    googlePlayServicesVersion = "11.2.+"
+    googlePlayServicesVersion = "+"
   }
 } 
 

@@ -7,7 +7,8 @@ const routes: Routes = [
     { path: "map", loadChildren: "~/app/pages/map/map.module#MapModule" },
     { path: "profile", loadChildren: "~/app/pages/profile/profile.module#ProfileModule" },
     { path: "groups", loadChildren: "~/app/pages/groups/groups.module#GroupsModule" },
-    { path: "settings", loadChildren: "~/app/pages/settings/settings.module#SettingsModule" }
+    { path: "settings", loadChildren: "~/app/pages/settings/settings.module#SettingsModule" },
+    { path: "create-tag/:url", loadChildren: "~/app/pages/create-tag/create-tag.module#CreateTagModule" }
 ];
 
 @NgModule({

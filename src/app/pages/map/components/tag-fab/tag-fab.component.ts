@@ -7,6 +7,12 @@ import { Button } from "ui/button";
 import { registerElement } from "nativescript-angular/element-registry";
 registerElement("Fab", () => require("nativescript-floatingactionbutton").Fab);
 
+import { Router, NavigationEnd } from "@angular/router";
+import { RouterExtensions } from "nativescript-angular/router";
+import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nativescript-ui-sidedrawer";
+
+import * as app from "tns-core-modules/application";
+
 @Component({
     selector: "TagFab",
     moduleId: module.id,
@@ -61,16 +67,16 @@ export class TagFabComponent implements OnInit {
     @ViewChild('fab') fab: ElementRef;
 
     @ViewChild('btna') buttonA: ElementRef;
-
     @ViewChild('btnb') buttonB: ElementRef;
-
     @ViewChild('btnc') buttonC: ElementRef;
-
     @ViewChild('btnd') buttonD: ElementRef;
 
     isFabOpen = false;
 
-    constructor() {
+    private _activatedUrl: string;
+    private _sideDrawerTransition: DrawerTransitionBase;
+
+    constructor(private router: Router, private routerExtensions: RouterExtensions) {
         // Use the component constructor to inject providers.
     }
 
@@ -94,7 +100,6 @@ export class TagFabComponent implements OnInit {
     }
 
     animate(createTagFab, button1, button2, button3, button4) {
-
 
         let definitions = new Array<AnimationDefinition>();
 
@@ -213,5 +218,14 @@ export class TagFabComponent implements OnInit {
             .catch((e) => {
                 console.log(e.message);
             });
+    }
+
+    onNavItemTap(navItemRoute: string): void {
+        this.routerExtensions.navigate([navItemRoute], {
+            animated: false
+        });
+        
+        const sideDrawer = <RadSideDrawer>app.getRootView();
+        sideDrawer.closeDrawer();
     }
 }

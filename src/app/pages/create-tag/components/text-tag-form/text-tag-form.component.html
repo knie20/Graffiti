@@ -1,0 +1,32 @@
+<GridLayout columns="*,*,*" rows="*,*,*,*,*">
+    
+    <Image 
+        class="avatar-image"
+        row="0"
+        col="0"
+        width="80"
+        height="80" 
+        borderRadius="40"
+    ></Image>
+    
+    <TextView
+        #textTagInput
+        col="0"
+        row="1"
+        colSpan="3"
+        rowSpan="3"
+        class="text-view-input p-15" 
+        hint="What's up?"  
+        returnKeyType="send" 
+    ></TextView>
+    
+    <Button 
+        row="4"
+        colSpan="3"
+        class="btn btn-primary" 
+        id="button" 
+        text="Publish"
+        (tap)="onPublish()"
+    ></Button>
+
+</GridLayout>

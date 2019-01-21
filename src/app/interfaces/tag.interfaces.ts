@@ -3,31 +3,21 @@ import { IUser } from './user.interfaces';
 import { ICanvas } from './canvas.interface';
 
 export interface IPost {
-    createdAt: Date;
-    updatedAt: Date;
-    createdBy: IUser;
-    canvas: ICanvas;
-    history?: IPost[];
+    createdAt: number;
+    updatedAt: number;
+    createdBy: string;
 }
 
-export interface ITag extends IPost {
-    title: string;
-    type: string;
-    position: Position;
-    upvotes: number;
-    downvotes: number;
-    content: {
-        urls?: string[];
-        text: string;
-    }
-    comments: IComment[];
+export interface ITag {
+    id: number,
+    text: string
 }
 
 export interface IComment extends IPost {
     upvotes: number;
     downvotes: number;
     content: {
-        urls?: string[];
+        urls: string[];
         text: string;
     }
 }
