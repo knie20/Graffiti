@@ -3,7 +3,7 @@
   import * as geolocation from "nativescript-geolocation";
   import { MapView, Marker, Position } from "nativescript-google-maps-sdk";
   import { MapTagService } from "../../services/map-tag.service";
-  import { ITag } from "./../../../../interfaces/tag.interfaces";
+  import { ITag } from "../../../../interfaces/tag";
 
 // Important - must register MapView plugin in order to use in Angular templates
   registerElement("MapView", () => MapView);
