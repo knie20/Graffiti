@@ -1,6 +1,11 @@
+//Angular Modules
 import { Injectable } from "@angular/core";
-import { ITag } from '~/app/interfaces/tag';
+
+//NativeScript Plugins
 const Firebase = require('nativescript-plugin-firebase/app');
+
+//Interfaces
+import { ITag } from '~/app/interfaces/tag';
 
 @Injectable()
 export class CreateTagService {

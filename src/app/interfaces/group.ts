@@ -1,8 +1,12 @@
 import { IUser } from "./user";
 
 export interface IGroup {
-    id: number;
     name: string;
+    organization: string;
+    location: string;
+    description: string;
+    members: string[];
+    isPublic: boolean;
     createdOn: Date;
-    createdBy: number;
+    createdBy: string;
 }

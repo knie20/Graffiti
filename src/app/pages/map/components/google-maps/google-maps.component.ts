@@ -1,9 +1,7 @@
   import { Component, ElementRef, OnInit } from "@angular/core";
   import { registerElement } from "nativescript-angular/element-registry";
-  import * as geolocation from "nativescript-geolocation";
   import { MapView, Marker, Position } from "nativescript-google-maps-sdk";
   import { MapTagService } from "../../services/map-tag.service";
-  import { ITag } from "../../../../interfaces/tag";
 
 // Important - must register MapView plugin in order to use in Angular templates
   registerElement("MapView", () => MapView);
@@ -13,6 +11,7 @@
   templateUrl: "./google-maps.component.html"
 })
 export class GoogleMapsComponent implements OnInit {
+  
   mapView: MapView;
   markers: Array<Marker>;
   currentLocation: Position;

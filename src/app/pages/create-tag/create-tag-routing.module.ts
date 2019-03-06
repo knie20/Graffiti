@@ -1,7 +1,11 @@
-import { NgModule } from "@angular/core";
-import { Routes } from "@angular/router";
+// NativeScript Modules
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
+// Angular Modules
+import { NgModule } from "@angular/core";
+import { Routes } from "@angular/router";
+
+// Components
 import { CreateTagComponent } from './create-tag.component';
 import { TextTagFormComponent } from "~/app/pages/create-tag/components/text-tag-form/text-tag-form.component";
 

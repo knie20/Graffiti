@@ -1,11 +1,16 @@
+// Angular Modules
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
-import { CreateTagService } from './../../services/create-tag-service';
 
+// NativeScript Modules
+import { Accuracy } from "tns-core-modules/ui/enums";
+
+// NativeScript Plugins
+import * as geolocation from "nativescript-geolocation";
 const Firebase = require('nativescript-plugin-firebase/app');
 
-import * as geolocation from "nativescript-geolocation";
-import { Accuracy } from "tns-core-modules/ui/enums";
-import { Position } from 'nativescript-google-maps-sdk';
+// Services
+import { CreateTagService } from './../../services/create-tag-service';
+import { NgModel } from "@angular/forms";
 
 @Component({
     selector: "TextTagForm",
@@ -16,6 +21,8 @@ import { Position } from 'nativescript-google-maps-sdk';
 export class TextTagFormComponent implements OnInit, AfterViewInit {
     
     @ViewChild("tagTextInput") tagTextInput: any;
+
+    tagText: string;
 
     constructor(private tag: CreateTagService) {
 
@@ -33,7 +40,7 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
 
     onPublish(): void {
 
-        geolocation
+         geolocation
             .getCurrentLocation({ desiredAccuracy: Accuracy.high, maximumAge: 5000, timeout: 20000 })
             .then(value => {
 
@@ -42,14 +49,13 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
                 const position = Firebase.firestore().GeoPoint(latitude, longitude);
                 
                 const type = "Test Tag"; //hardcoded for now
-                const text = this.tagTextInput.nativeElement.value;
 
                 const textTag = {
                     userId: 12345678, //hardcoded for now, until we implement authentication
                     postedOn: new Date(),
                     updatedOn: new Date(),
                     type: type,
-                    text: text,
+                    text: this.tagText,
                     imageUrl: null,
                     videoUrl: null,
                     position: position
