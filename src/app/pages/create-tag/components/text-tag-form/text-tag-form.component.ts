@@ -11,6 +11,7 @@ const Firebase = require('nativescript-plugin-firebase/app');
 // Services
 import { CreateTagService } from './../../services/create-tag-service';
 import { NgModel } from "@angular/forms";
+import { UserService } from "~/app/shared/user.service";
 
 @Component({
     selector: "TextTagForm",
@@ -22,10 +23,16 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
     
     @ViewChild("tagTextInput") tagTextInput: any;
 
+    userPhotoUrl: string;
     tagText: string;
 
-    constructor(private tag: CreateTagService) {
-
+    constructor(private users: UserService, private tag: CreateTagService) {
+        // Use the component constructor to inject providers.
+        users.getCurrentUser().then((user)=>{
+            users.getPhotoByUserId(user.uid).then(photoUrl=>{
+                this.userPhotoUrl = photoUrl;
+            });
+        })
     }
 
     ngOnInit(): void {

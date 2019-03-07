@@ -11,7 +11,7 @@ import { group } from '@angular/animations';
 @Injectable()
 export class GroupsService {
     groupsCollection = Firebase.firestore().collection("groups");
-    groupPhotosFolder = Firebase.storage().ref();
+    storage = Firebase.storage().ref();
 
     create(group: IGroup, groupPhoto: File) {
         console.log(`Creating group...`);
@@ -44,7 +44,7 @@ export class GroupsService {
                 querySnapshot.forEach(doc => {
                     //console.log(`Group by user ID: ${doc.id} => ${JSON.stringify(doc.data())}`);
 
-                    this.groupPhotosFolder.child(`groupPhotos/${doc.id}`).getDownloadURL().then((url)=>{
+                    this.storage.child(`groupPhotos/${doc.id}`).getDownloadURL().then((url)=>{
                         const groupObject = {
                             id: doc.id,
                             name: doc.data()[`name`],
@@ -72,7 +72,7 @@ export class GroupsService {
                 querySnapshot.forEach((doc) => {
                     //console.log(`Group by id: ${doc.id} => ${JSON.stringify(doc.data())}`);
 
-                    this.groupPhotosFolder.child(`groupPhotos/${doc.id}`).getDownloadURL().then((url)=>{
+                    this.storage.child(`groupPhotos/${doc.id}`).getDownloadURL().then((url)=>{
                         const groupObject = {
                             id: doc.id,
                             name: doc.data()[`name`],
@@ -90,7 +90,7 @@ export class GroupsService {
     }
 
     uploadGroupPhoto(id: string, photo: File) {
-        this.groupPhotosFolder.child(`groupPhotos/${id}`).put(photo).then(upload =>{
+        this.storage.child(`groupPhotos/${id}`).put(photo).then(upload =>{
             upload
         });
     }

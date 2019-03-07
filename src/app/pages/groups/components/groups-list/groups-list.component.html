@@ -20,8 +20,8 @@
             <Image row="0" rowSpan="2" col="0" src="{{group.photo}}" horizontalAlignment="center" stretch="aspectFill" 
                 width="50" height="50" borderRadius="25" class="groupAvatar">
             </Image>
-            <Label row="0" col="1" [text]="group.name" color="blue"></Label>
-            <Label row="1" col="1" text="&#xf0c0; {{group.members.length}}" class="fas"></Label>
+            <Label row="0" col="1" colSpan="2" [text]="group.name" color="blue"></Label>
+            <Label row="1" col="1" text="&#xf0c0; Members {{group.members.length}}" class="fa fas"></Label>
         </GridLayout>
     </ng-template>
 </ListView>

@@ -1,8 +1,40 @@
-<GridLayout rows="auto auto auto" columns="* *" class="m-5">
-    <Label class="h3 m-15" text="Enable Notifications" textWrap="true" row="0" col="0"></Label>
-    <Switch class="m-15" checked="false" (checkedChange)="doSomething($event)" row="0" col="1"></Switch>
-    <Label class="h3 m-15" text="Enable Geolocation" textWrap="true" row="1" col="0"></Label>
-    <Switch class="m-15" checked="true" (checkedChange)="doSomething($event)" row="1" col="1"></Switch>
-    <Label class="h3 m-15" text="Agree to Terms" textWrap="true" row="2" col="0"></Label>
-    <Switch class="m-15" checked="true" (checkedChange)="doSomething($event)" row="2" col="1"></Switch>
+<GridLayout rows="*" columns="*" class="m-5">
+    <RadDataForm [source]="settings" (propertyCommitted)="onPropertyCommitted($event)" tkExampleTitle tkToggleNavButton>
+
+        <TKPropertyGroup tkDataFormGroups collapsible="false" name="Functionality" hidden="false">
+            <TKEntityProperty tkDataFormProperty tkPropertyGroupProperties name="anonymous" displayName="Anonymous Mode" imageResource="res://ic_hacker" index="0">
+                <TKPropertyEditor tkEntityPropertyEditor type="Switch"></TKPropertyEditor>
+            </TKEntityProperty>
+        </TKPropertyGroup>        
+        
+        <TKPropertyGroup tkDataFormGroups collapsible="false" name="Notifications" hidden="false">
+            <TKEntityProperty tkDataFormProperty tkPropertyGroupProperties name="allowPushNotify" displayName="Push Notifications" imageResource="res://ic_push_notifications" index="1">
+                <TKPropertyEditor tkEntityPropertyEditor type="Switch"></TKPropertyEditor>
+            </TKEntityProperty>
+            <TKEntityProperty tkDataFormProperty tkPropertyGroupProperties name="allowEmailNotify" displayName="Email Notifications" imageResource="res://ic_email_notifications" index="2">
+                <TKPropertyEditor tkEntityPropertyEditor type="Switch"></TKPropertyEditor>
+            </TKEntityProperty>
+        </TKPropertyGroup>
+
+        <TKPropertyGroup tkDataFormGroups collapsible="false" name="Appearance" hidden="false">
+            <TKEntityProperty tkDataFormProperty tkPropertyGroupProperties name="appTheme" displayName="App Theme" index="3" imageResource="res://ic_app_theme" [valuesProvider]="appThemesProvider">
+                <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty tkDataFormProperty tkPropertyGroupProperties name="mapTheme" displayName="Map Theme" index="4" imageResource="res://ic_map_theme" [valuesProvider]="mapThemesProvider">
+                <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+
+            <TKEntityProperty tkDataFormProperty tkPropertyGroupProperties name="typography" displayName="Typography" index="5" imageResource="res://ic_typography" [valuesProvider]="typographiesProvider">
+                <TKPropertyEditor tkEntityPropertyEditor type="Picker"></TKPropertyEditor>
+            </TKEntityProperty>
+        </TKPropertyGroup>
+
+        <TKPropertyGroup tkDataFormGroups collapsible="false" name="Legal Stuff" hidden="false">
+            <TKEntityProperty tkDataFormProperty tkPropertyGroupProperties name="agreeToTerms" displayName="Agree to Terms" imageResource="res://ic_agree_to_terms" index="6">
+                <TKPropertyEditor tkEntityPropertyEditor type="Switch"></TKPropertyEditor>
+            </TKEntityProperty>
+        </TKPropertyGroup>
+
+    </RadDataForm>
 </GridLayout>

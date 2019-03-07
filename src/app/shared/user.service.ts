@@ -1,37 +1,27 @@
 import { Injectable } from "@angular/core";
-import * as firebase from "nativescript-plugin-firebase";
+import * as Firebase from "nativescript-plugin-firebase";
 
 @Injectable()
 export class UserService {
-    register(user) {
 
-    }
+  usersCollection = Firebase.firestore.collection("users");
+  currentUser: any;
 
-    login(user) {
-
-        console.log(`Logging in ${user.email}`);
-
-        firebase.login(
-            {
-              type: firebase.LoginType.PASSWORD,
-              passwordOptions: {
-                email: user.email,
-                password: user.password
-              }
-            })
-            .then(result => JSON.stringify(result))
-            .catch(error => console.log(error));
+    constructor(){
+      this.currentUser = this.getCurrentUser();
     }
 
     getCurrentUser(){
-      return firebase.getCurrentUser();
+      return Firebase.getCurrentUser();
     }
 
-    resetPassword(email: string) {
-
+    getPhotoByUserId(userId) {
+      return Firebase.storage.getDownloadUrl({
+        // optional, can also be passed during init() as 'storageBucket' param so we can cache it
+        bucket: "gs://ucitsd-graffiti-1.appspot.com",
+        // the full path of an existing file in your Firebase storage
+        remoteFullPath: `userPhotos/${userId}`
+      });
     }
 
-    handleErrors() {
-
-    }
 }

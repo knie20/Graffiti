@@ -100,10 +100,6 @@ export class CreateGroupFormComponent implements OnInit {
 
     onCreateGroupButtonTap(): void {
         console.log(`Create group button tapped!`);
-/*         console.log(this.imageFile.size);
-        console.log(this._group); */
-        //console.log(this.saved);
-
         const newGroup = {
             name: this._group.name,
             organization: this._group.organization,

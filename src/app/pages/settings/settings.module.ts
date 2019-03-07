@@ -1,3 +1,4 @@
+import { UserService } from '~/app/shared/user.service';
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 
@@ -16,6 +17,9 @@ import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular"
     declarations: [
         SettingsComponent,
         SettingsFormComponent
+    ],
+    providers: [
+        UserService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

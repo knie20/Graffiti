@@ -13,9 +13,8 @@ import { RadSideDrawer } from "nativescript-ui-sidedrawer";
     templateUrl: "./create-tag.component.html"
 })
 export class CreateTagComponent implements OnInit {
-
     constructor() {
-        // Use the component constructor to inject providers.
+
     }
 
     ngOnInit(): void {

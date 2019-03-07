@@ -1,21 +1,20 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 
 import { alert } from "tns-core-modules/ui/dialogs";
-import { SelectedIndexChangedEventData } from "tns-core-modules/ui/tab-view";
+import { SelectedIndexChangedEventData, TabView } from "tns-core-modules/ui/tab-view";
 
 @Component({
     selector: "Profile",
     moduleId: module.id,
     templateUrl: "./profile.component.html",
-    styleUrls: ["./profile.component.css"]
+    styleUrls: ["./profile.component.scss"]
 })
 export class ProfileComponent implements OnInit {
 
     public tabSelectedIndex: number;
     public tabSelectedIndexResult: string;
-
 
     fullName = "Andrew McEwen";
     username = "@mcewenal";
@@ -39,12 +38,11 @@ export class ProfileComponent implements OnInit {
     constructor() {
         this.tabSelectedIndex = 0;
         this.tabSelectedIndexResult = "Profile Tab (tabSelectedIndex = 0 )";
-
         this.accountAge = 128;
     }
 
     ngOnInit(): void {
-        // Init your component properties here.
+
     }
 
     changeTab() {

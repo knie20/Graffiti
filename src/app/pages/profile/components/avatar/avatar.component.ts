@@ -1,3 +1,4 @@
+import { UserService } from './../../../../shared/user.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,7 +7,15 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./avatar.component.scss']
 })
 export class AvatarComponent implements OnInit {
-    constructor() { }
+    private userPhotoUrl: string;
+    
+    constructor(users: UserService) { 
+        users.getCurrentUser().then((user)=>{
+            users.getPhotoByUserId(user.uid).then(photoUrl=>{
+                this.userPhotoUrl = photoUrl;
+            });
+        })
+    }
 
     ngOnInit(): void { }
 }

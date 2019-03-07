@@ -19,8 +19,7 @@
         <StackLayout>
             <GridLayout rows="175" columns="*,2*,*" class="avatar-background">
                 <StackLayout row="0" col="1" verticalAlignment="center">
-                    <Image src=""
-                        horizontalAlignment="center" width="100" borderRadius="50"></Image>
+                    <app-avatar></app-avatar>
                     <Label class="h2" [text]="fullName" textWrap="true" horizontalAlignment="center" color="white"></Label>
                     <Label class="h4" [text]="username" textWrap="true" horizontalAlignment="center" color="white"></Label>
                 </StackLayout>
@@ -36,7 +35,7 @@
                 <Label class="h3 p-l-20 p-r-20 p-t-15 p-b-15" [text]="signature" textWrap="true" horizontalAlignment="center"></Label>
             </StackLayout>
 
-            <TabView height="800px">
+            <TabView #tabView height="800px" androidSelectedTabHighlightColor="#efd5d5">
                 <StackLayout *tabItem="{title: 'Activities'}">
                     <Activities></Activities>
                 </StackLayout>

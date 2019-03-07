@@ -1,3 +1,4 @@
+import { UserService } from './shared/user.service';
 // NativeScript modules
 import * as app from "tns-core-modules/application";
 import { RouterExtensions } from "nativescript-angular/router";
@@ -8,6 +9,7 @@ import { Router } from "@angular/router";
 
 //NativeScript plugins
 import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular";
+import { AuthService } from './shared/auth.service';
 const firebase = require("nativescript-plugin-firebase");
 
 @Component({
@@ -19,8 +21,23 @@ export class AppComponent implements OnInit {
     @ViewChild(RadSideDrawerComponent) sideDrawerComponent: RadSideDrawerComponent;
 
     private _activatedUrl: string;
+    private userName: string;
+    private userEmail: string;
+    private userPhotoUrl: string;
 
-    constructor(private router: Router, private routerExtensions: RouterExtensions, private ngZone: NgZone) { }
+    constructor(
+        private router: Router, 
+        private routerExtensions: RouterExtensions, 
+        private ngZone: NgZone, 
+        private users: UserService,
+        private auth: AuthService 
+    ) { 
+        users.getCurrentUser().then((user)=>{
+            users.getPhotoByUserId(user.uid).then(photoUrl=>{
+                this.userPhotoUrl = photoUrl;
+            });
+        })
+    }
 
     ngOnInit(): void {
 
@@ -49,6 +66,12 @@ export class AppComponent implements OnInit {
             );
         }, 1000);
 
+        this.users.getCurrentUser().then(user => {
+            this.userEmail = user.email;
+        })
+
+        console.log(`Users photo: `, this.userPhotoUrl)
+
     }
 
     isComponentSelected(url: string): boolean {
@@ -61,7 +84,7 @@ export class AppComponent implements OnInit {
     }
 
     logout(){
-        firebase.logout();
+        this.auth.logout();
         this.sideDrawerComponent.sideDrawer.closeDrawer();
     }
 }

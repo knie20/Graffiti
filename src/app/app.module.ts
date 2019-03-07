@@ -1,3 +1,4 @@
+import { UserService } from '~/app/shared/user.service';
 // NativeScript modules
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
@@ -15,6 +16,7 @@ import { AppRoutingModule } from "./app-routing.module";
 
 // App component
 import { AppComponent } from "./app.component";
+import { AuthService } from './shared/auth.service';
 
 @NgModule({
     bootstrap: [
@@ -30,6 +32,10 @@ import { AppComponent } from "./app.component";
     ],
     declarations: [
         AppComponent
+    ],
+    providers: [
+        AuthService,
+        UserService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

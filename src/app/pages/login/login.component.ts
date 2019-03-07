@@ -4,7 +4,8 @@ import { Router } from "@angular/router";
 import { alert, prompt } from "tns-core-modules/ui/dialogs";
 import { Page } from "tns-core-modules/ui/page";
 
-import { UserService } from "../../shared/user.service";
+import { UserService } from "~/app/shared/user.service";
+import { AuthService } from "~/app/shared/auth.service.ts";
 
 @Component({
     selector: "app-login",
@@ -19,7 +20,7 @@ export class LoginComponent {
     @ViewChild("password") password: ElementRef;
     @ViewChild("confirmPassword") confirmPassword: ElementRef;
 
-    constructor(private page: Page, private userService: UserService, private router: Router) {
+    constructor(private page: Page, private authService: AuthService, private userService: UserService, private router: Router) {
         this.page.actionBarHidden = true;
         this.user = {
             email: "",
@@ -46,7 +47,7 @@ export class LoginComponent {
 
     login() {
         console.log(`Logging in...`);
-        this.userService.login(this.user);
+        this.authService.login(this.user);
     }
 
     register() {
@@ -63,7 +64,7 @@ export class LoginComponent {
             cancelButtonText: "Cancel"
         }).then((data) => {
             if (data.result) {
-                this.userService.resetPassword(data.text.trim());
+                this.authService.resetPassword(data.text.trim());
             }
         });
     }

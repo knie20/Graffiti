@@ -1,8 +1,7 @@
 <FlexboxLayout class="page page-content">
 	<StackLayout class="form">
 		<Image class="logo" src="res://logo"></Image>
-		<Label class="header" text="Graffiti"></Label>
-
+		
 		<StackLayout class="input-field">
 			<TextField class="input" hint="Email" keyboardType="email" autocorrect="false" autocapitalizationType="none" [(ngModel)]="user.email" returnKeyType="next" (returnPress)="focusPassword()"></TextField>
 			<StackLayout class="hr-light"></StackLayout>
