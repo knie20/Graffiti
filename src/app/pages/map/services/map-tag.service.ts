@@ -6,6 +6,9 @@ import { Accuracy } from "tns-core-modules/ui/enums";
 import { Image } from "ui/image";
 import { ITag } from "~/app/interfaces/tag.interfaces";
 
+import * as Firebase from "nativescript-plugin-firebase/app";
+import { Location, watchLocation, clearWatch } from "nativescript-geolocation";
+
 @Injectable()
 export class MapTagService {
 
@@ -17,8 +20,6 @@ export class MapTagService {
                     console.log("Error: " + (e.message || e));
                 });
             }
-        }, e => {
-            console.log("Error: " + (e.message || e));
         });
 
         return geolocation.getCurrentLocation({
@@ -27,6 +28,26 @@ export class MapTagService {
             maximumAge: 5000,
             timeout: 20000
         });
+    }
+
+    watchCurrentLocation = (successCallback): void => {
+        watchLocation(
+            successCallback,
+            (e) => {
+                console.log("Error: " + (e.message || e));
+            },
+            {
+                desiredAccuracy: 3, 
+                updateDistance: 10, 
+                minimumUpdateTime : 1000 * 20
+            }
+        )
+    }
+
+    stopWatchCurrentLocation = (watchId: number): void => {
+        if(watchId){
+            clearWatch(watchId);
+        }
     }
 
     generateMapTag = (tags: Array<any>): Array<Marker> => {
@@ -49,7 +70,7 @@ export class MapTagService {
         return markers;
     }
 
-    generateMarker = (location: any, imagePath: string): Marker => {
+    generateMarker = (location: Location, imagePath: string): Marker => {
         const markers: Array<Marker> = [];
         const imageSource: ImageSource = new ImageSource();
         imageSource.fromResource(imagePath);

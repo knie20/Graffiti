@@ -1,22 +1,53 @@
   import { Component, ElementRef, OnInit } from "@angular/core";
   import { registerElement } from "nativescript-angular/element-registry";
-  import * as geolocation from "nativescript-geolocation";
+  import { Location, watchLocation} from "nativescript-geolocation";
   import { MapView, Marker, Position } from "nativescript-google-maps-sdk";
   import { MapTagService } from "../../services/map-tag.service";
   import { ITag } from "./../../../../interfaces/tag.interfaces";
+  import * as geolocation from "nativescript-geolocation";
 
 // Important - must register MapView plugin in order to use in Angular templates
-  registerElement("MapView", () => MapView);
+registerElement("MapView", () => MapView);
 
-  @Component({
+@Component({
   selector: "app-google-maps",
   templateUrl: "./google-maps.component.html"
 })
 export class GoogleMapsComponent implements OnInit {
   mapView: MapView;
   markers: Array<Marker>;
-  currentLocation: Position;
+  currentLocation: Location;
   currentLocationMarker: Marker;
+  watchId: number;
+
+  public startWatchingLocation = () => {
+    this.watchId = watchLocation(
+      loc => {
+        if(loc) {
+          this.currentLocationMarker.position.latitude = loc.latitude;
+          this.currentLocationMarker.position.longitude = loc.longitude;
+
+          this.mapView.latitude = loc.latitude;
+          this.mapView.longitude = loc.longitude;
+
+          console.log(new Date() + ': ' + loc.latitude + ' ' + loc.longitude);
+        };
+      }, 
+      error => {
+      console.log(error);
+      }, 
+      { updateTime: 20 * 1000, updateDistance: 5 }
+    );
+  }
+
+  public stopWatchingLocation = () => {
+    if(this.watchId) {
+        geolocation.clearWatch(this.watchId);
+        this.watchId = null;
+    }
+  }
+
+  
 
   tags = [
     {
@@ -52,30 +83,32 @@ export class GoogleMapsComponent implements OnInit {
     }
   ];
 
-  constructor(private mapTagService: MapTagService) {
-
-  }
+  constructor(private mapTagService: MapTagService) {}
 
   ngOnInit() {
-    this.currentLocation = Position.positionFromLatLng(39.130554, -84.516155);
-   }
+    this.startWatchingLocation();  
+  }
 
   // Map events
   onMapReady = (event) => {
-
+    
     this.mapView = event.object;
-    this.mapView.latitude = this.currentLocation.latitude;
-    this.mapView.longitude = this.currentLocation.longitude;
-    this.mapView.zoom = 17;
 
-    this.markers = this.mapTagService.generateMapTag(this.tags);
+    this.mapTagService.getCurrentLocation().then(location => {
+      this.mapView.latitude = location.latitude;
+      this.mapView.longitude = location.longitude;
+      this.mapView.zoom = 17;
+      
+      
+      this.markers = this.mapTagService.generateMapTag(this.tags);
 
-    this.markers.forEach((m) => {
-      this.mapView.addMarker(m);
+      this.markers.forEach((m) => {
+        this.mapView.addMarker(m);
+      });
+
+      this.currentLocationMarker = this.mapTagService.generateMarker(location, "bluedot_small");
+      this.mapView.addMarker(this.currentLocationMarker);
     });
-
-    this.currentLocationMarker = this.mapTagService.generateMarker(this.currentLocation, "bluedot_small");
-    this.mapView.addMarker(this.currentLocationMarker);
   }
 
 }
