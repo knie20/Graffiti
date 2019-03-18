@@ -6,6 +6,9 @@
   import { ITag } from "./../../../../interfaces/tag.interfaces";
   import * as geolocation from "nativescript-geolocation";
 
+  import { Router, NavigationEnd } from "@angular/router";
+  import { RouterExtensions } from "nativescript-angular/router";
+
 // Important - must register MapView plugin in order to use in Angular templates
 registerElement("MapView", () => MapView);
 
@@ -19,6 +22,7 @@ export class GoogleMapsComponent implements OnInit {
   currentLocation: Location;
   currentLocationMarker: Marker;
   watchId: number;
+  tags: ITag[];
 
   public startWatchingLocation = () => {
     this.watchId = watchLocation(
@@ -47,59 +51,31 @@ export class GoogleMapsComponent implements OnInit {
     }
   }
 
-  
-
-  tags = [
-    {
-      type: "text",
-      position: Position.positionFromLatLng(39.130054, -84.516755),
-      upvotes: 12,
-      downvotes: 2
-    }, {
-      type: "video",
-      position: Position.positionFromLatLng(39.130434, -84.516255),
-      upvotes: 4,
-      downvotes: 2
-    }, {
-      type: "photo",
-      position: Position.positionFromLatLng(39.130194, -84.516005),
-      upvotes: 7,
-      downvotes: 1
-    }, {
-      type: "sound",
-      position: Position.positionFromLatLng(39.130890, -84.516295),
-      upvotes: 102,
-      downvotes: 24
-    }, {
-      type: "video",
-      position: Position.positionFromLatLng(39.129954, -84.515855),
-      upvotes: 12,
-      downvotes: 2
-    }, {
-      type: "text",
-      position: Position.positionFromLatLng(39.130514, -84.516355),
-      upvotes: 11,
-      downvotes: 0
-    }
-  ];
-
-  constructor(private mapTagService: MapTagService) {}
+  constructor(
+    private mapTagService: MapTagService, 
+    private router: Router, 
+    private routerExtensions: RouterExtensions
+    ) {}
 
   ngOnInit() {
     this.startWatchingLocation();  
   }
 
+  onMarkerSelect = (event) => {
+    this.routerExtensions.navigate(["/view-tag"], { queryParams: { id: 1}});
+  };
+
   // Map events
   onMapReady = (event) => {
-    
     this.mapView = event.object;
 
+    
     this.mapTagService.getCurrentLocation().then(location => {
       this.mapView.latitude = location.latitude;
       this.mapView.longitude = location.longitude;
       this.mapView.zoom = 17;
       
-      
+      this.tags = this.mapTagService.getTags(location);
       this.markers = this.mapTagService.generateMapTag(this.tags);
 
       this.markers.forEach((m) => {
@@ -109,6 +85,6 @@ export class GoogleMapsComponent implements OnInit {
       this.currentLocationMarker = this.mapTagService.generateMarker(location, "bluedot_small");
       this.mapView.addMarker(this.currentLocationMarker);
     });
-  }
+  };
 
 }
