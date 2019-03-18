@@ -74,7 +74,7 @@ export class GoogleMapsComponent implements OnInit {
       this.mapView.addMarker(m);
     });
 
-    this.currentLocationMarker = this.mapTagService.generateMarker(this.currentLocation, "bluedot_small");
+    this.currentLocationMarker = this.mapTagService.generateMarker(this.currentLocation, "bluedot");
     this.mapView.addMarker(this.currentLocationMarker);
   }
 
