@@ -62,7 +62,7 @@ export class GoogleMapsComponent implements OnInit {
   }
 
   onMarkerSelect = (event) => {
-    this.routerExtensions.navigate(["/view-tag"], { queryParams: { id: 1}});
+    this.routerExtensions.navigate(["/view-tag"], { queryParams: { id: 1 }});
   };
 
   // Map events
