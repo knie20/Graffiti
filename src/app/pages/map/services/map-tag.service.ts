@@ -8,9 +8,12 @@ import { ITag } from "~/app/interfaces/tag.interfaces";
 
 import * as Firebase from "nativescript-plugin-firebase/app";
 import { Location, watchLocation, clearWatch } from "nativescript-geolocation";
+import { P } from "@angular/core/src/render3";
 
 @Injectable()
 export class MapTagService {
+    defaultCoordinateDistance = 0.02;
+    tagsCollection = Firebase.firestore().collection("tags");
 
     getCurrentLocation = (): Promise<geolocation.Location> => {
 
@@ -49,6 +52,24 @@ export class MapTagService {
             clearWatch(watchId);
         }
     }
+
+    getTags = (currentLocation: Location): Array<ITag> => {
+        var tags: any[] = [];
+
+        this.tagsCollection
+            .where("position.latitude", ">", currentLocation.latitude - this.defaultCoordinateDistance)
+            .where("position.latitude", "<", currentLocation.latitude + this.defaultCoordinateDistance)
+            .where("position.longitude", ">", currentLocation.longitude - this.defaultCoordinateDistance)
+            .where("position.longitude", "<", currentLocation.longitude + this.defaultCoordinateDistance)
+            .get()
+            .then(snapshot => {
+                snapshot.forEach(doc => {
+                    tags.push(doc);
+                })
+            });
+
+        return tags;
+    };
 
     generateMapTag = (tags: Array<any>): Array<Marker> => {
         const markers: Array<Marker> = [];

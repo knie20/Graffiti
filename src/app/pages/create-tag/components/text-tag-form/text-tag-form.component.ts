@@ -31,7 +31,5 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
             id: 2,
             text: `Hello world!`
         };
-
-        this.tag.createTextTag(textTag);
     }
 }
