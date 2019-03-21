@@ -1,4 +1,4 @@
-import { Image } from 'ui/image';
+import { Image } from 'tns-core-modules/ui/image';
 import { knownFolders, path, File, Folder } from "tns-core-modules/file-system";
 
 import { TKEntityPropertyDirective } from 'nativescript-ui-dataform/angular';
@@ -44,7 +44,7 @@ export class CreateGroupFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._group = new Group("", "", "", "", true);
+        this._group = new Group("", "", "", "", "", true, "", "");
     }
 
     get group(): Group {

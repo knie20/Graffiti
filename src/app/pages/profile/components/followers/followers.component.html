@@ -1,0 +1,11 @@
+<ListView height="100%" [items]="_followers" class="list-group">
+    <ng-template let-follower="item">
+        <GridLayout columns="*,*,*,*,*" rows="*,*" class="list-group-item" (tap)="onFollowerItemTap(follower.id)">
+            <Image row="0" rowSpan="2" col="0" src="{{follower.photoURL}}" horizontalAlignment="left" stretch="aspectFill" 
+                width="50" height="50" borderRadius="25" class="followerAvatar">
+            </Image>
+            <Label row="0" col="1" colSpan="3" [text]="follower.displayName" color="#45485e"></Label>
+            <Label row="1" col="1" colSpan="3" [text]="follower.handle" color="gray"></Label>
+        </GridLayout>
+    </ng-template>
+</ListView>

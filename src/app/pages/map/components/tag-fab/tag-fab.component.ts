@@ -1,11 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { trigger, state, style, transition, animate, keyframes } from "@angular/animations";
 import { Animation, AnimationDefinition } from "tns-core-modules/ui/animation";
-import { Image } from "ui/image";
-import { Button } from "ui/button";
-
-import { registerElement } from "nativescript-angular/element-registry";
-registerElement("Fab", () => require("nativescript-floatingactionbutton").Fab);
+import { Image } from "tns-core-modules/ui/image";
+import { Button } from "tns-core-modules/ui/button";
 
 import { Router, NavigationEnd } from "@angular/router";
 import { RouterExtensions } from "nativescript-angular/router";

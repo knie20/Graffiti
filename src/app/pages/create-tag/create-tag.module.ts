@@ -11,25 +11,30 @@ import { CreateTagRoutingModule} from "~/app/pages/create-tag/create-tag-routing
 // Components
 import { CreateTagComponent } from "./create-tag.component";
 import { TextTagFormComponent } from "~/app/pages/create-tag/components/text-tag-form/text-tag-form.component";
+import { DrawingTagFormComponent } from './components/drawing-tag-form/drawing-tag-form.component';
 
 // Services
 import { CreateTagService } from './services/create-tag-service';
+
+import { registerElement } from 'nativescript-angular/element-registry';
+registerElement('PaintPad', () => require('nativescript-paint').PaintPad);
 
 @NgModule({
     imports: [
         NativeScriptCommonModule,
         NativeScriptFormsModule,
-        CreateTagRoutingModule
+        CreateTagRoutingModule,
     ],
     declarations: [
         CreateTagComponent,
-        TextTagFormComponent
+        TextTagFormComponent,
+        DrawingTagFormComponent,
     ],
     providers: [
-        CreateTagService
+        CreateTagService,
     ],
     schemas: [
-        NO_ERRORS_SCHEMA
+        NO_ERRORS_SCHEMA,
     ]
 })
 export class CreateTagModule { }

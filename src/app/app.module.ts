@@ -28,7 +28,7 @@ import { AuthService } from './shared/auth.service';
         NativeScriptFormsModule,
         NativeScriptUISideDrawerModule,
         NativeScriptUIDataFormModule,
-        BottomBarModule
+        BottomBarModule,
     ],
     declarations: [
         AppComponent

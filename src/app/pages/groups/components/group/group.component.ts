@@ -6,8 +6,9 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 
-import { IGroup } from "~/app/interfaces/group";
+import { Group } from './../../data-services/group';
 
+import * as Firebase from "nativescript-plugin-firebase/app";
 
 import * as app from "tns-core-modules/application";
 
@@ -19,15 +20,54 @@ import * as app from "tns-core-modules/application";
 })
 export class GroupComponent implements OnInit {
     
-    name: string;
-    group: IGroup;
+    id: string;
+    group: Group;
+    photo: string;
+    private memberList = [];
+
+    storage = Firebase.storage().ref();
 
     constructor(private route: ActivatedRoute, private users: UserService, private groups: GroupsService) {
+        
+        this.group = new Group(``,``,``,``, ``, false, ``, ``);
+
         users.getCurrentUser().then((user)=>{
-            this.name = this.route.snapshot.params['name'];
+            
+            this.id = this.route.snapshot.params['id'];
+            
             try{
-                this.group = groups.getGroupById(this.name);
-                console.log(this.group);
+
+                groups.getGroupById(this.id).then(group => {
+
+                    console.log(`Group for group view:`, group.data());
+                    
+                    const data = group.data();
+                    console.log(`A group name: `, data.name)
+
+                    this.group.name = data.name
+                    this.group.organization = data.organization;
+                    this.group.photoURL = data.photoURL;
+
+                });
+
+                groups.getMembers(this.id)
+                    .then(querySnapshot => {
+                    
+                        const memberObjects = []
+                        
+                        querySnapshot.forEach(doc => {
+                            let memberData = doc.data();
+                            memberObjects.push(memberData);
+                        });
+        
+                        this.memberList = memberObjects;
+        
+                        console.log(`Member list: `, this.memberList);
+                    })
+                    .catch(err => {
+                        console.log(`Did not get the members!`)
+                    });
+
             } catch(err){
                 console.log(err);
             }

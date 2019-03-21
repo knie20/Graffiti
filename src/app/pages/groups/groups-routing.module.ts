@@ -8,7 +8,7 @@ import { GroupComponent } from "~/app/pages/groups/components/group/group.compon
 
 const routes: Routes = [
     { path: "", component: GroupsListComponent },
-    { path: "name/:name", component: GroupComponent },
+    { path: "id/:id", component: GroupComponent },
     { path: "create", component: CreateGroupFormComponent },
 
 ];

@@ -1,0 +1,78 @@
+
+<ActionBar class="action-bar">
+        <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
+        <Label class="action-bar-title" text="Edit Profile"></Label>
+</ActionBar>
+    
+<StackLayout class="page page-content">
+    <GridLayout height="25%" rows="auto" cols="auto">
+        <Image
+            row="0"
+            col="0"
+            height="100%"
+            width="100%"
+            [src]="backgroundSrc"  
+            stretch="aspectFill" 
+            backgroundColor="#45485e"
+        ></Image>
+
+        <Image 
+            [src]="avatarSrc" 
+            horizontalAlignment="center" 
+            verticalAlignment="center" 
+            width="80" 
+            borderRadius="40"
+            stretch="aspectFit" 
+            borderColor="white" 
+            borderWidth="1" 
+            class="m-t-5">
+        </Image>
+
+        <StackLayout row="0" col="0" width="25%" height="100%" horizontalAlignment="center" verticalAlignment="bottom">
+            <Label
+                (tap)="onEditAvatarButtonTap()" 
+                class="h2 fas fa-image p-b-10" 
+                color="white"
+                horizontalAlignment="right" 
+                text="&#xf03e;"
+            ></Label>     
+        </StackLayout>
+
+        <Label
+            row="0"
+            col="0"  
+            (tap)="onEditBackgroundButtonTap()" 
+            class="h2 fas fa-image p-r-5" 
+            horizontalAlignment="right"
+            verticalAlignment="bottom" 
+            color="white" 
+            text="&#xf03e;"
+        ></Label>
+
+    </GridLayout>
+
+    <RadDataForm [source]="profile" tkExampleTitle tkToggleNavButton>
+        <TKEntityProperty tkDataFormProperty name="firstName" displayName="First Name" index="0">
+            <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+        </TKEntityProperty>
+        <TKEntityProperty tkDataFormProperty name="lastName" displayName="Last Name" index="1">
+            <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+        </TKEntityProperty>
+        <TKEntityProperty tkDataFormProperty name="handle" displayName="Handle" index="2">
+            <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+        </TKEntityProperty>
+        <TKEntityProperty tkDataFormProperty name="signature" displayName="Signature" index="3">
+            <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+        </TKEntityProperty>
+        <TKEntityProperty tkDataFormProperty name="location" displayName="Location" index="4">
+            <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+        </TKEntityProperty>
+    </RadDataForm>
+
+    <GridLayout height="150" rows="*" columns="*,*,*">
+        <Button verticalAlignment="bottom" height="40" row="0" col="0" rowclass="btn btn-primary btn-active" id="button" text="Clear"></Button>
+        <Button verticalAlignment="bottom" height="40" row="0" col="1" rowclass="btn btn-primary btn-active" id="button" text="Cancel"></Button>
+        <Button verticalAlignment="bottom" height="40" row="0" col="2" rowclass="btn btn-primary btn-active" id="button" text="Save" (tap)="onSaveButtonTap()"></Button>
+    </GridLayout>
+
+</StackLayout>

@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
-import { ImageSource } from "image-source";
+import { ImageSource } from "tns-core-modules/image-source";
 import * as geolocation from "nativescript-geolocation";
 import { Marker, Position } from "nativescript-google-maps-sdk";
 import { Accuracy } from "tns-core-modules/ui/enums";
-import { Image } from "ui/image";
+import { Image } from "tns-core-modules/ui/image";
 
 @Injectable()
 export class MapTagService {

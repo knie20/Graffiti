@@ -8,6 +8,8 @@ import { Routes } from "@angular/router";
 // Components
 import { CreateTagComponent } from './create-tag.component';
 import { TextTagFormComponent } from "~/app/pages/create-tag/components/text-tag-form/text-tag-form.component";
+import { DrawingTagFormComponent } from './components/drawing-tag-form/drawing-tag-form.component';
+
 
 const routes: Routes = [
     { 
@@ -15,8 +17,12 @@ const routes: Routes = [
         component: CreateTagComponent, 
         children: [
             {
-                path: "", 
+                path: "text", 
                 component: TextTagFormComponent
+            },
+            {
+                path: "drawing", 
+                component: DrawingTagFormComponent
             }
         ]
     },

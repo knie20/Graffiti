@@ -11,9 +11,10 @@
     -->
     <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()" ios.position="left">
     </ActionItem>
-    <Label class="action-bar-title" text="{{name}}"></Label>
+    <Label class="action-bar-title" text="{{group.name}}"></Label>
 </ActionBar>
 
 <StackLayout>
-    <Label text="I am the {{name}} group yee yee"></Label>
+    <Image src="{{group.photoURL}}"></Image>
+    <Label text="I am the {{group.name}} group yee yee"></Label>
 </StackLayout>

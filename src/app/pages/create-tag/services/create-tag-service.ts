@@ -10,12 +10,12 @@ import { ITag } from '~/app/interfaces/tag';
 @Injectable()
 export class CreateTagService {
 
-    tagsCollection = Firebase.firestore().collection("tags");
-
-    createTag(tag: ITag) {
-
+    createTag(userId: string, tag: ITag) {
         console.log(`Creating tag...`);
-        this.tagsCollection.add({
+
+        const tagsCollection = Firebase.firestore().collection("users").doc(userId).collection("tags");
+
+        tagsCollection.add({
             userId: tag.userId,
             postedOn: tag.postedOn,
             updatedOn: tag.updatedOn || null,

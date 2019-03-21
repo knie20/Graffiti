@@ -18,7 +18,6 @@ export class CreateGroupFabComponent implements OnInit {
     }
 
     fabTap() {
-        console.log(`Yum yum, tap my fab!`)
         this.routerExtensions.navigate([`/groups/create`]);
     }
 

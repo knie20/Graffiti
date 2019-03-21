@@ -7,6 +7,7 @@ import { File } from "tns-core-modules/file-system";
 
 import * as Firebase from "nativescript-plugin-firebase/app";
 import { group } from '@angular/animations';
+import { firestore } from 'nativescript-plugin-firebase';
 
 @Injectable()
 export class GroupsService {
@@ -32,61 +33,21 @@ export class GroupsService {
 
     }
 
-    getGroupsByUserId(userId: string): IGroup[] {
+    getGroupsByUserId(userId: string): Promise<firestore.QuerySnapshot> {
         const groups = []
 
-        const query = this.groupsCollection
-            .where("createdBy", "==", userId)
+        const query = this.groupsCollection.where(`createdBy`, `==`, userId)
 
-        query
-            .get()
-            .then(querySnapshot => {
-                querySnapshot.forEach(doc => {
-                    //console.log(`Group by user ID: ${doc.id} => ${JSON.stringify(doc.data())}`);
-
-                    this.storage.child(`groupPhotos/${doc.id}`).getDownloadURL().then((url)=>{
-                        const groupObject = {
-                            id: doc.id,
-                            name: doc.data()[`name`],
-                            photo: url,
-                            members: doc.data()[`members`]
-                        }
-                        groups.push(groupObject);
-                    });
-
-                });
-            });
-            
-        return groups;
+        return query.get()
     }
 
-    getGroupById(name: string): IGroup {
-        let groups = [];
+    getGroupById(id: string): Promise<firestore.DocumentSnapshot> {
+        const group = this.groupsCollection.doc(id)
+        return group.get()
+    }
 
-        const query = this.groupsCollection
-            .where("name", "==", name)
-
-        query
-            .get()
-            .then(querySnapshot => {
-                querySnapshot.forEach((doc) => {
-                    //console.log(`Group by id: ${doc.id} => ${JSON.stringify(doc.data())}`);
-
-                    this.storage.child(`groupPhotos/${doc.id}`).getDownloadURL().then((url)=>{
-                        const groupObject = {
-                            id: doc.id,
-                            name: doc.data()[`name`],
-                            photo: url,
-                            members: doc.data()[`members`]
-                        }
-                        groups.push(groupObject);
-                    });
-
-                });
-            });
-            
-        return groups[0];
-
+    getPhotoById(id: string): Promise<string> {
+        return this.storage.child(`groupPhotos/${id}`).getDownloadURL();
     }
 
     uploadGroupPhoto(id: string, photo: File) {
@@ -99,9 +60,9 @@ export class GroupsService {
 
     }
 
-    getMembers(groupId: string): string[] {
-        const members = [``];
-        return members;
+    getMembers(groupId: string): Promise<firestore.QuerySnapshot> {
+        const members = this.groupsCollection.doc(groupId).collection("members")
+        return members.get()
     }
 
     delete(groupId: string) {

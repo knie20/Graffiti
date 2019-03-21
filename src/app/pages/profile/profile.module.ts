@@ -5,9 +5,11 @@ import { ProfileRoutingModule } from '~/app/pages/profile/profile-routing.module
 import { ProfileComponent } from '~/app/pages/profile/profile.component';
 import { AvatarComponent } from '~/app/pages/profile/components/avatar/avatar.component';
 
+import { EditProfileFabComponent } from '~/app/pages/profile/components/edit-profile-fab/edit-profile-fab.component';
+import { EditProfileFormComponent } from '~/app/pages/profile/components/edit-profile-form/edit-profile-form.component';
 import { ActivitiesComponent } from '~/app/pages/profile/components/activities/activities.component';
-import { TagsComponent } from '~/app/pages/profile/components/tags/tags.component';
-import { FriendsComponent } from '~/app/pages/profile/components/friends/friends.component';
+import { FollowersComponent } from '~/app/pages/profile/components/followers/followers.component';
+import { FollowingComponent } from '~/app/pages/profile/components/following/following.component';
 
 
 @NgModule({
@@ -18,9 +20,11 @@ import { FriendsComponent } from '~/app/pages/profile/components/friends/friends
     declarations: [
         ProfileComponent,
         AvatarComponent,
+        EditProfileFabComponent,
+        EditProfileFormComponent,
         ActivitiesComponent,
-        TagsComponent,
-        FriendsComponent,
+        FollowersComponent,
+        FollowingComponent,
     ],
     schemas: [
         NO_ERRORS_SCHEMA

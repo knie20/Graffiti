@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 
 import * as app from "tns-core-modules/application";
+import { group } from '@angular/animations';
 
 @Component({
     selector: 'app-groups-list',
@@ -17,16 +18,35 @@ export class GroupsListComponent implements OnInit {
     private groupList = [];
     private userId: string;
 
-    constructor(private routerExtensions: RouterExtensions, groups: GroupsService, users: UserService) { 
-        users.getCurrentUser().then((user)=>{
-            this.groupList = groups.getGroupsByUserId(user.uid);
+    constructor(private routerExtensions: RouterExtensions, public groups: GroupsService, public users: UserService) { 
+
+    }
+
+    ngOnInit(): void { 
+        this.users.getCurrentUser().then((user)=>{
+            this.groups.getGroupsByUserId(user.uid)
+            .then(querySnapshot => {
+                
+                const groupObjects = []
+                
+                querySnapshot.forEach(doc => {
+                    let groupData = doc.data();
+                    groupData.id = doc.id;
+                    groupObjects.push(groupData);
+                });
+
+                this.groupList = groupObjects;
+
+                console.log(`Group list: `, this.groupList);
+            })
+            .catch(err => {
+                console.log(`Did not get the groups!`)
+            });
         })
     }
 
-    ngOnInit(): void { }
-
-    onNavItemTap(name: string): void {
-        this.routerExtensions.navigate([`/groups/name`, name ]);
+    onNavItemTap(id: string): void {
+        this.routerExtensions.navigate([`/groups/id`, id ]);
     }
 
     onDrawerButtonTap(): void {

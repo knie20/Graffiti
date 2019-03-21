@@ -1,6 +1,6 @@
-import { UserService } from './shared/user.service';
 // NativeScript modules
 import * as app from "tns-core-modules/application";
+
 import { RouterExtensions } from "nativescript-angular/router";
 
 // Angular modules
@@ -10,7 +10,12 @@ import { Router } from "@angular/router";
 //NativeScript plugins
 import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular";
 import { AuthService } from './shared/auth.service';
+import { UserService } from './shared/user.service';
+
 const firebase = require("nativescript-plugin-firebase");
+
+import { registerElement } from "nativescript-angular/element-registry";
+registerElement("Fab", () => require("nativescript-floatingactionbutton").Fab);
 
 @Component({
     selector: "ns-app",
@@ -20,8 +25,13 @@ const firebase = require("nativescript-plugin-firebase");
 export class AppComponent implements OnInit {
     @ViewChild(RadSideDrawerComponent) sideDrawerComponent: RadSideDrawerComponent;
 
+    public theme: string;
+
     private _activatedUrl: string;
+    private currentUser: any;
+    private currentUsers: any;
     private userName: string;
+    private userDisplayName: string;
     private userEmail: string;
     private userPhotoUrl: string;
 
@@ -32,46 +42,66 @@ export class AppComponent implements OnInit {
         private users: UserService,
         private auth: AuthService 
     ) { 
-        users.getCurrentUser().then((user)=>{
-            users.getPhotoByUserId(user.uid).then(photoUrl=>{
-                this.userPhotoUrl = photoUrl;
-            });
-        })
+        //Initialize things
     }
 
-    ngOnInit(): void {
+    async ngOnInit(): Promise<void> {
+        //Called after ngOnInit when the component's or directive's content has been initialized.
+        //Add 'implements AfterContentInit' to the class.
 
-        //This setTimeout fixes the 'JS: Error: Uncaught (in promise): Run init() first!' error.
-        setTimeout(() => {
-            firebase.init({
+        try {
+            await firebase.init({
                 storageBucket: "gs://ucitsd-graffiti-1.appspot.com",
+                
                 onAuthStateChanged: (data) => {
-                    console.log(data.loggedIn ? "Logged in to firebase" : "Logged out from firebase");
+
                     if (data.loggedIn) {
-                        console.log("user's email address: " + (data.user.email ? data.user.email : "N/A"));
-                        this.routerExtensions.navigate([`/map`], { clearHistory: true});
+                        console.log("Logged in to firebase");
+
+                        console.log("Current user:" + JSON.stringify(data.user));
+
+                        this.currentUser = data.user;
+                        this.userEmail = data.user.email;
+                        
+                        //Get the current user's display name
+                        this.users.getCurrentUser().then(user => {
+
+                            this.userEmail = user.email;
+                
+                            this.users.getById(user.uid)
+                                .then((document) => {
+                                    const data = document.data()
+                                    this.userDisplayName = data.displayName;
+                                })
+                                .catch((err) => {
+                                    console.log("firestoreWhereUserHasId failed, error: " + err)
+                                });
+
+                        
+                            this.users.getUserPhotoById(user.uid)
+                                .then(url => {
+                                    console.log(url)
+                                    this.userPhotoUrl = url;
+                                }).catch(err => {
+                                    this.userPhotoUrl = `res://ic_hacker`;
+                                })
+                        })
+
+                        this.ngZone.run(()=>{
+                            this.routerExtensions.navigate([`/map`], { clearHistory: true });
+                        })
+
                     } else {
                         this.ngZone.run(()=>{
                             this.routerExtensions.navigate([`/login`], { clearHistory: true });
                         })
                     }
                 }
-            }).then(
-                () => {
-                    console.log("firebase.init successfull");
-                },
-                error => {
-                    console.log(`firebase.init error: ${error}`);
-                }
-            );
-        }, 1000);
-
-        this.users.getCurrentUser().then(user => {
-            this.userEmail = user.email;
-        })
-
-        console.log(`Users photo: `, this.userPhotoUrl)
-
+    
+            });            
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     isComponentSelected(url: string): boolean {
@@ -79,7 +109,12 @@ export class AppComponent implements OnInit {
     }
 
     onNavItemTap(navItemRoute: string): void {
-        this.routerExtensions.navigate([navItemRoute]);
+        if(navItemRoute == `/profile`){
+            this.routerExtensions.navigate([`/profile/id/${this.currentUser.uid}`]);
+        } else {
+            this.routerExtensions.navigate([navItemRoute]);
+        }
+        
         this.sideDrawerComponent.sideDrawer.closeDrawer();
     }
 

@@ -24,14 +24,21 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
     @ViewChild("tagTextInput") tagTextInput: any;
 
     userPhotoUrl: string;
+    userId: string;
     tagText: string;
 
     constructor(private users: UserService, private tag: CreateTagService) {
-        // Use the component constructor to inject providers.
-        users.getCurrentUser().then((user)=>{
-            users.getPhotoByUserId(user.uid).then(photoUrl=>{
-                this.userPhotoUrl = photoUrl;
-            });
+        users.getCurrentUser().then((user) => {
+            
+            this.userId = user.uid;
+
+            users.getUserPhotoById(user.uid)
+            .then(url => {
+                console.log(url)
+                this.userPhotoUrl = url;
+            }).catch(err => {
+                this.userPhotoUrl = `res://ic_hacker`;
+            })
         })
     }
 
@@ -68,7 +75,7 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
                     position: position
                 };
         
-                this.tag.createTag(textTag);
+                this.tag.createTag(this.userId, textTag);
             })
     }
 }

@@ -41,7 +41,7 @@ export class LoginComponent {
         if (this.isLoggingIn) {
             this.login();
         } else {
-            this.register();
+            this.signUp();
         }
     }
 
@@ -50,8 +50,8 @@ export class LoginComponent {
         this.authService.login(this.user);
     }
 
-    register() {
-
+    signUp() {
+        this.authService.signUp(this.user);
     }
 
     forgotPassword() {

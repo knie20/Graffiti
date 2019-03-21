@@ -1,11 +1,26 @@
+import { UserService } from '~/app/shared/user.service';
 import { Injectable } from "@angular/core";
 const Firebase = require("nativescript-plugin-firebase");
+import * as FirebaseApp from "nativescript-plugin-firebase";
+
+import { User } from "./user.model";
 
 @Injectable()
 export class AuthService {
     
-    register(user) {
-    
+    constructor(private users: UserService){
+
+    }
+
+    signUp(user) {
+      FirebaseApp.createUser({
+        email: user.email,
+        password: user.password
+      }).then((user) => {
+        this.users.createNewUser(user);
+      }).catch(err => {
+        console.log(err);
+      });
     }
 
     login(user) {
