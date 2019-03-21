@@ -25,7 +25,7 @@ export class GoogleMapsComponent implements OnInit {
       upvotes: 12,
       downvotes: 2
     }, {
-      type: "video",
+      type: "painting",
       position: Position.positionFromLatLng(39.130434, -84.516255),
       upvotes: 4,
       downvotes: 2
@@ -35,12 +35,12 @@ export class GoogleMapsComponent implements OnInit {
       upvotes: 7,
       downvotes: 1
     }, {
-      type: "sound",
+      type: "painting",
       position: Position.positionFromLatLng(39.130890, -84.516295),
       upvotes: 102,
       downvotes: 24
     }, {
-      type: "video",
+      type: "photo",
       position: Position.positionFromLatLng(39.129954, -84.515855),
       upvotes: 12,
       downvotes: 2
@@ -74,7 +74,7 @@ export class GoogleMapsComponent implements OnInit {
       this.mapView.addMarker(m);
     });
 
-    this.currentLocationMarker = this.mapTagService.generateMarker(this.currentLocation, "bluedot_small");
+    this.currentLocationMarker = this.mapTagService.generateMarker(this.currentLocation, "bluedot");
     this.mapView.addMarker(this.currentLocationMarker);
   }
 
