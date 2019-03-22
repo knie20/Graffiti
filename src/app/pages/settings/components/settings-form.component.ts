@@ -1,3 +1,4 @@
+import { MessagingService } from './../../../shared/messaging.service';
 import { UserSettings } from './../classes/UserSettings';
 import { Component, OnInit } from "@angular/core";
 import { UserService } from '~/app/shared/user.service';
@@ -19,7 +20,7 @@ export class SettingsFormComponent implements OnInit {
     private mapThemesProvider: any;
     private typographiesProvider: any;
     
-    constructor(private users: UserService) {
+    constructor(private users: UserService, private messaging: MessagingService) {
         this.appThemesProvider = ["OG", "Retro", "Dark", "Hippie", "Big Yikes"];
         this.mapThemesProvider = ["Silver", "Retro", "Standard"];
         this.typographiesProvider = ["Roboto", "Helvetica"];
@@ -86,6 +87,14 @@ export class SettingsFormComponent implements OnInit {
 
         //console.log('onPropertyCommitted -> name: ' + property.name + '; value: ' + property.valueCandidate);
         console.log(this.settings);
+
+        if(this.settings.allowPushNotify == true){
+            this.messaging.doRequestConsent();
+        }
+        else if(this.settings.allowPushNotify == false ) {
+            this.messaging.doUnregisterForPushNotifications();
+        }
+
         this.users.updateUserSettings(this.userId, this.settings).then(()=>{
             console.log(`User settings updated!`);
         })

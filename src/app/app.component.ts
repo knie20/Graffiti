@@ -1,10 +1,11 @@
+import { MessagingService } from './shared/messaging.service';
 // NativeScript modules
 import * as app from "tns-core-modules/application";
 
 import { RouterExtensions } from "nativescript-angular/router";
 
 // Angular modules
-import { Component, OnInit, NgZone, ViewChild } from "@angular/core";
+import { Component, OnInit, NgZone, ViewChild, AfterViewInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 //NativeScript plugins
@@ -12,7 +13,10 @@ import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular";
 import { AuthService } from './shared/auth.service';
 import { UserService } from './shared/user.service';
 
-const firebase = require("nativescript-plugin-firebase");
+const firebaseApp = require("nativescript-plugin-firebase");
+import * as firebase from "nativescript-plugin-firebase/app";
+import { firestore } from "nativescript-plugin-firebase";
+
 
 import { registerElement } from "nativescript-angular/element-registry";
 registerElement("Fab", () => require("nativescript-floatingactionbutton").Fab);
@@ -34,14 +38,17 @@ export class AppComponent implements OnInit {
     private userDisplayName: string;
     private userEmail: string;
     private userPhotoUrl: string;
+    private userFollowers;
+    private unsubscribe;
 
     constructor(
-        private router: Router, 
-        private routerExtensions: RouterExtensions, 
-        private ngZone: NgZone, 
+        private router: Router,
+        private routerExtensions: RouterExtensions,
+        private ngZone: NgZone,
         private users: UserService,
-        private auth: AuthService 
-    ) { 
+        private auth: AuthService,
+        private messaging: MessagingService
+    ) {
         //Initialize things
     }
 
@@ -50,9 +57,9 @@ export class AppComponent implements OnInit {
         //Add 'implements AfterContentInit' to the class.
 
         try {
-            await firebase.init({
+            await firebaseApp.init({
                 storageBucket: "gs://ucitsd-graffiti-1.appspot.com",
-                
+
                 onAuthStateChanged: (data) => {
 
                     if (data.loggedIn) {
@@ -62,12 +69,40 @@ export class AppComponent implements OnInit {
 
                         this.currentUser = data.user;
                         this.userEmail = data.user.email;
-                        
+
                         //Get the current user's display name
                         this.users.getCurrentUser().then(user => {
 
+                            this.userFollowers = firebase.firestore().collection("users").doc(user.uid).collection("followers");
+
+                            this.userFollowers.onSnapshot(( doc: firestore.QuerySnapshot) => {
+
+                                console.log(`Something changed in the document!`);
+
+                                const modifiedDocs = doc.docChanges();
+                                
+                                modifiedDocs.forEach(doc => {
+                                    if(doc.type == "modified"){
+                                        const displayName = doc.doc.data().displayName;
+                                        const photoURL = doc.doc.data().photoURL;
+                                        console.log(`${displayName} started following you!`);
+
+                                        this.messaging.doGetCurrentPushToken()
+                                            .then(token => {
+                                                console.log(`Current push token: `, token);
+                                                this.onFollowerAdded(token, doc.doc.data());
+                                            })
+                                            .catch(err => console.log("Error in doGetCurrentPushToken: " + err));
+                                    }
+                                })
+                                //console.log("Document data:", JSON.stringify(doc.data()));
+
+                            }
+
+                            );
+
                             this.userEmail = user.email;
-                
+
                             this.users.getById(user.uid)
                                 .then((document) => {
                                     const data = document.data()
@@ -77,7 +112,7 @@ export class AppComponent implements OnInit {
                                     console.log("firestoreWhereUserHasId failed, error: " + err)
                                 });
 
-                        
+
                             this.users.getUserPhotoById(user.uid)
                                 .then(url => {
                                     console.log(url)
@@ -87,18 +122,19 @@ export class AppComponent implements OnInit {
                                 })
                         })
 
-                        this.ngZone.run(()=>{
+                        this.ngZone.run(() => {
                             this.routerExtensions.navigate([`/map`], { clearHistory: true });
                         })
 
                     } else {
-                        this.ngZone.run(()=>{
+                        this.ngZone.run(() => {
                             this.routerExtensions.navigate([`/login`], { clearHistory: true });
                         })
                     }
                 }
-    
-            });            
+            });
+
+
         } catch (error) {
             console.log(error);
         }
@@ -109,16 +145,42 @@ export class AppComponent implements OnInit {
     }
 
     onNavItemTap(navItemRoute: string): void {
-        if(navItemRoute == `/profile`){
+        if (navItemRoute == `/profile`) {
             this.routerExtensions.navigate([`/profile/id/${this.currentUser.uid}`]);
         } else {
             this.routerExtensions.navigate([navItemRoute]);
         }
-        
+
         this.sideDrawerComponent.sideDrawer.closeDrawer();
     }
 
-    logout(){
+    onFollowerAdded(token: string, follower: any){
+
+        const notification = {
+            "notification": {
+                "title": `${follower.displayName} started following you!`,
+                "text": `Hello world!`,
+                "badge": "1",
+                "sound": "default"
+                
+            },
+            "data": {
+                "foo": "bar"
+            },
+            "priority": "High",
+            "to": token
+        };
+
+        this.messaging.postData(notification).subscribe(res => {
+            console.log(res);
+        });
+    }
+
+    logout() {
+        if (this.unsubscribe) {
+            this.unsubscribe();
+        }
+
         this.auth.logout();
         this.sideDrawerComponent.sideDrawer.closeDrawer();
     }

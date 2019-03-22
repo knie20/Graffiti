@@ -1,9 +1,11 @@
+import { MessagingService } from './shared/messaging.service';
 import { UserService } from '~/app/shared/user.service';
 // NativeScript modules
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 import { NativeScriptUIDataFormModule } from 'nativescript-ui-dataform/angular';
+import { NativeScriptHttpClientModule } from "nativescript-angular/http-client";
 
 // NativeScript Plugins
 import { BottomBarModule } from 'nativescript-bottombar/angular';
@@ -29,13 +31,15 @@ import { AuthService } from './shared/auth.service';
         NativeScriptUISideDrawerModule,
         NativeScriptUIDataFormModule,
         BottomBarModule,
+        NativeScriptHttpClientModule
     ],
     declarations: [
         AppComponent
     ],
     providers: [
         AuthService,
-        UserService
+        UserService,
+        MessagingService
     ],
     schemas: [
         NO_ERRORS_SCHEMA
