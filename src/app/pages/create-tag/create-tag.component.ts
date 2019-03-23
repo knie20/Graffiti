@@ -1,7 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { RadSideDrawer } from "nativescript-ui-sidedrawer";
+// NativeScript Modules
 import * as app from "tns-core-modules/application";
-const Firebase = require('nativescript-plugin-firebase');
+
+// Angular Modules
+import { Component, OnInit } from "@angular/core";
+
+// NativeScript Plugins
+import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 
 @Component({
     selector: "CreateTag",

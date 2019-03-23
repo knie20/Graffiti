@@ -1,12 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
-import { RouterExtensions } from "nativescript-angular/router";
-import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nativescript-ui-sidedrawer";
-import { filter } from "rxjs/operators";
-
-const firebase = require("nativescript-plugin-firebase");
-
+// NativeScript modules
 import * as app from "tns-core-modules/application";
+import { RouterExtensions } from "nativescript-angular/router";
+
+// Angular modules
+import { Component, OnInit, NgZone, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
+
+//NativeScript plugins
+import { RadSideDrawerComponent } from "nativescript-ui-sidedrawer/angular";
+const firebase = require("nativescript-plugin-firebase");
 
 @Component({
     moduleId: module.id,
@@ -15,22 +17,32 @@ import * as app from "tns-core-modules/application";
     styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit {
+    @ViewChild(RadSideDrawerComponent) sideDrawerComponent: RadSideDrawerComponent;
 
     private _activatedUrl: string;
-    private _sideDrawerTransition: DrawerTransitionBase;
 
-    constructor(private router: Router, private routerExtensions: RouterExtensions) { }
+    constructor(private router: Router, private routerExtensions: RouterExtensions, private ngZone: NgZone) { }
 
     ngOnInit(): void {
 
         //This setTimeout fixes the 'JS: Error: Uncaught (in promise): Run init() first!' error.
         setTimeout(() => {
             firebase.init({
-                // Optionally pass in properties for database, authentication and cloud messaging,
-                // see their respective docs.
+                storageBucket: "gs://ucitsd-graffiti-1.appspot.com",
+                onAuthStateChanged: (data) => {
+                    console.log(data.loggedIn ? "Logged in to firebase" : "Logged out from firebase");
+                    if (data.loggedIn) {
+                        console.log("user's email address: " + (data.user.email ? data.user.email : "N/A"));
+                        this.routerExtensions.navigate([`/map`], { clearHistory: true});
+                    } else {
+                        this.ngZone.run(()=>{
+                            this.routerExtensions.navigate([`/login`], { clearHistory: true });
+                        })
+                    }
+                }
             }).then(
                 () => {
-                    console.log("firebase.init done");
+                    console.log("firebase.init successfull");
                 },
                 error => {
                     console.log(`firebase.init error: ${error}`);
@@ -38,16 +50,6 @@ export class AppComponent implements OnInit {
             );
         }, 1000);
 
-        this._activatedUrl = "/map";
-        this._sideDrawerTransition = new SlideInOnTopTransition();
-
-        this.router.events
-            .pipe(filter((event: any) => event instanceof NavigationEnd))
-            .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
-    }
-
-    get sideDrawerTransition(): DrawerTransitionBase {
-        return this._sideDrawerTransition;
     }
 
     isComponentSelected(url: string): boolean {
@@ -55,13 +57,12 @@ export class AppComponent implements OnInit {
     }
 
     onNavItemTap(navItemRoute: string): void {
-        this.routerExtensions.navigate([navItemRoute], {
-            transition: {
-                name: "fade"
-            }
-        });
+        this.routerExtensions.navigate([navItemRoute]);
+        this.sideDrawerComponent.sideDrawer.closeDrawer();
+    }
 
-        const sideDrawer = <RadSideDrawer>app.getRootView();
-        sideDrawer.closeDrawer();
+    logout(){
+        firebase.logout();
+        this.sideDrawerComponent.sideDrawer.closeDrawer();
     }
 }

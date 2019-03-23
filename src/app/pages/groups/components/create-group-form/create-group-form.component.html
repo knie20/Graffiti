@@ -1,0 +1,49 @@
+<ActionBar class="action-bar">
+    <!-- 
+    Use the NavigationButton as a side-drawer button in Android
+    because ActionItems are shown on the right side of the ActionBar
+    -->
+    <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
+    <!-- 
+    Use the ActionItem for IOS with position set to left. Using the
+    NavigationButton as a side-drawer button in iOS is not possible,
+    because its function is to always navigate back in the application.
+    -->
+    <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
+        ios.position="left">
+    </ActionItem>
+    <Label class="action-bar-title" text="Create Group"></Label>
+</ActionBar>
+
+<StackLayout>
+    <GridLayout height="150" rows="*, auto" columns="*,*,*,*,*,*,*,*,*,*,*,*">
+        <Image row="0" rowSpan="2" col="0" colSpan="12" stretch="aspectFill" [src]="imageSrc" id="userIcon"
+            backgroundColor="rgba(0, 153, 255, 0.6)"></Image>
+        <StackLayout marginRight="30" width="200" height="35" row="1" col="11" colSpan="1" (tap)="onEditPhotoButtonTap()">
+            <Label class="h2 fas fa-image" horizontalAlignment="center" color="#FFFFFF" text="&#xf03e;"></Label>
+        </StackLayout>
+    </GridLayout>
+
+    <RadDataForm [source]="group" tkExampleTitle tkToggleNavButton>
+        <TKEntityProperty tkDataFormProperty name="name" displayName="Name" index="0">
+            <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+        </TKEntityProperty>
+        <TKEntityProperty tkDataFormProperty name="organization" displayName="Organization" index="1">
+            <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+        </TKEntityProperty>
+        <TKEntityProperty tkDataFormProperty name="location" displayName="Location" index="2">
+            <TKPropertyEditor tkEntityPropertyEditor type="Text"></TKPropertyEditor>
+        </TKEntityProperty>
+        <TKEntityProperty tkDataFormProperty name="description" displayName="Description" index="3">
+            <TKPropertyEditor tkEntityPropertyEditor type="MultilineText"></TKPropertyEditor>
+        </TKEntityProperty>
+        <TKEntityProperty tkDataFormProperty name="isPublic" displayName="Public" index="4"></TKEntityProperty>
+    </RadDataForm>
+
+    <GridLayout height="150" rows="*" columns="*,*,*">
+        <Button verticalAlignment="bottom" height="40" row="0" col="0" rowclass="btn btn-primary btn-active" id="button" text="Clear"></Button>
+        <Button verticalAlignment="bottom" height="40" row="0" col="1" rowclass="btn btn-primary btn-active" id="button" text="Cancel"></Button>
+        <Button verticalAlignment="bottom" height="40" row="0" col="2" rowclass="btn btn-primary btn-active" id="button" text="Create" (tap)="onCreateGroupButtonTap()"></Button>
+    </GridLayout>
+
+</StackLayout>

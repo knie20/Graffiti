@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 android {
     
     project.ext {
         googlePlayServicesVersion = "15.0.1"
     }
 
+=======
+project.ext {
+    googlePlayServicesVersion = "+"
+>>>>>>> dev-7
 }

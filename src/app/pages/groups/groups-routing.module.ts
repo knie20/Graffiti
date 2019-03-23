@@ -2,10 +2,15 @@ import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 
-import { GroupsComponent } from "~/app/pages/groups/groups.component";
+import { GroupsListComponent } from "~/app/pages/groups/components/groups-list/groups-list.component";
+import { CreateGroupFormComponent } from '~/app/pages/groups/components/create-group-form/create-group-form.component';
+import { GroupComponent } from "~/app/pages/groups/components/group/group.component";
 
 const routes: Routes = [
-    { path: "", component: GroupsComponent },
+    { path: "", component: GroupsListComponent },
+    { path: "name/:name", component: GroupComponent },
+    { path: "create", component: CreateGroupFormComponent },
+
 ];
 
 @NgModule({
