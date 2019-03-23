@@ -1,0 +1,44 @@
+<ActionBar class="action-bar">
+    <NavigationButton ios:visibility="collapsed" icon="res://chevronleft" (tap)="onBackButtonTapped($event)"></NavigationButton>
+    <Label class="action-bar-title" text="View Tag"></Label>
+</ActionBar>
+
+<StackLayout class="page page-content">
+    <h4 *ngIf="tag.text"></h4>
+    <Image 
+        *ngIf="tag.photoUrl" 
+        class="image-main"
+        src="{{tag.photoUrl}}"
+        row="0"
+        col="0"
+        width="50"
+        height="50" 
+        borderRadius="25"
+        horizontalAlignment="left"
+    ></Image>
+    <GridLayout columns="15%,15%,15%,55%" rows="*">
+        <Image 
+            class="avatar-image m-l-15"
+            src="{{userPhotoUrl}}"
+            row="0"
+            col="0"
+            width="50"
+            height="50" 
+            borderRadius="25"
+            horizontalAlignment="left"
+        ></Image>
+        
+        <TextView
+            #tagTextInput
+            [(ngModel)]="tagText"
+            col="1"
+            row="0"
+            colSpan="3"
+            rowSpan="3"
+            class="text-view-input m-t-25"
+            hint="What's on your mind?"  
+            returnKeyType="send" 
+        ></TextView>
+    
+    </GridLayout>
+</StackLayout>

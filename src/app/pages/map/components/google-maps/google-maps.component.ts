@@ -1,55 +1,31 @@
-  import { Component, ElementRef, OnInit } from "@angular/core";
-  import { registerElement } from "nativescript-angular/element-registry";
-  import { Location, watchLocation} from "nativescript-geolocation";
-  import { MapView, Marker, Position } from "nativescript-google-maps-sdk";
-  import { MapTagService } from "../../services/map-tag.service";
-  import { ITag } from "./../../../../interfaces/tag.interfaces";
-  import * as geolocation from "nativescript-geolocation";
+  import { Component, ElementRef, OnInit } from "@angular/core"
+  import { registerElement } from "nativescript-angular/element-registry"
+  import { Location, watchLocation} from "nativescript-geolocation"
+  import { MapView, Marker, Position } from "nativescript-google-maps-sdk"
+  import { MapTagService } from "../../services/map-tag.service"
+  import { ITag } from "./../../../../interfaces/tag.interfaces"
+  import * as geolocation from "nativescript-geolocation"
+  import * as Firebase from "nativescript-plugin-firebase/app"
 
-  import { Router, NavigationEnd } from "@angular/router";
-  import { RouterExtensions } from "nativescript-angular/router";
+  import { Router, NavigationEnd } from "@angular/router"
+  import { RouterExtensions } from "nativescript-angular/router" 
+  import { firestore } from "nativescript-plugin-firebase"
 
 // Important - must register MapView plugin in order to use in Angular templates
-registerElement("MapView", () => MapView);
+registerElement("MapView", () => MapView)
 
 @Component({
+  moduleId: module.id,
   selector: "app-google-maps",
-  templateUrl: "./google-maps.component.html"
+  templateUrl: "google-maps.component.html"
 })
 export class GoogleMapsComponent implements OnInit {
-  mapView: MapView;
-  markers: Array<Marker>;
-  currentLocation: Location;
-  currentLocationMarker: Marker;
-  watchId: number;
-  tags: ITag[];
-
-  public startWatchingLocation = () => {
-    this.watchId = watchLocation(
-      loc => {
-        if(loc) {
-          this.currentLocationMarker.position.latitude = loc.latitude;
-          this.currentLocationMarker.position.longitude = loc.longitude;
-
-          this.mapView.latitude = loc.latitude;
-          this.mapView.longitude = loc.longitude;
-
-          console.log(new Date() + ': ' + loc.latitude + ' ' + loc.longitude);
-        };
-      }, 
-      error => {
-      console.log(error);
-      }, 
-      { updateTime: 20 * 1000, updateDistance: 5 }
-    );
-  }
-
-  public stopWatchingLocation = () => {
-    if(this.watchId) {
-        geolocation.clearWatch(this.watchId);
-        this.watchId = null;
-    }
-  }
+  mapView: MapView
+  markers: Array<Marker>
+  currentLocation: Location
+  currentLocationMarker: Marker
+  watchId: number
+  tags: ITag[]
 
   constructor(
     private mapTagService: MapTagService, 
@@ -57,34 +33,68 @@ export class GoogleMapsComponent implements OnInit {
     private routerExtensions: RouterExtensions
     ) {}
 
-  ngOnInit() {
-    this.startWatchingLocation();  
+  ngOnInit() { 
+    this.startWatchingLocation()
   }
 
   onMarkerSelect = (event) => {
-    this.routerExtensions.navigate(["/view-tag"], { queryParams: { id: 1 }});
-  };
+    this.routerExtensions.navigate(['/view-tag', event.marker.userData ])
+  }
 
   // Map events
   onMapReady = (event) => {
-    this.mapView = event.object;
+    this.mapView = event.object
 
-    
-    this.mapTagService.getCurrentLocation().then(location => {
-      this.mapView.latitude = location.latitude;
-      this.mapView.longitude = location.longitude;
-      this.mapView.zoom = 17;
       
-      this.tags = this.mapTagService.getTags(location);
-      this.markers = this.mapTagService.generateMapTag(this.tags);
+      this.mapTagService.getCurrentLocation().then( location => {
+        this.mapView.latitude = location.latitude
+        this.mapView.longitude = location.longitude
+        this.mapView.zoom = 17
+        
+        this.mapTagService.getTags(location)
+        .then(snapshot => {
+          const tags = []
 
-      this.markers.forEach((m) => {
-        this.mapView.addMarker(m);
-      });
+          snapshot.forEach(doc => {
+            let tag = { id: doc.id, ...doc.data() }
+            tags.push(tag)
+          })
 
-      this.currentLocationMarker = this.mapTagService.generateMarker(location, "bluedot_small");
-      this.mapView.addMarker(this.currentLocationMarker);
-    });
-  };
+          this.tags = tags
+          
+          this.markers = this.mapTagService.generateMapTag(this.tags)
 
+          this.markers.forEach((m) => {
+            this.mapView.addMarker(m)
+          })
+        })
+
+        this.currentLocationMarker = this.mapTagService.generateMarker(location, "bluedot_small")
+        this.mapView.addMarker(this.currentLocationMarker)
+    })
+  }
+
+  public startWatchingLocation(){
+    this.watchId = geolocation.watchLocation(location => {
+      if(location && this.currentLocationMarker) {
+        this.currentLocationMarker.position = Position.positionFromLatLng(
+          location.latitude,
+          location.longitude
+      )
+      }
+    }, err => {
+      console.log(err)
+    }, {
+      desiredAccuracy: 3, 
+      updateDistance: 5, 
+      minimumUpdateTime : 1000 * 5
+    })
+  }
+
+  public stopWatchingLocation = () => {
+    if(this.watchId) {
+        geolocation.clearWatch(this.watchId)
+        this.watchId = null
+    }
+  }
 }

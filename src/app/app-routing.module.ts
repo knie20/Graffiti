@@ -9,7 +9,7 @@ const routes: Routes = [
     { path: "groups", loadChildren: "~/app/pages/groups/groups.module#GroupsModule" },
     { path: "settings", loadChildren: "~/app/pages/settings/settings.module#SettingsModule" },
     { path: "create-tag/:url", loadChildren: "~/app/pages/create-tag/create-tag.module#CreateTagModule" },
-    { path: "view-tag/:id", loadChildren: "~/app/pages/view-tag/view-tag.module#ViewTagModule"}
+    { path: "view-tag", loadChildren: "~/app/pages/view-tag/view-tag.module#ViewTagModule"}
 ];
 
 @NgModule({
