@@ -39,12 +39,10 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
     }
 
     onPublish(): void {
-<<<<<<< HEAD
         const textTag = {
             id: 2,
             text: `Hello world!`
         };
-=======
 
          geolocation
             .getCurrentLocation({ desiredAccuracy: Accuracy.high, maximumAge: 5000, timeout: 20000 })
@@ -69,6 +67,5 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
         
                 this.tag.createTag(textTag);
             })
->>>>>>> dev-7
     }
 }
