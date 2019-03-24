@@ -29,7 +29,6 @@ export class TagComponent implements OnInit, AfterViewInit, AfterContentInit, On
 
     ngOnChanges(changes: SimpleChanges) {
         this.tag = changes['tag'].currentValue;
-        console.log(this.tag);
         this.tagId = this.tag.id;
 
         this.users.getById(this.tag.createdBy).then(user => {

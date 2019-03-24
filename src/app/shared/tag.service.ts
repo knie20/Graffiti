@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable } from "rxjs";
 import { Injectable, NgZone } from '@angular/core';
 
 const firebase = require("nativescript-plugin-firebase/app");
@@ -7,8 +7,12 @@ import { firestore } from "nativescript-plugin-firebase";
 @Injectable()
 export class TagService {
 
-    constructor(private zone: NgZone) {
+    private comments;
+    private comment;
 
+    constructor(private zone: NgZone) {
+        this.comments = [];
+        this.comment = {};
     }
 
     getById(tagId): Promise<firestore.DocumentSnapshot> {
@@ -21,24 +25,22 @@ export class TagService {
         return commentsCollection.get();
     }
 
-    getObservableCommentsById(tagId): Observable<Array<any>> {
-        return Observable.create((subscriber) => {
+    getObservableCommentsById(tagId: string): Observable<Array<any>> {
+        console.log(`Tag ID for observable: `, tagId)
 
+        return Observable.create(subscriber => {
             const colRef: firestore.CollectionReference = firebase.firestore().collection("tags").doc(tagId).collection("comments");
-
-            console.log(`Colfre: `, colRef)
             colRef.onSnapshot((snapshot: firestore.QuerySnapshot) => {
-                this.zone.run(()=> {
-                    
-                    let comments = [];                
-                    
+                this.zone.run(() => {
+                    this.comments = [];
                     snapshot.forEach((docSnap) => {
-                        let commentObject = { id: docSnap.id, ...docSnap.data() };
-                        comments.push(commentObject);
+                        this.comments.push({
+                            id: docSnap.id,
+                            ...docSnap.data()
+                        })
                     });
-
-                    subscriber.next(comments);
-                })
+                    subscriber.next(this.comments);
+                });
             });
         });
     }
@@ -46,5 +48,26 @@ export class TagService {
     getCommentById(tagId, commentId): Promise<firestore.DocumentSnapshot> {
         const commentDocument = firebase.firestore().collection("tags").doc(tagId).collection("comments").doc(commentId);
         return commentDocument.get();
+    }
+
+    getObservableCommentById(tagId: string, commentId: string): Observable<any> {
+
+        return Observable.create((subscriber) => {
+            const colRef: firestore.DocumentReference = firebase.firestore().collection("tags").doc(tagId).collection("comments").doc(commentId);
+            
+            colRef.onSnapshot((doc: firestore.DocumentSnapshot) => {
+                this.zone.run(() => {
+                    this.comment = {
+                        id: doc.id,
+                        ...doc.data()
+                    };
+
+                    console.log(`this.comment: `, this.comment)
+
+                    subscriber.next(this.comment);
+                });
+            });
+        });
+
     }
 }

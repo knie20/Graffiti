@@ -1,12 +1,14 @@
-import { UserService } from './../../../../shared/user.service';
+import { UserService } from '~/app/shared/user.service';
 import { TagService } from '~/app/shared/tag.service';
-import { Component, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, Input, SimpleChanges, OnChanges, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-comment',
-    templateUrl: './comment.component.html'
+    templateUrl: './comment.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommentComponent implements OnChanges {
+export class CommentComponent implements OnChanges, OnInit {
 
     @Input()
     private tagId: string;
@@ -15,6 +17,8 @@ export class CommentComponent implements OnChanges {
     private commentId: string;
 
     private comment: any;
+    private comment$: Observable<any>;
+
 
     private commenterDisplayName: string;
     private commenterHandle: string;
@@ -32,22 +36,22 @@ export class CommentComponent implements OnChanges {
         this.tagId = changes['tagId'].currentValue;
         this.commentId = changes['commentId'].currentValue;
 
-        //Get the comment by its ID
-        this.tags.getCommentById(this.tagId, this.commentId).then(comment => {
-            let commentData = comment.data();
-            let commentObject = { id: comment.id, ...commentData };
-            this.comment = commentObject;
+        console.log(`Tag ID on change`, this.tagId);
+        console.log(`Comment ID on change: `, this.commentId);
 
-            //Get the user who created the comment
-            this.users.getById(this.comment.createdBy).then(user => {
-                const userData = user.data()
-                this.commenterDisplayName = userData.displayName;
-                this.commenterHandle = userData.handle;
-                this.commenterPhotoURL = userData.photoURL;
-            })
+        this.comment$ = this.tags.getObservableCommentById(this.tagId, this.commentId);
 
+        this.comment$.subscribe(comment => {
+            console.log(`Subcribed comment: `, comment);
+            this.comment = comment;
         });
 
+/*         this.users.getById(this.comment.createdBy).then(user => {
+            const userData = user.data()
+            this.commenterDisplayName = userData.displayName;
+            this.commenterHandle = userData.handle;
+            this.commenterPhotoURL = userData.photoURL;
+        }); */
     }
 
 }
