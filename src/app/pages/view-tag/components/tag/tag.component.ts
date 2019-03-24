@@ -17,6 +17,8 @@ export class TagComponent implements OnInit, AfterViewInit, AfterContentInit, On
     @Output("tagId")
     private tagId: any;
 
+    private _tag: any;
+
     private tagData: any;
 
     private taggerDisplayName: string;
@@ -27,8 +29,7 @@ export class TagComponent implements OnInit, AfterViewInit, AfterContentInit, On
 
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        this.tag = changes['tag'].currentValue;
+    ngOnChanges(): void {
         this.tagId = this.tag.id;
 
         this.users.getById(this.tag.createdBy).then(user => {
@@ -37,6 +38,7 @@ export class TagComponent implements OnInit, AfterViewInit, AfterContentInit, On
             this.taggerHandle = userData.handle;
             this.taggerPhotoURL = userData.photoURL;
         })
+
     }
 
     ngOnInit(): void {
@@ -44,12 +46,10 @@ export class TagComponent implements OnInit, AfterViewInit, AfterContentInit, On
     }
 
     ngAfterViewInit(): void {
-        //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-        //Add 'implements AfterViewInit' to the class.
+
     }
 
     ngAfterContentInit(): void {
-        //Called after ngOnInit when the component's or directive's content has been initialized.
-        //Add 'implements AfterContentInit' to the class.
+
     }
 }

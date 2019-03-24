@@ -19,39 +19,42 @@ export class CommentComponent implements OnChanges, OnInit {
     private comment: any;
     private comment$: Observable<any>;
 
-
     private commenterDisplayName: string;
     private commenterHandle: string;
     private commenterPhotoURL: string;
 
     constructor(private tags: TagService, private users: UserService) {
-        this.comment = {};
+        this.comment = {
+            text: ``,
+            displayName: ``,
+            createdBy: ``
+        };
     }
 
     ngOnInit(): void {
 
     }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        this.tagId = changes['tagId'].currentValue;
-        this.commentId = changes['commentId'].currentValue;
-
-        console.log(`Tag ID on change`, this.tagId);
-        console.log(`Comment ID on change: `, this.commentId);
+    ngOnChanges(): void {
 
         this.comment$ = this.tags.getObservableCommentById(this.tagId, this.commentId);
-
         this.comment$.subscribe(comment => {
-            console.log(`Subcribed comment: `, comment);
-            this.comment = comment;
-        });
 
-/*         this.users.getById(this.comment.createdBy).then(user => {
-            const userData = user.data()
-            this.commenterDisplayName = userData.displayName;
-            this.commenterHandle = userData.handle;
-            this.commenterPhotoURL = userData.photoURL;
-        }); */
+            console.log(`Comment here: `, comment);
+            this.comment = {
+                id: comment.id,
+                text: comment.text,
+                createdBy: comment.createdBy
+            };
+
+            this.users.getById(this.comment.createdBy).then(user => {
+                console.log(`Comment user: `, user.data())
+                const userData = user.data()
+                this.commenterDisplayName = userData.displayName;
+                this.commenterHandle = userData.handle;
+                this.commenterPhotoURL = userData.photoURL;
+            });
+        });
     }
 
 }

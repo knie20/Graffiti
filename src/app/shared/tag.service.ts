@@ -26,9 +26,8 @@ export class TagService {
     }
 
     getObservableCommentsById(tagId: string): Observable<Array<any>> {
-        console.log(`Tag ID for observable: `, tagId)
 
-        return Observable.create(subscriber => {
+        return Observable.create((subscriber) => {
             const colRef: firestore.CollectionReference = firebase.firestore().collection("tags").doc(tagId).collection("comments");
             colRef.onSnapshot((snapshot: firestore.QuerySnapshot) => {
                 this.zone.run(() => {
@@ -61,9 +60,7 @@ export class TagService {
                         id: doc.id,
                         ...doc.data()
                     };
-
-                    console.log(`this.comment: `, this.comment)
-
+                    
                     subscriber.next(this.comment);
                 });
             });

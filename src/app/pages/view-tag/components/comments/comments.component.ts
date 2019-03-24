@@ -17,8 +17,7 @@ export class CommentsComponent implements OnChanges, OnInit {
 
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        this.tagId = changes['tagId'].currentValue;
+    ngOnChanges() {
         this.comments$ = this.tags.getObservableCommentsById(this.tagId);
     }
 

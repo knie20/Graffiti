@@ -31,6 +31,7 @@ export class ViewTagComponent implements OnInit {
 
     console.log(`Tag ID from params: `, this.tagId);
 
+    console.log(`Getting tags by ID... `);
     this.tags.getById(this.tagId).then(tag => {
         const tagData = tag.data();
         const tagObject = { id: tag.id, ...tagData };
