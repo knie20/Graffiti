@@ -34,7 +34,6 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
 
             users.getUserPhotoById(user.uid)
             .then(url => {
-                console.log(url)
                 this.userPhotoUrl = url;
             }).catch(err => {
                 this.userPhotoUrl = `res://ic_hacker`;

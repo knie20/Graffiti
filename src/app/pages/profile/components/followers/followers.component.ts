@@ -26,7 +26,6 @@ export class FollowersComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-        console.log(`On followers init...`)
         this._followers = this.followers;
     }
     

@@ -1,0 +1,7 @@
+<ListView height="600" [items]="comments$ | async" class="list-group">
+  <ng-template let-comment="item">
+      <GridLayout columns="*,*,*,*,*" rows="*,*" class="list-group-item">
+        <app-comment [tagId]="tagId" [commentId]="comment.id"></app-comment>
+      </GridLayout>
+  </ng-template>
+</ListView>

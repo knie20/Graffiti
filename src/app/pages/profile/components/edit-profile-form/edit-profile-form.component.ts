@@ -5,7 +5,7 @@ import { knownFolders, path, File, Folder } from "tns-core-modules/file-system";
 import { TKEntityPropertyDirective } from 'nativescript-ui-dataform/angular';
 
 // Angular Core Components
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 
 // NativeScript Plugins
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
@@ -14,11 +14,14 @@ import * as imagepicker from "nativescript-imagepicker";
 // NativeScript Core Modules
 import {ImageSource, fromFile, fromResource, fromBase64} from "tns-core-modules/image-source";
 import * as app from "tns-core-modules/application";
+import { alert, prompt } from "tns-core-modules/ui/dialogs";
+
 
 // Classes
 
 // Services
 import { UserService } from '~/app/shared/user.service';
+import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
     selector: 'app-edit-profile-form',
@@ -36,7 +39,11 @@ export class EditProfileFormComponent implements OnInit {
     private isSingleMode: boolean = true;
     private _profile: Profile;
 
-    constructor(private users: UserService) {
+    constructor(
+        private users: UserService, 
+        private routerExtensions: RouterExtensions, 
+        private ngZone: NgZone
+    ) {
         this._profile = new Profile("", "", "", "", "");
     }
 
@@ -46,7 +53,6 @@ export class EditProfileFormComponent implements OnInit {
             
             this.users.getById(this.userId).then((user) => {
                 const data = user.data();
-                console.log(`Image source: `, data.photoURL);
                 this.avatarSrc = data.photoURL;
             })
         })
@@ -146,9 +152,17 @@ export class EditProfileFormComponent implements OnInit {
     }
 
     onSaveButtonTap(): void {
-        console.log(`User to be updated: `, this.userId);
-        this.users.updateUser(this.userId, this._profile).then(()=>{
-            console.log(`User updated!`);
-        })
+        this.users.updateUser(this.userId, this._profile)
+            .then(()=>{
+                alert({
+                    title: "Hello from Graffiti!",
+                    message: `Your profile has been updated!`,
+                    okButtonText: "Good to know"
+                })
+                .then(()=>{
+                    this.routerExtensions.navigate([`profile/id`, this.userId ]);
+                });
+
+            })
     }
 }

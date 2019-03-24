@@ -6,6 +6,8 @@ import { ProfileComponent } from '~/app/pages/profile/profile.component';
 import { AvatarComponent } from '~/app/pages/profile/components/avatar/avatar.component';
 
 import { EditProfileFabComponent } from '~/app/pages/profile/components/edit-profile-fab/edit-profile-fab.component';
+import { FollowFabComponent } from './components/follow-fab/follow-fab.component';
+import { UnfollowFabComponent } from './components/unfollow-fab/unfollow-fab.component';
 import { EditProfileFormComponent } from '~/app/pages/profile/components/edit-profile-form/edit-profile-form.component';
 import { ActivitiesComponent } from '~/app/pages/profile/components/activities/activities.component';
 import { FollowersComponent } from '~/app/pages/profile/components/followers/followers.component';
@@ -21,6 +23,8 @@ import { FollowingComponent } from '~/app/pages/profile/components/following/fol
         ProfileComponent,
         AvatarComponent,
         EditProfileFabComponent,
+        FollowFabComponent,
+        UnfollowFabComponent,
         EditProfileFormComponent,
         ActivitiesComponent,
         FollowersComponent,

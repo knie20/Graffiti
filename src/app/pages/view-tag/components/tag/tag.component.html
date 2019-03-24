@@ -1,0 +1,25 @@
+<ScrollView>
+    <StackLayout orientation="vertical">
+
+        <FlexboxLayout height="2%" backgroundColor="white" alignItems="center">
+
+            <Image row="0" col="0" src="{{taggerPhotoURL}}" horizontalAlignment="center" stretch="aspectFill" width="30"
+                height="30" borderRadius="15" class="m-10">
+            </Image>
+
+            <Label [text]="taggerHandle"></Label>
+        </FlexboxLayout>
+
+        <Image [src]="tag.photoURL" width="100%" height="50%" stretch="aspectFill"></Image>
+
+        <Label [text]="tag.text" textWrap="true" fontSize="23" backgroundColor="white" class="m-10"></Label>
+
+
+        <FlexboxLayout height="2%" backgroundColor="white" alignItems="center">
+            <Label text="&#xf164; {{tag.upVotes}}" class="fa fas p-10" fontSize="14"></Label>
+            <Label text="&#xf165; {{tag.downVotes}}" class="fa fas p-10" fontSize="14"></Label>
+        </FlexboxLayout>
+
+        <app-tag-comments [tagId]="tagId"></app-tag-comments>
+    </StackLayout>
+</ScrollView>

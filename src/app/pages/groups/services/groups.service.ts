@@ -15,8 +15,6 @@ export class GroupsService {
     storage = Firebase.storage().ref();
 
     create(group: IGroup, groupPhoto: File) {
-        console.log(`Creating group...`);
-
         this.groupsCollection.add({
             name: group.name,
             organization: group.organization,
@@ -27,7 +25,6 @@ export class GroupsService {
             createdBy: group.createdBy,
             createdOn: group.createdOn
         }).then(documentRef => {
-            console.log(`Group added with auto-generated ID: ${documentRef.id}`);
             this.uploadGroupPhoto(documentRef.id, groupPhoto)
         });
 

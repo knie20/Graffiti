@@ -3,6 +3,10 @@
   import { MapView, Marker, Position } from "nativescript-google-maps-sdk";
   import { MapTagService } from "../../services/map-tag.service";
 
+  import * as geolocation from "nativescript-geolocation";
+  import { Router } from "@angular/router"
+  import { RouterExtensions } from "nativescript-angular/router" 
+
 // Important - must register MapView plugin in order to use in Angular templates
   registerElement("MapView", () => MapView);
 
@@ -17,64 +21,101 @@ export class GoogleMapsComponent implements OnInit {
   currentLocation: Position;
   currentLocationMarker: Marker;
 
-  tags = [
-    {
-      type: "text",
-      position: Position.positionFromLatLng(39.130054, -84.516755),
-      upvotes: 12,
-      downvotes: 2
-    }, {
-      type: "video",
-      position: Position.positionFromLatLng(39.130434, -84.516255),
-      upvotes: 4,
-      downvotes: 2
-    }, {
-      type: "photo",
-      position: Position.positionFromLatLng(39.130194, -84.516005),
-      upvotes: 7,
-      downvotes: 1
-    }, {
-      type: "sound",
-      position: Position.positionFromLatLng(39.130890, -84.516295),
-      upvotes: 102,
-      downvotes: 24
-    }, {
-      type: "video",
-      position: Position.positionFromLatLng(39.129954, -84.515855),
-      upvotes: 12,
-      downvotes: 2
-    }, {
-      type: "text",
-      position: Position.positionFromLatLng(39.130514, -84.516355),
-      upvotes: 11,
-      downvotes: 0
-    }
-  ];
+  watchId: number;
+  tags: any[];
 
-  constructor(private mapTagService: MapTagService) {
-
-  }
+  constructor(
+    private mapTagService: MapTagService,
+    private router: Router, 
+    private routerExtensions: RouterExtensions) 
+  { }
 
   ngOnInit() {
-    this.currentLocation = Position.positionFromLatLng(39.130554, -84.516155);
-   }
+    this.startWatchingLocation();
+  }
+
+  onMarkerSelect = (event) => {
+    this.routerExtensions.navigate([`view-tag/id`, event.marker.userData ]);
+  }
 
   // Map events
   onMapReady = (event) => {
 
-    this.mapView = event.object;
-    this.mapView.latitude = this.currentLocation.latitude;
-    this.mapView.longitude = this.currentLocation.longitude;
-    this.mapView.zoom = 17;
+    this.mapView = event.object
 
-    this.markers = this.mapTagService.generateMapTag(this.tags);
+    this.mapTagService.getCurrentLocation().then( location => {
+      this.mapView.latitude = location.latitude
+      this.mapView.longitude = location.longitude
+      this.mapView.zoom = 17
+      this.currentLocationMarker = this.mapTagService.generateMarker(location, "bluedot_small")
+      this.mapView.addMarker(this.currentLocationMarker);
 
-    this.markers.forEach((m) => {
-      this.mapView.addMarker(m);
+      this.mapTagService.getTags(location)
+      .then(snapshot => {
+        const tags = [];
+
+        snapshot.forEach(doc => {
+          const tag = { id: doc.id, ...doc.data() };
+          tags.push(tag)
+        })
+
+        this.tags = tags;
+        
+        this.markers = this.mapTagService.generateMapTag(this.tags)
+
+        this.markers.forEach((m) => {
+          this.mapView.addMarker(m)
+        })
+      })
+      .catch((err) => {
+        console.log(`Boo hoo, couldn't get the tags.`);
+      })
     });
+  }
 
-    this.currentLocationMarker = this.mapTagService.generateMarker(this.currentLocation, "bluedot_small");
-    this.mapView.addMarker(this.currentLocationMarker);
+  startWatchingLocation(){
+    this.watchId = geolocation.watchLocation(location => {
+      if(location && this.currentLocationMarker) {
+        
+        console.log(`Updating marker position...`);
+        this.currentLocationMarker.position = Position.positionFromLatLng(location.latitude, location.longitude)
+
+        console.log(`Getting tags from tag service...`);
+        this.mapTagService.getTags(location)
+        .then(snapshot => {
+          const tags = [];
+  
+          snapshot.forEach(doc => {
+            const tag = { id: doc.id, ...doc.data() };
+            tags.push(tag)
+          })
+  
+          this.tags = tags;
+          
+          this.markers = this.mapTagService.generateMapTag(this.tags)
+  
+          this.markers.forEach((m) => {
+            this.mapView.addMarker(m)
+          })
+        })
+        .catch((err) => {
+          console.log(`Boo hoo, couldn't get the tags.`);
+        })
+      }
+    }, err => {
+      console.log(err)
+    }, {
+      desiredAccuracy: 3, 
+      updateDistance: 5, 
+      minimumUpdateTime : 1000 * 5
+    })
+  }
+
+  stopWatchingLocation = () => {
+    if(this.watchId) {
+        geolocation.clearWatch(this.watchId)
+        this.watchId = null
+    }
   }
 
 }

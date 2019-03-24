@@ -1,50 +1,51 @@
 import { UserService } from '~/app/shared/user.service';
 import { Injectable } from "@angular/core";
-const Firebase = require("nativescript-plugin-firebase");
-import * as FirebaseApp from "nativescript-plugin-firebase";
-
 import { User } from "./user.model";
+
+const Firebase = require("nativescript-plugin-firebase");
 
 @Injectable()
 export class AuthService {
-    
-    constructor(private users: UserService){
 
-    }
+  constructor(private users: UserService) {
 
-    signUp(user) {
-      FirebaseApp.createUser({
-        email: user.email,
-        password: user.password
-      }).then((user) => {
-        this.users.createNewUser(user);
-      }).catch(err => {
-        console.log(err);
-      });
-    }
+  }
 
-    login(user) {
+  signUp(user) {
+    Firebase.createUser({
+      email: user.email,
+      password: user.password
+    }).then((user) => {
+      this.users.createNewUser(user);
+    }).catch(err => {
+      console.log(err);
+    });
+  }
 
-        console.log(`Logging in ${user.email}`);
+  login(user) {
 
-        Firebase.login(
-            {
-              type: Firebase.LoginType.PASSWORD,
-              passwordOptions: {
-                email: user.email,
-                password: user.password
-              }
-            })
-            .then(result => JSON.stringify(result))
-            .catch(error => console.log(error));
-    }
+    console.log(`Logging in ${user.email}`);
 
-    logout() {
-        Firebase.logout();
-    }
+    Firebase.login(
+      {
+        type: Firebase.LoginType.PASSWORD,
+        passwordOptions: {
+          email: user.email,
+          password: user.password
+        }
+      })
+      .then(result => JSON.stringify(result))
+      .catch(error => console.log(error));
+  }
 
-    resetPassword(email: string) {
+  logout() {
+    Firebase.logout();
+  }
 
-    }
+  resetPassword(email: string) {
+    Firebase.sendPasswordResetEmail(email)
+    .then(() => console.log("Password reset email sent"))
+    .catch(error => console.log("Error sending password reset email: " + error));
+  }
 
 }

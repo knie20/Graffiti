@@ -1,0 +1,14 @@
+<Image 
+    [src]="commenterPhotoURL"
+    class="m-10"
+    width="30"
+    height="30"  
+    borderRadius="15"
+    stretch="aspectFill" 
+    horizontalAlignment="center" 
+    row="0" 
+    col="0" 
+></Image>
+
+<Label row="0" col="1" colSpan="4" [text]="commenterDisplayName" color="#45485e" textWrap="true"></Label>
+<Label row="1" col="1" colSpan="4" [text]="comment.text" color="#45485e" textWrap="true"></Label>

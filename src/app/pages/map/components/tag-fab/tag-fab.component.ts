@@ -210,7 +210,6 @@ export class TagFabComponent implements OnInit {
                 } else {
                     this.isFabOpen = true;
                 }
-                console.log("Animation finished");
             })
             .catch((e) => {
                 console.log(e.message);

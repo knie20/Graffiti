@@ -22,8 +22,6 @@ export class UserService {
   }
 
   createNewUser(user){
-    console.log(`Creating a new user...`)
-    
     const usersCollection = firebase.firestore().collection("users");
 
     return usersCollection.doc(user.uid).set({
@@ -51,7 +49,6 @@ export class UserService {
 
   updateUser(userId, userData){
     const usersCollection = firebase.firestore().collection("users");
-
     return usersCollection.doc(userId).update({
       displayName: `${userData.firstName} ${userData.lastName}`,
       handle: userData.handle,
@@ -61,16 +58,41 @@ export class UserService {
 
   updateUserSettings(userId, userSettings){
     const usersCollection = firebase.firestore().collection("users");
-
     return usersCollection.doc(userId).update({
       settings: userSettings
     });
   }
 
-  getDisplayNameById(userId): Promise<firestore.QuerySnapshot> {
-    console.log(`Getting display name...`);
-    console.log(`UserId: `, userId);
+  follow(userId, data){
+    const followingCollection = firebase.firestore().collection("users").doc(userId).collection("following");
+    return followingCollection.doc(data.id).set({
+      displayName: data.displayName,
+      handle: data.handle,
+      photoURL: data.photoURL
+    });
+  }
 
+  addToFollowers(userId, data){
+    const followersCollection = firebase.firestore().collection("users").doc(userId).collection("followers");
+    return followersCollection.doc(data.id).set({
+      displayName: data.displayName,
+      handle: data.handle,
+      photoURL: data.photoURL
+    });
+  }
+
+  unfollow(userId, data){
+    const followingCollection = firebase.firestore().collection("users").doc(userId).collection("following");    
+    return followingCollection.doc(data.id).delete();
+  }
+
+  //userID: the person you're leaving
+  removeFromFollowers(userId, data){
+    const followersCollection = firebase.firestore().collection("users").doc(userId).collection("followers");    
+    return followersCollection.doc(data.id).delete();
+  }
+
+  getDisplayNameById(userId): Promise<firestore.QuerySnapshot> {
     const query: firestore.Query = firebase.firestore().collection("users")
         .where("userId", "==", userId);
 
@@ -82,22 +104,18 @@ export class UserService {
   }
 
   getManyById(userIds): Promise<firestore.QuerySnapshot> {
-    console.log(`Getting user...`);
-    console.log(`UserId: `, userIds);
-
     const query: firestore.Query = firebase.firestore().collection("users");
-
     return query.get();
   }
 
   getFollowingByUserId(userId): Promise<firestore.QuerySnapshot> {
-    console.log(`Getting user following...`);
-    console.log(`UserId: `, userId);
+    const following = firebase.firestore().collection("users").doc(userId).collection("following");
+    return following.get();
+  }
 
-    const query: firestore.Query = firebase.firestore().collection("users")
-      .where("userId", "==", userId);
-
-    return query.get();
+  getFollowersByUserId(userId): Promise<firestore.QuerySnapshot> {
+    const followers = firebase.firestore().collection("users").doc(userId).collection("followers");
+    return followers.get();
   }
 
   getUserPhotoById(userId) {

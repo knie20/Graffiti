@@ -15,7 +15,7 @@ import { MapTagService } from "./services/map-tag.service";
     declarations: [
         GoogleMapsComponent,
         MapComponent,
-        TagFabComponent
+        TagFabComponent    
     ],
     providers: [
         MapTagService

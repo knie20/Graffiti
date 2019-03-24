@@ -6,13 +6,13 @@
 <StackLayout class="page page-content">
 
         <StackLayout verticalAlignment="center" class="avatar-background">
-            <app-avatar [photoURL]="photoURL"></app-avatar>
-            <Label class="h3" [text]="displayName" textWrap="true" horizontalAlignment="center" color="white"></Label>
-            <Label class="h4" [text]="userEmail" textWrap="true" horizontalAlignment="center" color="white"></Label>
+            <app-avatar [photoURL]="userPhotoURL"></app-avatar>
+            <Label class="h3" [text]="userDisplayName" textWrap="true" horizontalAlignment="center" color="white"></Label>
+            <Label class="h4" [text]="userHandle" textWrap="true" horizontalAlignment="center" color="white"></Label>
         </StackLayout>
 
         <StackLayout>
-            <Label class="h3 p-l-20 p-r-20 p-t-15 p-b-15" [text]="signature" textWrap="true" horizontalAlignment="center"></Label>
+            <Label class="h3 p-l-20 p-r-20 p-t-15 p-b-15" [text]="userSignature" textWrap="true" horizontalAlignment="center"></Label>
         </StackLayout>
 
        <StackLayout>
@@ -30,6 +30,9 @@
        </StackLayout>
 
 </StackLayout>
-<app-edit-profile-fab *ngIf="currentUserProfile"></app-edit-profile-fab>  
+<app-unfollow-fab [userProfile]="userProfile" *ngIf="amFollowing"></app-unfollow-fab> 
+<app-follow-fab  [userProfile]="userProfile" *ngIf="!amFollowing"></app-follow-fab>
+<app-edit-profile-fab [userProfile]="userProfile" *ngIf="currentUserProfile"></app-edit-profile-fab>
+ 
 
 

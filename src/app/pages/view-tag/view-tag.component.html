@@ -1,0 +1,8 @@
+<ActionBar class="action-bar">
+    <NavigationButton icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
+    <Label class="action-bar-title" text="View Tag"></Label>
+</ActionBar>
+
+<GridLayout class="page page-content">
+    <app-tag [tag]="tag"></app-tag>
+</GridLayout>

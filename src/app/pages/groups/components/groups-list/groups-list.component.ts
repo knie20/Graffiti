@@ -37,7 +37,6 @@ export class GroupsListComponent implements OnInit {
 
                 this.groupList = groupObjects;
 
-                console.log(`Group list: `, this.groupList);
             })
             .catch(err => {
                 console.log(`Did not get the groups!`)

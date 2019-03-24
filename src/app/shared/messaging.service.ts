@@ -26,9 +26,7 @@ export class MessagingService {
     private serverUrl = "https://fcm.googleapis.com/fcm/send";
 
     constructor(private http: HttpClient) {
-        console.log(`Checking if registered for notifications!`);
         if (applicationSettings.getBoolean(MessagingService.APP_REGISTERED_FOR_NOTIFICATIONS, false)) {
-            console.log(`Not registered for push notificiations`);
             this.doRegisterPushHandlers();
         }
 
@@ -39,13 +37,9 @@ export class MessagingService {
 
     postData(data: any) {
         console.log(`Posting a notification!!! Yee yee`);
-
         let options = this.createRequestOptions();
-
         let notificationData = data;
-
         console.log(notificationData);
-
         return this.http.post(this.serverUrl, notificationData , { headers: options });
     }
 
@@ -139,7 +133,6 @@ export class MessagingService {
             showNotificationsWhenInForeground: false
         })
             .then(() => {
-                console.log("Registered for push");
                 this.doGetCurrentPushToken();
             })
             .catch(err => {
@@ -148,14 +141,9 @@ export class MessagingService {
     }
 
     public doUnregisterForPushNotifications(): void {
-        messaging.unregisterForPushNotifications().then(
-            () => {
-                alert({
-                    title: "Unregistered",
-                    message: "If you were registered, that is.",
-                    okButtonText: "Got it, thanks!"
-                });
-            });
+        messaging.unregisterForPushNotifications().catch(err => {
+            console.log(err);
+        });
     }
 
     public doGetAreNotificationsEnabled(): void {

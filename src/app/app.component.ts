@@ -75,28 +75,26 @@ export class AppComponent implements OnInit {
 
                             this.userFollowers = firebase.firestore().collection("users").doc(user.uid).collection("followers");
 
-                            this.userFollowers.onSnapshot(( doc: firestore.QuerySnapshot) => {
-
-                                console.log(`Something changed in the document!`);
+                            this.userFollowers.onSnapshot((doc: firestore.QuerySnapshot) => {
 
                                 const modifiedDocs = doc.docChanges();
-                                
+
                                 modifiedDocs.forEach(doc => {
-                                    if(doc.type == "modified"){
+                                    
+                                    if (doc.type == "modified") {
                                         const displayName = doc.doc.data().displayName;
                                         const photoURL = doc.doc.data().photoURL;
-                                        console.log(`${displayName} started following you!`);
 
                                         this.messaging.doGetCurrentPushToken()
                                             .then(token => {
                                                 console.log(`Current push token: `, token);
                                                 this.onFollowerAdded(token, doc.doc.data());
                                             })
-                                            .catch(err => console.log("Error in doGetCurrentPushToken: " + err));
+                                            .catch((err) => {
+                                                console.log("Error in doGetCurrentPushToken: " + err)
+                                            });
                                     }
                                 })
-                                //console.log("Document data:", JSON.stringify(doc.data()));
-
                             }
 
                             );
@@ -107,19 +105,11 @@ export class AppComponent implements OnInit {
                                 .then((document) => {
                                     const data = document.data()
                                     this.userDisplayName = data.displayName;
+                                    this.userPhotoUrl = data.photoURL;
                                 })
                                 .catch((err) => {
-                                    console.log("firestoreWhereUserHasId failed, error: " + err)
+                                    console.log("firestore Where User Has Id failed, error: " + err)
                                 });
-
-
-                            this.users.getUserPhotoById(user.uid)
-                                .then(url => {
-                                    console.log(url)
-                                    this.userPhotoUrl = url;
-                                }).catch(err => {
-                                    this.userPhotoUrl = `res://ic_hacker`;
-                                })
                         })
 
                         this.ngZone.run(() => {
@@ -154,15 +144,16 @@ export class AppComponent implements OnInit {
         this.sideDrawerComponent.sideDrawer.closeDrawer();
     }
 
-    onFollowerAdded(token: string, follower: any){
+    onFollowerAdded(token: string, follower: any) {
 
+        console.log(`Just added ${follower.displayName}`);
         const notification = {
             "notification": {
                 "title": `${follower.displayName} started following you!`,
                 "text": `Hello world!`,
                 "badge": "1",
                 "sound": "default"
-                
+
             },
             "data": {
                 "foo": "bar"

@@ -19,26 +19,39 @@ export class ProfileComponent implements OnInit {
     private tabSelectedIndex: number;
     private tabSelectedIndexResult: string;
 
-    private userId: string;
     private currentUser: string;
+
+    @Output("userId")
+    private userId: string;
+
+    @Output("photoURL")
+    private userPhotoURL: string;
+
+    @Output("userProfile")
+    private userProfile: any;
+
+    private userDisplayName: string;
+    private userHandle: string;
+    private userEmail: string;
+    private userSignature: string;
+
+    private amFollowing: boolean;
     private currentUserProfile: boolean;
 
-    private photoURL: string;
-    private displayName: string;
-    private userEmail: string;
-    private signature: string;
-    private accountAge: number;
-
+    @Output("followers")
     followers: any[];
+
+    @Output("following")
     following: any[];
 
     constructor(public route: ActivatedRoute, private router: Router, public users: UserService) {
         this.tabSelectedIndex = 0;
         this.tabSelectedIndexResult = "Profile Tab (tabSelectedIndex = 0 )";
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.amFollowing = false;
+        this.currentUserProfile = false;
         this.followers = [];
         this.following = [];
-        this.photoURL = '';
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -59,33 +72,78 @@ export class ProfileComponent implements OnInit {
 
             this.userId = val.id;
 
+
             this.users.getById(this.userId)
                 .then((document) => {
-                    const data = document.data()
-                    this.displayName = data.displayName;
+                    const data = document.data();
+                    this.userDisplayName = data.displayName;
+                    this.userHandle = data.handle;
                     this.userEmail = data.email;
-                    this.signature = data.signature;
-                    this.photoURL = data.photoURL;
+                    this.userSignature = data.signature;
+                    this.userPhotoURL = data.photoURL;
+
+                    const userProfile = {
+                        id: document.id,
+                        handle: data.handle,
+                        displayName: data.displayName,
+                        email: data.email,
+                        signature: data.signature,
+                        photoURL: data.photoURL
+                    }
+
+                    this.userProfile = userProfile;
+
                     return data;
                 })
-                .then(data => {
-                    data.followers.forEach(follower => {
-                        this.users.getById(follower)
-                            .then((document) => {
-                                this.followers.push(document.data());
-                            })
-                    });
+                .then(() => {
+                    console.log(`Getting following for ${this.userId}`)
+                    this.users.getFollowingByUserId(this.userId)
+                        .then(querySnapshot => {
+                            querySnapshot.forEach(document =>{
+                                const data = document.data();
 
-                    data.following.forEach(user => {
-                        this.users.getById(user)
-                            .then((document) => {
-                                this.following.push(document.data());
+                                const followingObject = {
+                                    id: document.id,
+                                    displayName: data.displayName,
+                                    handle: data.handle,
+                                    photoURL: data.photoURL
+                                }
+
+                                this.following.push(followingObject);
                             })
-                    });
-                    
+                        });
+
+                    this.users.getFollowersByUserId(this.userId)
+                        .then(querySnapshot => {
+                            querySnapshot.forEach(document =>{
+                                const data = document.data();
+
+                                if(this.currentUser == this.userId){
+                                    this.currentUserProfile = true;
+                                }
+
+                                if(this.currentUser == document.id){
+                                    this.amFollowing = true;
+                                }
+                                
+                                if(this.currentUser != document.id){
+                                    this.amFollowing = false;
+                                }
+
+                                const docObject = {
+                                    id: document.id,
+                                    displayName: data.displayName,
+                                    handle: data.handle,
+                                    photoURL: data.photoURL
+                                }
+
+                                console.log(`Pushing a follower: `, docObject)
+                                this.followers.push(docObject);
+                            })
+                        })
                 })
                 .catch((err) => {
-                    console.log("firestoreWhereUserHasId failed, error: " + err)
+                    console.log("firestoreWhereUserHasId failed, error oh no: " + err)
                 });
         });
     }

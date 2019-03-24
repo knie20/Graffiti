@@ -59,41 +59,42 @@ export class SettingsFormComponent implements OnInit {
 /*         if(property.name == `anonymous`){
             console.log(`Value: `, property.value);
             this.settings.anonymous = property.value;
-        }
+        } */
 
         if(property.name == `allowPushNotify`){
-            this.settings.allowPushNotify = property.value;
+            console.log(`Allow push notify changed!`);
+            if(this.settings.allowPushNotify == true){
+                this.messaging.doRequestConsent();
+            }
         }
 
-        if(property.name == `allowEmailNotify`){
+/*         if(property.name == `allowEmailNotify`){
             this.settings.allowEmailNotify = property.value;
-        }
+        } */
 
-        if(property.name == `appTheme`){
+/*         if(property.name == `appTheme`){
             this.settings.appTheme = property.value;
-        }
+        } */
 
-        if(property.name == `mapTheme`){
+/*         if(property.name == `mapTheme`){
             this.settings.mapTheme = property.value;
         }
+ */
 
-        if(property.name == `typography`){
+/*         if(property.name == `typography`){
             this.settings.typography = property.value;
-        }
+        } */
 
-        if(property.name == `agreeToTerms`){
+/*         if(property.name == `agreeToTerms`){
             this.settings.agreeToTerms = property.value;
         } */
 
         //console.log('onPropertyCommitted -> name: ' + property.name + '; value: ' + property.valueCandidate);
         console.log(this.settings);
 
-        if(this.settings.allowPushNotify == true){
-            this.messaging.doRequestConsent();
-        }
-        else if(this.settings.allowPushNotify == false ) {
+/*         else if(this.settings.allowPushNotify == false ) {
             this.messaging.doUnregisterForPushNotifications();
-        }
+        } */
 
         this.users.updateUserSettings(this.userId, this.settings).then(()=>{
             console.log(`User settings updated!`);
