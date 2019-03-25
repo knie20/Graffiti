@@ -7,6 +7,8 @@ import { firestore } from "nativescript-plugin-firebase";
 @Injectable()
 export class TagService {
 
+    private comment;
+    
     constructor(private zone: NgZone) {
 
     }
