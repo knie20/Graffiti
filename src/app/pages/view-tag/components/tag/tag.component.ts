@@ -23,8 +23,7 @@ export class TagComponent implements OnInit, AfterViewInit, AfterContentInit, On
     private taggerHandle: string;
     private taggerPhotoURL; string;
 
-    constructor(private users: UserService) {
-
+    constructor(private users: UserService, private tagService: TagService) {
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -54,21 +53,24 @@ export class TagComponent implements OnInit, AfterViewInit, AfterContentInit, On
     }
 
     upvote(): void {
-        
+        const self = this;
         this.users.getCurrentUser().then(user => {
-            if(this.tag.voters.includes(user.uid)){
-                this.tagService.upvoteTag(this.tagId, this.tag.upVotes, user.uid)
-                this.tag.upVotes += 1
+            if(!self.tag.voters.includes(user.uid)){
+                self.tagService.upvoteTag(self.tagId, self.tag.upVotes, user.uid);
+                self.tag.voters.push(user.uid);
+                self.tag.upVotes += 1;
             }
-        })
+        });
     }
 
     downvote(): void {
+        const self = this;
         this.users.getCurrentUser().then(user => {
-            if(this.tag.voters.includes(user.uid)){
-                this.tagService.downvoteTag(this.tagId, this.tag.downVotes, user.uid)
-                this.tag.DownVotes += 1
+            if(!self.tag.voters.includes(user.uid)){
+                self.tagService.downvoteTag(self.tagId, self.tag.downVotes, user.uid);
+                self.tag.voters.push(user.uid);
+                self.tag.downVotes += 1;
             }
-        })
+        });
     }
 }

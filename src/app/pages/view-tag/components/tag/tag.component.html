@@ -16,8 +16,8 @@
 
 
         <FlexboxLayout height="2%" backgroundColor="white" alignItems="center">
-            <Label text="&#xf164; {{tag.upVotes}}" class="fa fas p-10" fontSize="14"></Label>
-            <Label text="&#xf165; {{tag.downVotes}}" class="fa fas p-10" fontSize="14"></Label>
+            <Button text="&#xf164; {{tag.upVotes}}" class="fa fas p-10" fontSize="14" (tap)="upvote()"></Button>
+            <Button text="&#xf165; {{tag.downVotes}}" class="fa fas p-10" fontSize="14" (tap)="downvote()"></Button>
         </FlexboxLayout>
 
         <app-tag-comments [tagId]="tagId"></app-tag-comments>

@@ -70,4 +70,20 @@ export class TagService {
         });
 
     }
+
+    upvoteTag(tagId: string, currentUpvotes: number, userId: string): void {
+        const tagDocument: firestore.DocumentReference = firebase.firestore().collection("tags").doc(tagId)
+        tagDocument.update({
+            upVotes: currentUpvotes + 1,
+            voters: firestore.FieldValue.arrayUnion(userId)
+        })
+    }
+
+    downvoteTag(tagId: string, currentDownvotes: number, userId: string): void {
+        const tagDocument: firestore.DocumentReference = firebase.firestore().collection("tags").doc(tagId)
+        tagDocument.update({
+            upVotes: currentDownvotes + 1,
+            voters: firestore.FieldValue.arrayUnion(userId)
+        })
+    }
 }
