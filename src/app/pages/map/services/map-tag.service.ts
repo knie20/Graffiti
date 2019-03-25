@@ -20,10 +20,6 @@ export class MapTagService {
                     console.log("Error: " + (e.message || e))
                 })
             }
-            
-            if(isEnabled){
-                console.log(`We're good to go with the geo stuff`);
-            }
         })
 
         return geolocation.getCurrentLocation({
@@ -71,8 +67,8 @@ export class MapTagService {
             let marker = new Marker()
             marker.userData = tag.id
             marker.position = Position.positionFromLatLng(
-                tag.location.latitude,
-                tag.location.longitude
+                tag.position.latitude,
+                tag.position.longitude
             )
             marker.title = tag.title
             marker.icon = image

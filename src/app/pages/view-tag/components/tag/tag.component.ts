@@ -1,3 +1,4 @@
+import { AfterContentChecked, AfterViewChecked } from '@angular/core';
 import { UserService } from '~/app/shared/user.service';
 import { AfterViewInit, AfterContentInit, SimpleChanges, OnChanges, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -9,47 +10,43 @@ import { Component, Input, OnInit } from '@angular/core';
     templateUrl: './tag.component.html',
     styleUrls: ['./tag.component.scss']
 })
-export class TagComponent implements OnInit, AfterViewInit, AfterContentInit, OnChanges {
+export class TagComponent implements OnInit, AfterViewChecked {
 
-    @Input("tag")
-    private tag: any;
+    tag: any;
 
-    @Output("tagId")
-    private tagId: any;
+    @Input("input") input: any;
 
-    private _tag: any;
+    @Input("tagId") tagId: any;
 
-    private tagData: any;
-
+    private taggerId: string;
     private taggerDisplayName: string;
     private taggerHandle: string;
-    private taggerPhotoURL; string;
+    private taggerPhotoURL: string;
 
-    constructor(private users: UserService) {
-
-    }
-
-    ngOnChanges(): void {
-        this.tagId = this.tag.id;
-
-        this.users.getById(this.tag.createdBy).then(user => {
-            let userData = user.data();
-            this.taggerDisplayName = userData.displayName;
-            this.taggerHandle = userData.handle;
-            this.taggerPhotoURL = userData.photoURL;
-        })
+    constructor(private users: UserService, private tags: TagService) {
 
     }
 
     ngOnInit(): void {
 
+        this.tags.getById(this.tagId).then(doc => {
+            let tagObject = {
+              id: doc.id,
+              ...doc.data()
+            }
+            
+            this.tag = tagObject;
+
+            this.users.getById(this.tag.createdBy).then(user => {
+                let userData = user.data();
+                this.taggerDisplayName = userData.displayName;
+                this.taggerHandle = userData.handle;
+                this.taggerPhotoURL = userData.photoURL;
+            });
+        });
     }
 
-    ngAfterViewInit(): void {
-
-    }
-
-    ngAfterContentInit(): void {
+    ngAfterViewChecked(): void {
 
     }
 }

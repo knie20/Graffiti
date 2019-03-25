@@ -11,9 +11,8 @@ import { ITag } from '~/app/interfaces/tag';
 export class CreateTagService {
 
     createTag(userId: string, tag: ITag) {
-        console.log(`Creating tag...`);
 
-        const tagsCollection = Firebase.firestore().collection("users").doc(userId).collection("tags");
+        const tagsCollection = Firebase.firestore().collection("tags");
 
         tagsCollection.add({
             userId: tag.userId,
@@ -24,8 +23,6 @@ export class CreateTagService {
             imageUrl: tag.imageUrl || null,
             videoUrl: tag.videoUrl || null,
             position: tag.position
-        }).then(documentRef => {
-            console.log(`Tag added with auto-generated ID: ${documentRef.id}`);
         });
     }
 
