@@ -23,7 +23,7 @@ export class TagComponent implements OnInit, AfterViewChecked {
     private taggerHandle: string;
     private taggerPhotoURL: string;
 
-    constructor(private users: UserService, private tags: TagService) {
+    constructor(private users: UserService, private tagService: TagService) {
 
     }
 
@@ -48,5 +48,27 @@ export class TagComponent implements OnInit, AfterViewChecked {
 
     ngAfterViewChecked(): void {
 
+    }
+
+    upvote(): void {
+        const self = this;
+        this.users.getCurrentUser().then(user => {
+            if(!self.tag.voters.includes(user.uid)){
+                self.tagService.upvoteTag(self.tagId, self.tag.upVotes, user.uid);
+                self.tag.voters.push(user.uid);
+                self.tag.upVotes += 1;
+            }
+        });
+    }
+
+    downvote(): void {
+        const self = this;
+        this.users.getCurrentUser().then(user => {
+            if(!self.tag.voters.includes(user.uid)){
+                self.tagService.downvoteTag(self.tagId, self.tag.downVotes, user.uid);
+                self.tag.voters.push(user.uid);
+                self.tag.downVotes += 1;
+            }
+        });
     }
 }

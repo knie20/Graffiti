@@ -4,8 +4,10 @@
   import { MapTagService } from "../../services/map-tag.service";
 
   import * as geolocation from "nativescript-geolocation";
-  import { Router } from "@angular/router"
-  import { RouterExtensions } from "nativescript-angular/router" 
+  import { Router } from "@angular/router";
+  import { RouterExtensions } from "nativescript-angular/router" ;
+  
+  var style = require('./google-maps-style.json');
 
 // Important - must register MapView plugin in order to use in Angular templates
   registerElement("MapView", () => MapView);
@@ -44,10 +46,11 @@ export class GoogleMapsComponent implements OnInit {
     this.mapView = event.object
 
     this.mapTagService.getCurrentLocation().then( location => {
-      this.mapView.latitude = location.latitude
-      this.mapView.longitude = location.longitude
-      this.mapView.zoom = 17
-      this.currentLocationMarker = this.mapTagService.generateMarker(location, "bluedot_small")
+      this.mapView.latitude = location.latitude;
+      this.mapView.longitude = location.longitude;
+      this.mapView.zoom = 17;
+      this.mapView.setStyle(style);
+      this.currentLocationMarker = this.mapTagService.generateMarker(location, "bluedot");
       this.mapView.addMarker(this.currentLocationMarker);
 
       this.mapTagService.getTags(location)
@@ -57,16 +60,16 @@ export class GoogleMapsComponent implements OnInit {
         snapshot.forEach(doc => {
           console.log(`GOt tags: `, doc.data())
           const tag = { id: doc.id, ...doc.data() };
-          tags.push(tag)
-        })
+          tags.push(tag);
+        });
 
         this.tags = tags;
         
-        this.markers = this.mapTagService.generateMapTag(this.tags)
+        this.markers = this.mapTagService.generateMapTag(this.tags);
 
         this.markers.forEach((m) => {
-          this.mapView.addMarker(m)
-        })
+          this.mapView.addMarker(m);
+        });
       })
       .catch((err) => {
         console.log(`Boo hoo, couldn't get the tags.`);

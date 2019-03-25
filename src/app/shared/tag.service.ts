@@ -28,4 +28,40 @@ export class TagService {
         return commentDocument.get();
     }
 
+    getObservableCommentById(tagId: string, commentId: string): Observable<any> {
+
+        return Observable.create((subscriber) => {
+            const colRef: firestore.DocumentReference = firebase.firestore().collection("tags").doc(tagId).collection("comments").doc(commentId);
+            
+            colRef.onSnapshot((doc: firestore.DocumentSnapshot) => {
+                this.zone.run(() => {
+                    this.comment = {
+                        id: doc.id,
+                        ...doc.data()
+                    };
+
+                    console.log(`this.comment: `, this.comment)
+
+                    subscriber.next(this.comment);
+                });
+            });
+        });
+
+    }
+
+    upvoteTag(tagId: string, currentUpvotes: number, userId: string): void {
+        const tagDocument: firestore.DocumentReference = firebase.firestore().collection("tags").doc(tagId)
+        tagDocument.update({
+            upVotes: currentUpvotes + 1,
+            voters: firestore.FieldValue.arrayUnion(userId)
+        })
+    }
+
+    downvoteTag(tagId: string, currentDownvotes: number, userId: string): void {
+        const tagDocument: firestore.DocumentReference = firebase.firestore().collection("tags").doc(tagId)
+        tagDocument.update({
+            upVotes: currentDownvotes + 1,
+            voters: firestore.FieldValue.arrayUnion(userId)
+        })
+    }
 }
