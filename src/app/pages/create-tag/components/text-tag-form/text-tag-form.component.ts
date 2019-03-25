@@ -28,15 +28,16 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
     tagText: string;
 
     constructor(private users: UserService, private tag: CreateTagService) {
+        const self: TextTagFormComponent = this;
         users.getCurrentUser().then((user) => {
             
-            this.userId = user.uid;
+            self.userId = user.uid;
 
             users.getUserPhotoById(user.uid)
             .then(url => {
-                this.userPhotoUrl = url;
+                self.userPhotoUrl = url;
             }).catch(err => {
-                this.userPhotoUrl = `res://ic_hacker`;
+                self.userPhotoUrl = `res://ic_hacker`;
             })
         })
     }
@@ -52,7 +53,7 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
     }
 
     onPublish(): void {
-
+        const self: TextTagFormComponent = this;
          geolocation
             .getCurrentLocation({ desiredAccuracy: Accuracy.high, maximumAge: 5000, timeout: 20000 })
             .then(value => {
@@ -61,10 +62,10 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
                 const longitude = value.longitude;
                 const position = Firebase.firestore().GeoPoint(latitude, longitude);
                 
-                const type = "Test Tag"; //hardcoded for now
+                const type = "text"; //hardcoded for now
 
                 const textTag = {
-                    userId: 12345678, //hardcoded for now, until we implement authentication
+                    userId: self.userId, //hardcoded for now, until we implement authentication
                     postedOn: new Date(),
                     updatedOn: new Date(),
                     type: type,
