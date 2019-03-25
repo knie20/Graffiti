@@ -1,3 +1,4 @@
+import { AfterContentChecked, AfterViewChecked } from '@angular/core';
 import { UserService } from '~/app/shared/user.service';
 import { AfterViewInit, AfterContentInit, SimpleChanges, OnChanges, Output } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -9,47 +10,44 @@ import { Component, Input, OnInit } from '@angular/core';
     templateUrl: './tag.component.html',
     styleUrls: ['./tag.component.scss']
 })
-export class TagComponent implements OnInit, AfterViewInit, AfterContentInit, OnChanges {
+export class TagComponent implements OnInit, AfterViewChecked {
 
-    @Input("tag")
-    private tag: any;
+    tag: any;
 
-    @Output("tagId")
-    private tagId: any;
+    @Input("input") input: any;
 
-    private tagData: any;
+    @Input("tagId") tagId: any;
 
+    private taggerId: string;
     private taggerDisplayName: string;
     private taggerHandle: string;
-    private taggerPhotoURL; string;
+    private taggerPhotoURL: string;
 
     constructor(private users: UserService, private tagService: TagService) {
-    }
 
-    ngOnChanges(changes: SimpleChanges) {
-        this.tag = changes['tag'].currentValue;
-        this.tagId = this.tag.id;
-
-        this.users.getById(this.tag.createdBy).then(user => {
-            let userData = user.data();
-            this.taggerDisplayName = userData.displayName;
-            this.taggerHandle = userData.handle;
-            this.taggerPhotoURL = userData.photoURL;
-        })
     }
 
     ngOnInit(): void {
 
+        this.tags.getById(this.tagId).then(doc => {
+            let tagObject = {
+              id: doc.id,
+              ...doc.data()
+            }
+            
+            this.tag = tagObject;
+
+            this.users.getById(this.tag.createdBy).then(user => {
+                let userData = user.data();
+                this.taggerDisplayName = userData.displayName;
+                this.taggerHandle = userData.handle;
+                this.taggerPhotoURL = userData.photoURL;
+            });
+        });
     }
 
-    ngAfterViewInit(): void {
-        //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
-        //Add 'implements AfterViewInit' to the class.
-    }
+    ngAfterViewChecked(): void {
 
-    ngAfterContentInit(): void {
-        //Called after ngOnInit when the component's or directive's content has been initialized.
-        //Add 'implements AfterContentInit' to the class.
     }
 
     upvote(): void {

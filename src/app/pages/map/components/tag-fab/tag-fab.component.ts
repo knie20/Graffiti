@@ -14,7 +14,7 @@ import * as app from "tns-core-modules/application";
     selector: "TagFab",
     moduleId: module.id,
     templateUrl: "./tag-fab.component.html",
-    styleUrls: ["./tag-fab.component.scss"],
+    styleUrls: ["./tag-fab.component.css"],
     animations: [
         trigger('state', [
             state('active', style({ transform: 'rotate(45)' })),

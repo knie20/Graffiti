@@ -58,6 +58,7 @@ export class GoogleMapsComponent implements OnInit {
         const tags = [];
 
         snapshot.forEach(doc => {
+          console.log(`GOt tags: `, doc.data())
           const tag = { id: doc.id, ...doc.data() };
           tags.push(tag);
         });

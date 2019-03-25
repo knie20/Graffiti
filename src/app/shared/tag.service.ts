@@ -7,12 +7,8 @@ import { firestore } from "nativescript-plugin-firebase";
 @Injectable()
 export class TagService {
 
-    private comments;
-    private comment;
-
     constructor(private zone: NgZone) {
-        this.comments = [];
-        this.comment = {};
+
     }
 
     getById(tagId): Promise<firestore.DocumentSnapshot> {
@@ -20,33 +16,15 @@ export class TagService {
         return tagDocument.get();
     }
 
-    getCommentsById(tagId): Promise<firestore.QuerySnapshot> {
-        const commentsCollection = firebase.firestore().collection("tags").doc(tagId).collection("comments");
-        return commentsCollection.get();
+    getComments(tagId): Promise<firestore.QuerySnapshot> {
+        const query: firestore.Query = firebase.firestore().collection("comments")
+            .where("tagId", "==", tagId);
+    
+        return query.get();
     }
 
-    getObservableCommentsById(tagId: string): Observable<Array<any>> {
-        console.log(`Tag ID for observable: `, tagId)
-
-        return Observable.create(subscriber => {
-            const colRef: firestore.CollectionReference = firebase.firestore().collection("tags").doc(tagId).collection("comments");
-            colRef.onSnapshot((snapshot: firestore.QuerySnapshot) => {
-                this.zone.run(() => {
-                    this.comments = [];
-                    snapshot.forEach((docSnap) => {
-                        this.comments.push({
-                            id: docSnap.id,
-                            ...docSnap.data()
-                        })
-                    });
-                    subscriber.next(this.comments);
-                });
-            });
-        });
-    }
-
-    getCommentById(tagId, commentId): Promise<firestore.DocumentSnapshot> {
-        const commentDocument = firebase.firestore().collection("tags").doc(tagId).collection("comments").doc(commentId);
+    getCommentById(commentId): Promise<firestore.DocumentSnapshot> {
+        const commentDocument = firebase.firestore().collection("comments").doc(commentId);
         return commentDocument.get();
     }
 
