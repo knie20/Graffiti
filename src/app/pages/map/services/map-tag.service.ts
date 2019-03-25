@@ -71,8 +71,8 @@ export class MapTagService {
             let marker = new Marker()
             marker.userData = tag.id
             marker.position = Position.positionFromLatLng(
-                tag.location.latitude,
-                tag.location.longitude
+                tag.position.latitude,
+                tag.position.longitude
             )
             marker.title = tag.title
             marker.icon = image
