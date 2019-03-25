@@ -52,4 +52,23 @@ export class TagComponent implements OnInit, AfterViewInit, AfterContentInit, On
         //Called after ngOnInit when the component's or directive's content has been initialized.
         //Add 'implements AfterContentInit' to the class.
     }
+
+    upvote(): void {
+        
+        this.users.getCurrentUser().then(user => {
+            if(this.tag.voters.includes(user.uid)){
+                this.tagService.upvoteTag(this.tagId, this.tag.upVotes, user.uid)
+                this.tag.upVotes += 1
+            }
+        })
+    }
+
+    downvote(): void {
+        this.users.getCurrentUser().then(user => {
+            if(this.tag.voters.includes(user.uid)){
+                this.tagService.downvoteTag(this.tagId, this.tag.downVotes, user.uid)
+                this.tag.DownVotes += 1
+            }
+        })
+    }
 }
