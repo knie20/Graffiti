@@ -38,16 +38,10 @@ export class GroupComponent implements OnInit {
             try{
 
                 groups.getGroupById(this.id).then(group => {
-
-                    console.log(`Group for group view:`, group.data());
-                    
                     const data = group.data();
-                    console.log(`A group name: `, data.name)
-
                     this.group.name = data.name
                     this.group.organization = data.organization;
                     this.group.photoURL = data.photoURL;
-
                 });
 
                 groups.getMembers(this.id)

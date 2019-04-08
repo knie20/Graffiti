@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, Input } from "@angular/core";
 import { trigger, state, style, transition, animate, keyframes } from "@angular/animations";
 import { Animation, AnimationDefinition } from "tns-core-modules/ui/animation";
 import { Image } from "tns-core-modules/ui/image";
@@ -60,7 +60,7 @@ import * as app from "tns-core-modules/application";
     ]
 })
 export class TagFabComponent implements OnInit {
-
+        
     @ViewChild('fab') fab: ElementRef;
 
     @ViewChild('btna') buttonA: ElementRef;

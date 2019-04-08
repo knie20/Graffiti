@@ -1,9 +1,8 @@
 <ActionBar class="action-bar">
     <NavigationButton icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
-    <Label class="action-bar-title" text="View Tag"></Label>
+    <Label class="action-bar-title" text="Create Comment"></Label>
 </ActionBar>
 
 <GridLayout class="page page-content">
-    <app-tag [tagId]="tagId"></app-tag>
-    <app-create-comment-fab [tagId]="tagId"></app-create-comment-fab>
+    <router-outlet></router-outlet>
 </GridLayout>

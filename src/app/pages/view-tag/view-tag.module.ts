@@ -10,6 +10,8 @@ import { ViewTagComponent } from '~/app/pages/view-tag/view-tag.component';
 import { TagComponent } from '~/app/pages/view-tag/components/tag/tag.component';
 import { CommentsComponent } from '~/app/pages/view-tag/components/comments/comments.component';
 import { CommentComponent } from '~/app/pages/view-tag/components/comment/comment.component';
+import { CreateCommentFabComponent } from './components/create-comment-fab/create-comment-fab.component';
+
 
 
 //Services
@@ -24,7 +26,8 @@ import { TagService } from "~/app/shared/tag.service";
         ViewTagComponent,
         TagComponent,
         CommentsComponent,
-        CommentComponent
+        CommentComponent,
+        CreateCommentFabComponent
     ],
     providers: [
         TagService

@@ -1,4 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { MapFilterModalComponent } from './components/map-filter-modal/map-filter-modal.component';
+import { Component, OnInit, Output, ViewContainerRef } from "@angular/core";
+import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/modal-dialog";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 
@@ -8,12 +10,27 @@ import * as app from "tns-core-modules/application";
 })
 export class MapComponent implements OnInit {
 
-    constructor() {
-        // Use the component constructor to inject providers.
+    @Output() filterValue: string;
+
+    constructor(private modalService: ModalDialogService, private viewContainerRef: ViewContainerRef) {
+        this.filterValue = 'none';
     }
 
     ngOnInit(): void {
         // Init your component properties here.
+    }
+
+    onFilterButtonTap() {
+
+        const options: ModalDialogOptions = {
+            viewContainerRef: this.viewContainerRef,
+            fullscreen: false,
+            context: {}
+        };
+
+        this.modalService.showModal(MapFilterModalComponent, options).then(filterValue => {
+            this.filterValue = filterValue;
+        });
     }
 
     onDrawerButtonTap(): void {

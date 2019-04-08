@@ -1,0 +1,29 @@
+<DockLayout stretchLastChild="true">        
+    <Button dock="bottom" text="Comment" (tap)="onPublish()" class="btn btn-primary btn-rounded-sm"></Button>
+    <GridLayout height="100%" columns="*,*,*,*" rows="*,*,*,*,*">
+    
+            <Image 
+                class="avatar-image m-l-15"
+                src="{{userPhotoUrl}}"
+                row="0"
+                col="0"
+                width="50"
+                height="50" 
+                borderRadius="25"
+                horizontalAlignment="left"
+            ></Image>
+            
+            <TextView
+                #commentTextInput
+                [(ngModel)]="commentText"
+                col="1"
+                row="0"
+                colSpan="3"
+                rowSpan="3"
+                class="text-view-input m-t-25"
+                hint="What's on your mind?"  
+                returnKeyType="send" 
+            ></TextView>
+        
+        </GridLayout>
+</DockLayout>

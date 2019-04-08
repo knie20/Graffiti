@@ -1,7 +1,15 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { PaintPad } from 'nativescript-paint';
 import { ColorPicker } from 'nativescript-color-picker';
 import { Slider } from "tns-core-modules/ui/slider";
+import { UserService } from '~/app/shared/user.service';
+import { CreateTagService } from '../../services/create-tag-service';
+import { ModalDialogService, ModalDialogOptions } from 'nativescript-angular/modal-dialog';
+import { GroupFilterModalComponent } from '../group-filter-modal/group-filter-modal.component';
+
+import * as geolocation from "nativescript-geolocation";
+import { Accuracy } from "tns-core-modules/ui/enums";
+const Firebase = require('nativescript-plugin-firebase/app');
 
 @Component({
 	selector: 'app-drawing-tag-form',
@@ -22,8 +30,30 @@ export class DrawingTagFormComponent implements OnInit {
 	@ViewChild('PaintPad') 
 	PaintPad: ElementRef;
 
-	constructor(){
+	userPhotoUrl: string;
+	userId: string;
+	tagGroup: any;
+
+	constructor(
+		private users: UserService, 
+		private tag: CreateTagService, 
+		private modalService: ModalDialogService, 
+		private viewContainerRef: ViewContainerRef
+	){
 		this.colorPicker = new ColorPicker();
+
+		const self: DrawingTagFormComponent = this;
+		users.getCurrentUser().then((user) => {
+				
+				self.userId = user.uid;
+
+				users.getUserPhotoById(user.uid)
+				.then(url => {
+						self.userPhotoUrl = url;
+				}).catch(err => {
+						self.userPhotoUrl = `res://ic_hacker`;
+				})
+		})
 	}
 
 	ngOnInit(): void {
@@ -38,6 +68,34 @@ export class DrawingTagFormComponent implements OnInit {
 		this.myPaintPad = this.PaintPad.nativeElement;
 		this.myPaintPad.getPainting().then(img => {
 			this.paintingImage = img;
+
+			const self: DrawingTagFormComponent = this;
+
+			geolocation
+			.getCurrentLocation({ desiredAccuracy: Accuracy.high, maximumAge: 5000, timeout: 20000 })
+			.then(value => {
+
+					const latitude = value.latitude;
+					const longitude = value.longitude;
+					const position = Firebase.firestore().GeoPoint(latitude, longitude);
+					
+					const type = "painting";
+
+					const drawingTag = {
+							userId: self.userId,
+							groupId: this.tagGroup? this.tagGroup.id : null,
+							postedOn: new Date(),
+							updatedOn: new Date(),
+							type: type,
+							text: null,
+							imageUrl: null,
+							videoUrl: null,
+							position: position
+					};
+	
+					this.tag.createTag(this.userId, drawingTag, this.paintingImage);
+			})
+
 		});
 	}
 
@@ -69,4 +127,17 @@ export class DrawingTagFormComponent implements OnInit {
 				console.log(err);
 			});
 	}
+
+	onFilterButtonTap() {
+
+		const options: ModalDialogOptions = {
+				viewContainerRef: this.viewContainerRef,
+				fullscreen: false,
+				context: {}
+		};
+
+		this.modalService.showModal(GroupFilterModalComponent, options).then(filterValue => {
+				this.tagGroup = filterValue;
+		});
+}
 }

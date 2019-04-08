@@ -36,7 +36,6 @@ export class CommentsComponent implements OnChanges, OnInit {
 
     ngOnChanges(changes: SimpleChanges) {
         //let tagId = changes["tagId"].currentValue;
-
     }
 
 }

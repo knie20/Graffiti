@@ -31,10 +31,7 @@ export class GroupsService {
     }
 
     getGroupsByUserId(userId: string): Promise<firestore.QuerySnapshot> {
-        const groups = []
-
-        const query = this.groupsCollection.where(`createdBy`, `==`, userId)
-
+        const query = this.groupsCollection.where(`members`, `array-contains`, userId)
         return query.get()
     }
 
@@ -48,8 +45,8 @@ export class GroupsService {
     }
 
     uploadGroupPhoto(id: string, photo: File) {
-        this.storage.child(`groupPhotos/${id}`).put(photo).then(upload =>{
-            upload
+        this.storage.child(`groupPhotos/${id}`).put(photo).then(upload => {
+            console.log(`Group photo uploaded!`);
         });
     }
 

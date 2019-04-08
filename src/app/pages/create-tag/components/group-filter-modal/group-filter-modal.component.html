@@ -1,0 +1,12 @@
+<StackLayout class="p-20" height="400">    
+    <ListView [items]="groups" class="list-group" height="300">
+        <ng-template let-group="item">
+            <GridLayout columns="*,*,*" rows="*,*" class="list-group-item" (tap)="close(group)">
+                <Image row="0" rowSpan="2" col="0" src="{{group.photoURL}}" horizontalAlignment="center" stretch="aspectFill" 
+                    width="20" height="20" borderRadius="10" class="groupAvatar">
+                </Image>
+                <Label row="0" col="1" colSpan="3" [text]="group.name" color="blue" class="m-b-10"></Label>
+            </GridLayout>
+        </ng-template>
+    </ListView>    
+</StackLayout>

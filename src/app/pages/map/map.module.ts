@@ -6,6 +6,8 @@ import { TagFabComponent } from "./components/tag-fab/tag-fab.component";
 import { MapRoutingModule } from "./map-routing.module";
 import { MapComponent } from "./map.component";
 import { MapTagService } from "./services/map-tag.service";
+import { MapFilterService } from './services/map-filter.service';
+import { MapFilterModalComponent } from "./components/map-filter-modal/map-filter-modal.component";
 
 @NgModule({
     imports: [
@@ -15,13 +17,18 @@ import { MapTagService } from "./services/map-tag.service";
     declarations: [
         GoogleMapsComponent,
         MapComponent,
+        MapFilterModalComponent,
         TagFabComponent    
     ],
     providers: [
-        MapTagService
+        MapTagService,
+        MapFilterService
     ],
     schemas: [
         NO_ERRORS_SCHEMA
+    ],
+    entryComponents: [
+        MapFilterModalComponent
     ]
 })
 export class MapModule { }

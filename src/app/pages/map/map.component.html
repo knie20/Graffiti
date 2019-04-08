@@ -1,9 +1,12 @@
 <ActionBar class="action-bar">
     <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
     <Label class="action-bar-title" text="Map"></Label>
+    <ActionItem (tap)="onFilterButtonTap()">
+        <Label class="action-bar-right fa fas" text="&#xf0b0;" fontSize="14"></Label>
+    </ActionItem>
 </ActionBar>
 
 <GridLayout columns="*" rows="*" class="page page-content">
-    <app-google-maps></app-google-maps>
+    <app-google-maps [filterValue]="filterValue"></app-google-maps>
     <TagFab></TagFab>
 </GridLayout>

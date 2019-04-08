@@ -10,7 +10,7 @@
             <Label [text]="taggerHandle"></Label>
         </FlexboxLayout>
 
-        <Image [src]="tag.photoURL" width="100%" height="50%" stretch="aspectFill"></Image>
+        <Image *ngIf="tag.imageUrl" [src]="tag.imageUrl" width="100%" height="50%" stretch="aspectFill"></Image>
 
         <Label [text]="tag.text" textWrap="true" fontSize="23" backgroundColor="white" class="m-10"></Label>
 

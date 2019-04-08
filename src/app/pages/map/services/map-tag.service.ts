@@ -12,8 +12,6 @@ export class MapTagService {
     defaultCoordinateDistance = 0.02
     
     getCurrentLocation = (): Promise<geolocation.Location> => {
-
-        console.log(`Getting current location...`);
         geolocation.isEnabled().then(isEnabled => {
             if (!isEnabled) {
                 geolocation.enableLocationRequest().then(() => { }, (e) => {
@@ -50,9 +48,16 @@ export class MapTagService {
         }
     }
 
-    getTags = (currentLocation: Location): Promise<firestore.QuerySnapshot> => {
-        const tagsCollection = firestore.collection("tags")
-        return tagsCollection.get()
+    getTags = (currentLocation: Location, filter: string): Promise<firestore.QuerySnapshot> => {
+        if(filter == `none` || filter == undefined) {
+            console.log(`Filter off!`, filter);
+            const tagsCollection = firestore.collection("tags");
+            return tagsCollection.get();
+        } else {
+            console.log(`Filter on! `, filter );
+            const tagsCollection = firestore.collection("tags").where(`groupId`, `==`, filter);
+            return tagsCollection.get();
+        }
     }
 
     generateMapTag = (tags: Array<any>): Array<Marker> => {

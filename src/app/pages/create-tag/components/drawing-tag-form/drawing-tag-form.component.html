@@ -1,12 +1,36 @@
 <ScrollView>
-	<StackLayout backgroundColor="#D2D9E5">
-		
+	<StackLayout backgroundColor="white">
+		<WrapLayout orientation="horizontal">
+			<Image 
+				class="avatar-image m-l-15 m-t-15"
+				src="{{userPhotoUrl}}"
+				row="0"
+				col="0"
+				width="50"
+				height="50" 
+				borderRadius="25"
+				horizontalAlignment="left"
+				(tap)="onFilterButtonTap()"
+			></Image>
+
+			<Label 
+				*ngIf="tagGroup"
+				col="1"
+				colSpan="3"
+				row="0"
+				class="m-t-25 m-l-15"
+				fontSize="10"
+				text="{{tagGroup.name}}" 
+				textWrap="true"
+			></Label>
+		</WrapLayout>
+
 		<PaintPad
 			#PaintPad
-			canvasColor="#ffffff"
+			canvasColor="white"
 			margin="10"
-			width="300"
-			height="280"
+			width="320"
+			height="230"
 			[drawColor]="drawColor"
 			[drawWidth]="drawWidth"
 			[drawOpacity]="drawOpacity"
@@ -52,7 +76,7 @@
 		<WrapLayout orientation="horizontal" horizontalAlignment="center">
 			<Button text="Clear" (tap)="clearMyPainting()" class="btn btn-primary btn-rounded-sm"></Button>
 			<Button text="Color" (tap)="pickColor()" class="btn btn-primary btn-rounded-sm"></Button>
-			<Button text="Save" (tap)="getMyPainting()" class="btn btn-primary btn-rounded-sm"></Button>
+			<Button text="Tag" (tap)="getMyPainting()" class="btn btn-primary btn-rounded-sm"></Button>
 		</WrapLayout>
 
 	</StackLayout>

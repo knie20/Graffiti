@@ -1,5 +1,5 @@
 // Angular Modules
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, ViewContainerRef } from "@angular/core";
 
 // NativeScript Modules
 import { Accuracy } from "tns-core-modules/ui/enums";
@@ -12,6 +12,8 @@ const Firebase = require('nativescript-plugin-firebase/app');
 import { CreateTagService } from './../../services/create-tag-service';
 import { NgModel } from "@angular/forms";
 import { UserService } from "~/app/shared/user.service";
+import { ModalDialogService, ModalDialogOptions } from "nativescript-angular/modal-dialog";
+import { GroupFilterModalComponent } from "../group-filter-modal/group-filter-modal.component";
 
 @Component({
     selector: "TextTagForm",
@@ -26,8 +28,14 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
     userPhotoUrl: string;
     userId: string;
     tagText: string;
+    tagGroup: any;
 
-    constructor(private users: UserService, private tag: CreateTagService) {
+    constructor(
+        private users: UserService, 
+        private tag: CreateTagService, 
+        private modalService: ModalDialogService, 
+        private viewContainerRef: ViewContainerRef
+    ) {
         const self: TextTagFormComponent = this;
         users.getCurrentUser().then((user) => {
             
@@ -52,6 +60,25 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
         }, 600);
     }
 
+    onFilterButtonTap() {
+
+        const options: ModalDialogOptions = {
+            viewContainerRef: this.viewContainerRef,
+            fullscreen: false,
+            context: {}
+        };
+
+        this.modalService.showModal(GroupFilterModalComponent, options).then(filterValue => {
+            this.tagGroup = filterValue;
+            console.log(`Tag group: `, this.tagGroup);
+        });
+
+        setTimeout(() => {
+            this.tagTextInput.nativeElement.dismissSoftInput();
+            this.tagTextInput.nativeElement.focus();
+        }, 600);
+    }
+
     onPublish(): void {
         const self: TextTagFormComponent = this;
          geolocation
@@ -66,6 +93,7 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
 
                 const textTag = {
                     userId: self.userId, //hardcoded for now, until we implement authentication
+                    groupId: this.tagGroup.id || null,
                     postedOn: new Date(),
                     updatedOn: new Date(),
                     type: type,
@@ -75,7 +103,8 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
                     position: position
                 };
         
-                this.tag.createTag(this.userId, textTag);
+                console.log(textTag);
+                //this.tag.createTag(this.userId, textTag);
             })
     }
 }

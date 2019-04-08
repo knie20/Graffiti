@@ -99,13 +99,12 @@ export class CreateGroupFormComponent implements OnInit {
     }
 
     onCreateGroupButtonTap(): void {
-        console.log(`Create group button tapped!`);
         const newGroup = {
             name: this._group.name,
             organization: this._group.organization,
             location: this._group.location,
             description: this._group.description,
-            members: [`Test member`],
+            members: [this.userId],
             isPublic: this._group.isPublic,
             createdOn: new Date(),
             createdBy: this.userId,
