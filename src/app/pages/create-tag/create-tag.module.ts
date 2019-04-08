@@ -19,6 +19,7 @@ import { CreateTagService } from './services/create-tag-service';
 import { registerElement } from 'nativescript-angular/element-registry';
 import { GroupFilterModalComponent } from "./components/group-filter-modal/group-filter-modal.component";
 import { GroupFilterService } from "./services/group-filter.service";
+import { PictureTagFormComponent } from "./components/picture-tag-form/picture-tag-form.component";
 registerElement('PaintPad', () => require('nativescript-paint').PaintPad);
 
 @NgModule({
@@ -30,6 +31,7 @@ registerElement('PaintPad', () => require('nativescript-paint').PaintPad);
     declarations: [
         CreateTagComponent,
         TextTagFormComponent,
+        PictureTagFormComponent,
         DrawingTagFormComponent,
         GroupFilterModalComponent
     ],

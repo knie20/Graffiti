@@ -3,6 +3,7 @@ import { RouterExtensions } from 'nativescript-angular/router';
 
 @Component({
   selector: 'app-create-comment-fab',
+  moduleId: module.id,
   templateUrl: './create-comment-fab.component.html',
   styleUrls: ['./create-comment-fab.component.scss']
 })

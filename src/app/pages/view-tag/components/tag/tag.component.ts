@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-tag',
+    moduleId: module.id,
     templateUrl: './tag.component.html',
     styleUrls: ['./tag.component.scss']
 })

@@ -6,6 +6,7 @@ import { ModalDialogParams } from "nativescript-angular/modal-dialog";
 
 @Component({
     selector: "app-map-filter-modal",
+    moduleId: module.id,
     templateUrl: './map-filter-modal.component.html',
     styleUrls: ['./map-filter-modal.component.scss']
 })

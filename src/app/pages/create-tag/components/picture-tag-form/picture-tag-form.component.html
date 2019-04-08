@@ -1,0 +1,40 @@
+<DockLayout stretchLastChild="true">        
+    <Button dock="bottom" [nsRouterLink]="['/map']" text="Tag" (tap)="onPublish()" class="btn btn-primary btn-rounded-sm"></Button>
+    <GridLayout height="100%" columns="*,*,*,*" rows="*,*,*,*,*">
+    
+            <Image 
+                class="avatar-image m-l-15"
+                src="{{userPhotoUrl}}"
+                row="0"
+                col="0"
+                width="50"
+                height="50" 
+                borderRadius="25"
+                horizontalAlignment="left"
+            ></Image>
+            
+            <TextView
+                #tagTextInput
+                [(ngModel)]="tagText"
+                col="1"
+                row="0"
+                colSpan="3"
+                rowSpan="1"
+                class="text-view-input m-t-10"
+                hint="Caption Your Picture..."  
+                returnKeyType="send" 
+            ></TextView>
+
+            <Image 
+                class="image m-l-15"
+                src="{{photoUrl}}"
+                row="1"
+                col="0"
+                colSpan="4"
+                rowSpan="4"
+                borderRadius="25"
+                horizontalAlignment="center"
+            ></Image>
+            
+        </GridLayout>
+</DockLayout>

@@ -6,6 +6,7 @@ import * as app from "tns-core-modules/application";
 
 @Component({
     selector: "Map",
+    moduleId: module.id,
     templateUrl: "./map.component.html"
 })
 export class MapComponent implements OnInit {

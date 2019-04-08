@@ -14,8 +14,10 @@ registerElement("MapView", () => MapView);
 
 @Component({
   selector: "app-google-maps",
+  moduleId: module.id,
   templateUrl: "./google-maps.component.html"
 })
+
 export class GoogleMapsComponent implements OnInit, OnChanges {
 
   mapView: MapView;

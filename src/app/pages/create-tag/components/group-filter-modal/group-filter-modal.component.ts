@@ -5,6 +5,7 @@ import { GroupFilterService } from '../../services/group-filter.service';
 
 @Component({
     selector: "app-group-filter-modal",
+    moduleId: module.id,
     templateUrl: './group-filter-modal.component.html',
     styleUrls: ['./group-filter-modal.component.scss']
 })

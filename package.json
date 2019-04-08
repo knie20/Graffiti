@@ -26,6 +26,7 @@
     "@angular/router": "~6.1.0",
     "nativescript-angular": "^7.1.2",
     "nativescript-bottombar": "^4.0.0-rc1.2",
+    "nativescript-camera": "^4.4.0",
     "nativescript-cardview": "^3.1.1",
     "nativescript-color-picker": "^1.5.0",
     "nativescript-drawingpad": "^3.0.4",

@@ -6,6 +6,7 @@ import { firestore } from "nativescript-plugin-firebase";
 
 @Component({
     selector: 'app-tag-comments',
+    moduleId: module.id,
     templateUrl: './comments.component.html'
 })
 export class CommentsComponent implements OnChanges, OnInit {

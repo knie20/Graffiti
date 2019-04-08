@@ -23,6 +23,7 @@ registerElement("Fab", () => require("nativescript-floatingactionbutton").Fab);
 
 @Component({
     selector: "ns-app",
+    moduleId: module.id,
     templateUrl: "app.component.html",
     styleUrls: ["./app.component.css"]
 })

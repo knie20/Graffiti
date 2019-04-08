@@ -6,6 +6,7 @@ import { firestore } from "nativescript-plugin-firebase";
 
 @Component({
     selector: 'app-comment',
+    moduleId: module.id,
     templateUrl: './comment.component.html'
 })
 export class CommentComponent implements OnInit {

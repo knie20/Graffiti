@@ -5,7 +5,7 @@ import { alert, prompt } from "tns-core-modules/ui/dialogs";
 import { Page } from "tns-core-modules/ui/page";
 
 import { UserService } from "~/app/shared/user.service";
-import { AuthService } from "~/app/shared/auth.service.ts";
+import { AuthService } from "~/app/shared/auth.service";
 
 @Component({
     selector: "app-login",
