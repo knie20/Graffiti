@@ -17,21 +17,16 @@ export class FollowFabComponent {
 
     onFollowFabTap() {
         this.users.getCurrentUser().then(user => {
-            this.users.follow(user.uid, this.userProfile).then((user) => {
-                console.log(`Now following that person`);
-            })
+            this.users.follow(user.uid, this.userProfile);
 
             this.users.getById(user.uid).then(user => {
                 const userData = user.data();
-
-                this.users.addToFollowers(this.userProfile.id, userData).then(() =>{
-                    console.log(`Added to followers!`);
-                })
-            })
+                this.users.addToFollowers(this.userProfile.id, userData);
+            });
 
             this.ngZone.run(() => {
                 this.routerExtensions.navigate([`profile/id`, this.userProfile.id ]);
-            })
+            });
         })
     }
 }

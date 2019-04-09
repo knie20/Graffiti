@@ -82,7 +82,6 @@ export class TagFabComponent implements OnInit {
     }
 
     fabTap(fab) {
-        console.log('tapped');
         let createTagFab = fab;
         let button1: Button = this.buttonA.nativeElement;
         let button2: Image = this.buttonB.nativeElement;
@@ -93,7 +92,7 @@ export class TagFabComponent implements OnInit {
     }
 
     doThis() {
-        console.log('tapped');
+
     }
 
     animate(createTagFab, button1, button2, button3, button4) {

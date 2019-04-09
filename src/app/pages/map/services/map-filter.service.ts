@@ -20,9 +20,8 @@ export class MapFilterService implements OnInit {
     }
 
     getGroupsForModal(userId): Promise<firestore.QuerySnapshot> {
-        console.log(`USER ID FINALLY `, userId);
         const query: firestore.Query = Firebase.firestore().collection("groups")
-            .where(`members`, `array-contains`, `WNjIxaWDQYNgXqotGz4AfyVFzGF2`);
+            .where(`members`, `array-contains`, userId);
 
         return query.get();
     }

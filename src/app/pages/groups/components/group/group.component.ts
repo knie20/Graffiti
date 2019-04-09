@@ -56,10 +56,9 @@ export class GroupComponent implements OnInit {
         
                         this.memberList = memberObjects;
         
-                        console.log(`Member list: `, this.memberList);
                     })
                     .catch(err => {
-                        console.log(`Did not get the members!`)
+                        console.log(err)
                     });
 
             } catch(err){

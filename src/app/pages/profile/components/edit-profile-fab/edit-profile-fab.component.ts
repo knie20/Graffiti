@@ -21,7 +21,6 @@ export class EditProfileFabComponent implements OnInit {
     }
 
     onEditProfileFabTap() {
-        console.log('tapped');
         this.routerExtensions.navigate([`/profile/edit`]);
     }
 

@@ -19,16 +19,13 @@ export class CommentsComponent implements OnChanges, OnInit {
         this.comments = [];
     }
 
-    ngOnInit(): void {
-        console.log(`Tag ID on init comments: `, this.tagId);
-        
+    ngOnInit(): void {        
         this.tags.getComments(this.tagId).then(querySnapshot => {
             querySnapshot.forEach(doc => {
                 const commentObject = {
                     id: doc.id,
                     ...doc.data()
                 }
-                console.log(`Pushing a comment...`)
                 this.comments.push(commentObject);
             });
         })

@@ -50,11 +50,9 @@ export class MapTagService {
 
     getTags = (currentLocation: Location, filter: string): Promise<firestore.QuerySnapshot> => {
         if(filter == `none` || filter == undefined) {
-            console.log(`Filter off!`, filter);
             const tagsCollection = firestore.collection("tags");
             return tagsCollection.get();
         } else {
-            console.log(`Filter on! `, filter );
             const tagsCollection = firestore.collection("tags").where(`groupId`, `==`, filter);
             return tagsCollection.get();
         }

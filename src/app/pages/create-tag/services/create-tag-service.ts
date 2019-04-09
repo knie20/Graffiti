@@ -20,7 +20,6 @@ export class CreateTagService {
     }
 
     createTag(userId: string, tag: any, image = null) {
-
         const tagsCollection = Firebase.firestore().collection("tags");
 
         tagsCollection.add({
@@ -37,20 +36,15 @@ export class CreateTagService {
             downVotes: 0,
             voters: []
         }).then(documentRef => {
-            
             if(image){
-                console.log(`About to upload image!!!`)
                 const folderDest = knownFolders.documents();
                 const pathDest = path.join(folderDest.path, "test.png");
-                
                 const saved = image.saveToFile(pathDest, "png");
 
                 if(saved){
-                    console.log(`It saved!`)
                     const imageFile: File = File.fromPath(pathDest);
                     
                     this.uploadTagPhoto(documentRef.id, imageFile).then(value => {
-                        console.log(`Uploaded`)
                         
                         this.storage.child(`tagPhotos/${documentRef.id}`).getDownloadURL()
                             .then(url => {
@@ -60,7 +54,7 @@ export class CreateTagService {
                                 });
 
                             }).catch(err => {
-                                console.log(`Something bad happened`);
+                                console.log(err);
                             });
     
                     });
@@ -70,6 +64,8 @@ export class CreateTagService {
             }
         
         
+        }).catch(err => {
+            console.log(err);
         });
     }
 

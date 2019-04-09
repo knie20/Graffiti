@@ -36,7 +36,7 @@ export class GroupFilterModalComponent implements OnInit {
     
             })
             .catch(err => {
-                console.log(`Did not get the groups!`)
+                console.log(err);
             });
         })
     }

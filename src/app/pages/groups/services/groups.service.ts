@@ -45,9 +45,7 @@ export class GroupsService {
     }
 
     uploadGroupPhoto(id: string, photo: File) {
-        this.storage.child(`groupPhotos/${id}`).put(photo).then(upload => {
-            console.log(`Group photo uploaded!`);
-        });
+        this.storage.child(`groupPhotos/${id}`).put(photo);
     }
 
     addMember(groupId: string, userId: string) {

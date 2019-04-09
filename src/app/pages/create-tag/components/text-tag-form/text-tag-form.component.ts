@@ -22,7 +22,7 @@ import { GroupFilterModalComponent } from "../group-filter-modal/group-filter-mo
     styleUrls: ["./text-tag-form.component.scss"]
 })
 export class TextTagFormComponent implements OnInit, AfterViewInit {
-    
+
     @ViewChild("tagTextInput") tagTextInput: any;
 
     userPhotoUrl: string;
@@ -31,22 +31,22 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
     tagGroup: any;
 
     constructor(
-        private users: UserService, 
-        private tag: CreateTagService, 
-        private modalService: ModalDialogService, 
+        private users: UserService,
+        private tag: CreateTagService,
+        private modalService: ModalDialogService,
         private viewContainerRef: ViewContainerRef
     ) {
         const self: TextTagFormComponent = this;
         users.getCurrentUser().then((user) => {
-            
+
             self.userId = user.uid;
 
             users.getUserPhotoById(user.uid)
-            .then(url => {
-                self.userPhotoUrl = url;
-            }).catch(err => {
-                self.userPhotoUrl = `res://ic_hacker`;
-            })
+                .then(url => {
+                    self.userPhotoUrl = url;
+                }).catch(err => {
+                    self.userPhotoUrl = `res://ic_hacker`;
+                })
         })
     }
 
@@ -70,7 +70,6 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
 
         this.modalService.showModal(GroupFilterModalComponent, options).then(filterValue => {
             this.tagGroup = filterValue;
-            console.log(`Tag group: `, this.tagGroup);
         });
 
         setTimeout(() => {
@@ -81,19 +80,20 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
 
     onPublish(): void {
         const self: TextTagFormComponent = this;
-         geolocation
+
+        geolocation
             .getCurrentLocation({ desiredAccuracy: Accuracy.high, maximumAge: 5000, timeout: 20000 })
             .then(value => {
 
                 const latitude = value.latitude;
                 const longitude = value.longitude;
                 const position = Firebase.firestore().GeoPoint(latitude, longitude);
-                
+
                 const type = "text"; //hardcoded for now
 
                 const textTag = {
                     userId: self.userId, //hardcoded for now, until we implement authentication
-                    groupId: this.tagGroup.id || null,
+                    groupId: this.tagGroup ? this.tagGroup.id : null,
                     postedOn: new Date(),
                     updatedOn: new Date(),
                     type: type,
@@ -102,9 +102,8 @@ export class TextTagFormComponent implements OnInit, AfterViewInit {
                     videoUrl: null,
                     position: position
                 };
-        
-                console.log(textTag);
-                //this.tag.createTag(this.userId, textTag);
+
+                this.tag.createTag(this.userId, textTag);
             })
     }
 }

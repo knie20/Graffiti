@@ -63,9 +63,8 @@ export class AppComponent implements OnInit {
                 onAuthStateChanged: (data) => {
 
                     if (data.loggedIn) {
-                        console.log("Logged in to firebase");
 
-                        console.log("Current user:" + JSON.stringify(data.user));
+                        //console.log("Current user:" + JSON.stringify(data.user));
 
                         this.currentUser = data.user;
                         this.userEmail = data.user.email;
@@ -87,11 +86,10 @@ export class AppComponent implements OnInit {
 
                                         this.messaging.doGetCurrentPushToken()
                                             .then(token => {
-                                                console.log(`Current push token: `, token);
                                                 this.onFollowerAdded(token, doc.doc.data());
                                             })
                                             .catch((err) => {
-                                                console.log("Error in doGetCurrentPushToken: " + err)
+                                                console.log(err);
                                             });
                                     }
                                 })
@@ -145,8 +143,6 @@ export class AppComponent implements OnInit {
     }
 
     onFollowerAdded(token: string, follower: any) {
-
-        console.log(`Just added ${follower.displayName}`);
         const notification = {
             "notification": {
                 "title": `${follower.displayName} started following you!`,

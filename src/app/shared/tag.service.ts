@@ -42,8 +42,6 @@ export class TagService {
                         ...doc.data()
                     };
 
-                    console.log(`this.comment: `, this.comment)
-
                     subscriber.next(this.comment);
                 });
             });

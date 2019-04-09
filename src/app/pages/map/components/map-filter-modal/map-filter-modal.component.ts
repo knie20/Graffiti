@@ -32,12 +32,10 @@ export class MapFilterModalComponent implements OnInit {
                     groupObjects.push(groupData);
                 });
     
-                this.groups = groupObjects;
-                console.log(this.groups);
-    
+                this.groups = groupObjects;    
             })
             .catch(err => {
-                console.log(`Did not get the groups!`)
+                console.log(err)
             });
         })
     }

@@ -37,7 +37,6 @@ export class GoogleMapsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.startWatchingLocation();
-    console.log(`Starting filter: `, this.filterValue);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -90,7 +89,6 @@ export class GoogleMapsComponent implements OnInit, OnChanges {
           });
         })
         .catch((err) => {
-          console.log(`Boo hoo, couldn't get the tags.`);
           console.log(err);
         })
     });
@@ -120,7 +118,6 @@ export class GoogleMapsComponent implements OnInit, OnChanges {
             })
           })
           .catch((err) => {
-            console.log(`Boo hoo, couldn't get the tags.`);
             console.log(err);
           })
       }

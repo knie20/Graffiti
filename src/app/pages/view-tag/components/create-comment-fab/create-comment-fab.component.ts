@@ -23,7 +23,6 @@ export class CreateCommentFabComponent implements OnInit {
   }
 
   onCreateCommentFabTap() {
-    console.log(`Create comment Fab tapped!`);
     this.routerExtensions.navigate([`/create-comment/tag-id/${this.tagId}`]);
   }
 }
